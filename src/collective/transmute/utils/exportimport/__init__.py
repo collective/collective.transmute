@@ -15,10 +15,11 @@ async def initialize_metadata(src_files: SourceFiles, dst: Path) -> MetadataInfo
         data[key] = content
 
     # Process default_pages
-    default_page = {
-        item["uuid"]: item["default_page_uuid"] for item in data["defaultpages"]
-    }
-    local_permissions: dict[str, dict] = {}
+    if "defaultpages" in data:
+        default_page = {
+            item["uuid"]: item["default_page_uuid"] for item in data["defaultpages"]
+        }
+        local_permissions: dict[str, dict] = {}
     # Process local_roles
     local_roles: dict[str, dict] = {
         item["uuid"]: {"local_roles": item["localroles"]} for item in data["localroles"]
