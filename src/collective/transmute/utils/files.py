@@ -74,9 +74,9 @@ async def json_reader(files: Iterator):
             yield filename, orjson.loads(data.decode("utf-8"))
 
 
-async def export_blob(field: str, blob: dict, content_path: Path) -> dict:
+async def export_blob(field: str, blob: dict, content_path: Path, item_id: str) -> dict:
     await makedirs(content_path / field, exist_ok=True)
-    filename = blob["filename"]
+    filename = blob["filename"] or item_id
     data = b64decode(blob.pop("data").encode("utf-8"))
     filepath: Path = content_path / field / filename
     async with aiofiles.open(filepath, "wb") as f:
@@ -90,13 +90,14 @@ async def export_item(item: dict, parent_folder: Path) -> t.ItemFiles:
     # Return blobs created here
     blob_files = []
     uid = item.get("UID")
+    item_id = item.get("id")
     blobs = item.pop("_blob_files_")
     # TODO: Handle default content for portal
     content_folder = parent_folder / f"{uid}"
     data_path: Path = content_folder / "data.json"
     if blobs:
         for field, value in blobs.items():
-            blob = await export_blob(field, value, content_folder)
+            blob = await export_blob(field, value, content_folder, item_id)
             blob_files.append(blob["blob_path"])
             item[field] = blob
     else:
