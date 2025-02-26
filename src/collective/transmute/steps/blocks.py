@@ -52,7 +52,9 @@ async def process_blocks(
 ) -> t.PloneItemGenerator:
     type_ = item["@type"]
     has_image = bool(item.get("image"))
-    has_description = bool(item.get("description", "").strip())
+    has_description = has_description = bool(
+        item.get("description") is not None and item.get("description", "").strip()
+    )
     blocks = _get_default_blocks(type_, has_image, has_description)
     # Blocks defined somewhere else
     item_blocks = item.pop("_blocks_", [])
