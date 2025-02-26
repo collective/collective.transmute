@@ -38,7 +38,7 @@ class MetadataInfo:
     relations: dict = field(default_factory=dict)
 
 
-PloneItem = TypedDict("PloneItem", {"@id": str, "@type": str, "UID": str})
+PloneItem = TypedDict("PloneItem", {"@id": str, "@type": str, "UID": str, "id": str})
 
 PloneItemGenerator = AsyncGenerator[PloneItem | None]
 

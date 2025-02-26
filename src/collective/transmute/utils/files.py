@@ -85,7 +85,7 @@ async def export_blob(field: str, blob: dict, content_path: Path, item_id: str) 
     return blob
 
 
-async def export_item(item: dict, parent_folder: Path) -> t.ItemFiles:
+async def export_item(item: t.PloneItem, parent_folder: Path) -> t.ItemFiles:
     """Given an item, write to the final destination."""
     # Return blobs created here
     blob_files = []
