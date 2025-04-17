@@ -58,6 +58,7 @@ def _blocks_folder(item: dict, blocks: list[dict]) -> list[dict]:
 
 BLOCKS_ORIG_TYPE = {
     "Collection": _blocks_collection,
+    "Topic": _blocks_collection,
     "Folder": _blocks_folder,
 }
 
