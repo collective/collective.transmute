@@ -19,6 +19,7 @@ default_steps=[
     'collective.transmute.steps.basic_metadata.process_title_description',
     'collective.transmute.steps.review_state.process_review_state',
     'collective.transmute.steps.default_page.process_default_page',
+    'collective.transmute.steps.image.process_image_to_preview_image_link',
     'collective.transmute.steps.data_override.process_data_override',
     'collective.transmute.steps.creators.process_creators',
     'collective.transmute.steps.constraints.process_constraints',
@@ -55,6 +56,8 @@ drop=[]
 
 [paths.portal_type]
 
+[images.to_preview_image_link]
+types=[]
 
 [default_page]
 keys_from_parent = []

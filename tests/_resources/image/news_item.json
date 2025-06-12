@@ -1,0 +1,69 @@
+{
+  "@id": "/Plone/noticias/2016/03/uma-noticia",
+  "@type": "News Item",
+  "UID": "7f40c482e980462c92f26dec99fd5a10",
+  "allow_discussion": false,
+  "byline": "",
+  "canonical_url": null,
+  "changeNote": "",
+  "contributors": [],
+  "created": "2016-05-28T12:48:25+00:00",
+  "creators": [
+    "admin"
+  ],
+  "description": "Uma noticia.",
+  "effective": "2016-03-10T00:00:00",
+  "id": "campus-areia-avanca-em-seu-processo-de-implantacao",
+  "image": {
+    "content-type": "image/jpeg",
+    "data": "image-as-base64",
+    "encoding": "base64",
+    "filename": "imagem.jpg"
+  },
+  "image_caption": "An Image",
+  "is_folderish": false,
+  "language": "pt-br",
+  "layout": "view",
+  "lock": {
+    "locked": false,
+    "stealable": true
+  },
+  "modified": "2016-05-28T12:50:35+00:00",
+  "parent": {
+    "@id": "/Plone/noticias/2016/03/uma-noticia",
+    "@type": "Folder",
+    "UID": "e856c7ee9b7e4513af93dde09abde7af",
+    "description": "Esta se\u00e7\u00e3o cont\u00e9m not\u00edcias do m\u00eas de Mar\u00e7o.",
+    "review_state": "published",
+    "title": "03"
+  },
+  "review_state": "published",
+  "rights": null,
+  "subjects": [
+    "Not\u00edcias"
+  ],
+  "text": {
+    "content-type": "text/html",
+    "data": "<p>Iniciado h\u00e1 pouco mais de um ano, o percurso de implanta\u00e7\u00e3o do IFPB em Areia vem alcan\u00e7ando resultados significativos. Ap\u00f3s os diagn\u00f3sticos e olhares inerentes \u00e0s etapas iniciais do processo, toda a equipe t\u00eam se organizado para gest\u00e3o da agenda resultante desses estudos.\u00a0</p>\r\n<p>A unidade j\u00e1 realizou uma s\u00e9rie de eventos na cidade. Como por exemplo, o primeiro Encontro de Cultura e Arte. Esse evento contou com a participa\u00e7\u00e3o dos Campi de Cabedelo, Picu\u00ed, Guarabira, Monteiro e Jo\u00e3o Pessoa. Em dois dias a comunidade teve acesso a diversas atra\u00e7\u00f5es de teatro, m\u00fasica e dan\u00e7a. O campus tamb\u00e9m sediou o Encontro de Extens\u00e3o do Instituto (ENEX), que aconteceu em setembro de 2015, e mobilizou cerca de 600 pessoas e mais de 200 projetos nos diversos campos do conhecimento.\u00a0</p>\r\n<p>Este ano, a equipe j\u00e1 est\u00e1 desenvolvendo projetos e pesquisas nas \u00e1reas de cultura, turismo e patrim\u00f4nio hist\u00f3rico. Ao todo, quatro cursos est\u00e3o sendo ofertados na unidade, sendo dois pelo Pronatec (Condutor de Turismo e Agente Cultural) e dois na modalidade EAD (Secretariado e Seguran\u00e7a do Trabalho).\u00a0</p>\r\n<p>Para o segundo semestre, ser\u00e1 conclu\u00eddo o invent\u00e1rio da oferta tur\u00edstica da regi\u00e3o. Esse trabalho \u00e9 desenvolvido por meio de uma disciplina no curso de Condutor de Turismo e consiste num amplo levantamento de toda oferta tur\u00edstica da regi\u00e3o, visando colaborar no planejamento e execu\u00e7\u00e3o de futuros projetos e na capta\u00e7\u00e3o de recursos por parte do poder p\u00fablico municipal.\u00a0</p>\r\n<p>Encontra-se ainda em planejamento um Curso de Forma\u00e7\u00e3o Inicial e Continuada - FIC, intitulado: Gest\u00e3o da Qualidade em Empreendimentos Tur\u00edsticos. O curso prop\u00f5e qualificar, a priori, quarenta trabalhadores que operam na rede hoteleira e nos demais setores da atividade tur\u00edstica da regi\u00e3o, se constituindo numa ferramenta de atualiza\u00e7\u00e3o profissional num contexto da forma\u00e7\u00e3o continuada e sendo parte inerente e fundamental as atividades de articula\u00e7\u00e3o comunit\u00e1ria que objetivam subsidiar o campus no atual processo.\u00a0Ao mesmo tempo, a proposta dialoga diretamente com o eixo tecnol\u00f3gico priorit\u00e1rio da unidade \u2013 Turismo, Hotelaria e Lazer, ao passo em que tamb\u00e9m objetiva colaborar na pavimenta\u00e7\u00e3o dos itiner\u00e1rios formativos que ser\u00e3o percorridos pelos cursos regulares a serem ofertados posteriormente.</p>\r\n<p>Confira fotos das a\u00e7\u00f5es realizadas pela unidade na nossa p\u00e1gina oficial do <a href=\"https://www.facebook.com/media/set/?set=a.1019237888113413.1073741987.261855270518349&amp;type=3&amp;uploaded=9\">Facebook</a>.</p>\r\n<p><em>Ascom - com informa\u00e7\u00f5es do Campus Areia</em></p>",
+    "encoding": "utf-8"
+  },
+  "title": "Campus Areia avan\u00e7a em seu processo de implanta\u00e7\u00e3o",
+  "workflow_history": {
+    "simple_publication_workflow": [
+      {
+        "action": null,
+        "actor": "1962567",
+        "comments": "",
+        "review_state": "private",
+        "time": "2016-05-28T12:48:25+00:00"
+      },
+      {
+        "action": "publish",
+        "actor": "1962567",
+        "comments": "",
+        "review_state": "published",
+        "time": "2016-05-28T12:48:31+00:00"
+      }
+    ]
+  }
+}

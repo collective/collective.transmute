@@ -44,9 +44,10 @@ async def prepare_metadata_file(
 ) -> AsyncGenerator[tuple[dict | list, Path]]:
     data: dict = asdict(metadata)
     path: Path = data.pop("path")
+    fix_relations: dict[str, str] = data.pop("__fix_relations__", {})
     # Handle relations data
     async for rel_data, rel_path in prepare_relations_data(
-        data["relations"], path, state
+        data["relations"], fix_relations, path, state
     ):
         yield rel_data, rel_path
     if debug:
@@ -66,7 +67,10 @@ async def prepare_metadata_file(
 
 
 async def prepare_relations_data(
-    relations: list[dict[str, str]], metadata_path: Path, state: t.PipelineState
+    relations: list[dict[str, str]],
+    to_fix: dict[str, str],
+    metadata_path: Path,
+    state: t.PipelineState,
 ) -> AsyncGenerator[tuple[list[dict], Path]]:
     """
     {
@@ -75,14 +79,22 @@ async def prepare_relations_data(
     "to_uuid": "fb6afaac3f7941c39870ad71259d3e72"
     },
     """
+
+    def final_uid(item: dict, attr: str) -> str | None:
+        uid = item.get(attr, "")
+        if uid:
+            uid = uids.get(uid, to_fix.get(uid))
+        return uid if uid else None
+
     data = []
     uids = state.uids
     for item in relations:
-        from_uuid: str | None = uids.get(item.get("from_uuid"), None)
-        to_uuid: str | None = uids.get(item.get("to_uuid"), None)
-        if from_uuid and to_uuid and from_uuid != to_uuid:
+        from_uuid: str | None = final_uid(item, "from_uuid")
+        to_uuid: str | None = final_uid(item, "to_uuid")
+        from_attribute: str = item.get("relationship", item.get("from_attribute", ""))
+        if from_uuid and to_uuid and from_attribute and from_uuid != to_uuid:
             data.append({
-                "from_attribute": item["relationship"],
+                "from_attribute": from_attribute,
                 "from_uuid": from_uuid,
                 "to_uuid": from_uuid,
             })

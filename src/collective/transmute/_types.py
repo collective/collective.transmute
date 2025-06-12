@@ -9,6 +9,7 @@ from dynaconf.base import LazySettings
 from pathlib import Path
 from rich.console import Console
 from rich.progress import Progress
+from typing import NotRequired
 from typing import TypedDict
 
 import logging
@@ -156,10 +157,22 @@ class MetadataInfo:
     local_permissions: dict = field(default_factory=dict)
     local_roles: dict = field(default_factory=dict)
     ordering: dict = field(default_factory=dict)
-    relations: dict = field(default_factory=dict)
+    relations: list = field(default_factory=list)
 
 
-PloneItem = TypedDict("PloneItem", {"@id": str, "@type": str, "UID": str, "id": str})
+PloneItem = TypedDict(
+    "PloneItem",
+    {
+        "@id": str,
+        "@type": str,
+        "UID": str,
+        "id": str,
+        "title": NotRequired[str],
+        "image": NotRequired[dict[str, str | int]],
+        "image_caption": NotRequired[str],
+        "language": NotRequired[str],
+    },
+)
 
 PloneItemGenerator = AsyncGenerator[PloneItem | None]
 

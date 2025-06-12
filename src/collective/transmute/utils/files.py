@@ -86,7 +86,7 @@ def get_src_files(src: Path) -> t.SourceFiles:
     return t.SourceFiles(metadata, content)
 
 
-async def json_reader(files: Iterator) -> AsyncGenerator[tuple[str, t.PloneItem]]:
+async def json_reader(files: Iterator[Path]) -> AsyncGenerator[tuple[str, t.PloneItem]]:
     for filepath in files:
         filename = filepath.name
         async with aiofiles.open(filepath, "rb") as f:
