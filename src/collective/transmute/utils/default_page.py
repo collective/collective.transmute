@@ -6,7 +6,7 @@ def _merge_items(
 ) -> t.PloneItem:
     filtered = {k: v for k, v in parent_item.items() if k in keys_from_parent}
     # Keep old UID here
-    item["_UID"] = item.pop("UID")
+    item["_UID"] = str(item.pop("UID"))
     # Populate nav_title from parent title
     current_title = item.get("nav_title", item.get("title", ""))
     item["nav_title"] = parent_item.get("title", current_title)

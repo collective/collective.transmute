@@ -168,13 +168,19 @@ PloneItem = TypedDict(
         "UID": str,
         "id": str,
         "title": NotRequired[str],
+        "description": NotRequired[str],
         "image": NotRequired[dict[str, str | int]],
         "image_caption": NotRequired[str],
         "language": NotRequired[str],
+        "text": NotRequired[dict[str, str]],
+        "nav_title": NotRequired[str],
+        "_UID": NotRequired[str],
+        "exclude_from_nav": NotRequired[bool],
+        "_is_new_item": NotRequired[bool],
     },
 )
 
 PloneItemGenerator = AsyncGenerator[PloneItem | None]
 
-PipelineStep = Callable[[], PloneItemGenerator]
-ItemProcessor = Callable[[], PloneItem]
+PipelineStep = Callable[[PloneItem, MetadataInfo], PloneItemGenerator]
+ItemProcessor = Callable[[PloneItem], PloneItem]

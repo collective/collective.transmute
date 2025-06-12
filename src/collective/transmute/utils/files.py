@@ -2,7 +2,7 @@ from aiofiles.os import makedirs
 from base64 import b64decode
 from collections.abc import AsyncGenerator
 from collections.abc import Generator
-from collections.abc import Iterator
+from collections.abc import Iterable
 from collective.transmute import _types as t
 from collective.transmute import logger
 from collective.transmute import settings
@@ -86,7 +86,7 @@ def get_src_files(src: Path) -> t.SourceFiles:
     return t.SourceFiles(metadata, content)
 
 
-async def json_reader(files: Iterator[Path]) -> AsyncGenerator[tuple[str, t.PloneItem]]:
+async def json_reader(files: Iterable[Path]) -> AsyncGenerator[tuple[str, t.PloneItem]]:
     for filepath in files:
         filename = filepath.name
         async with aiofiles.open(filepath, "rb") as f:

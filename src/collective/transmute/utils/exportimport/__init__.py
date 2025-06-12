@@ -55,7 +55,7 @@ async def prepare_metadata_file(
         debug_path = path.parent / "__debug_metadata__.json"
         yield data, debug_path
     remove = [key for key in data if key.startswith("__") and key != "__version__"]
-    if not pb_config.default_pages.keep:
+    if not bool(pb_config.default_pages.keep):
         # Remove default_page from list
         data["default_page"] = {}
     for key in ["default_page", "ordering", "local_roles"]:
