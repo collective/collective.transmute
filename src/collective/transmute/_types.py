@@ -124,6 +124,7 @@ class PipelineState:
     seen: set = field(default_factory=set)
     uids: dict = field(default_factory=dict)
     path_transforms: list[PipelineItemReport] = field(default_factory=list)
+    paths: list[tuple[str, str]] = field(default_factory=list)
 
 
 @dataclass
@@ -177,6 +178,7 @@ PloneItem = TypedDict(
         "_UID": NotRequired[str],
         "exclude_from_nav": NotRequired[bool],
         "_is_new_item": NotRequired[bool],
+        "_blob_files_": NotRequired[dict[str, dict[str, str]]],
     },
 )
 
