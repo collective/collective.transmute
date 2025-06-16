@@ -15,7 +15,7 @@ def _settings() -> Dynaconf:
     local_path = Path(__file__).parent
     default = local_path / "default.toml"
     settings = Dynaconf(
-        envvar_prefix="PB_MIGRACAO",
+        envvar_prefix="TRANSMUTE",
         preload=[default],
         settings_files=["transmute.toml"],
         merge_enabled=True,

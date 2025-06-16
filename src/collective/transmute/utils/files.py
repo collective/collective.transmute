@@ -111,32 +111,32 @@ async def export_item(item: t.PloneItem, parent_folder: Path) -> t.ItemFiles:
     blob_files = []
     uid = item.get("UID")
     item_id = item.get("id")
-    blobs = item.pop("_blob_files_")
-    # TODO: Handle default content for portal
     content_folder = parent_folder / f"{uid}"
     data_path: Path = content_folder / "data.json"
-    if blobs:
-        for field, value in blobs.items():
-            blob = await export_blob(field, value, content_folder, item_id)
-            blob_files.append(blob["blob_path"])
-            item[field] = blob
-    else:
-        await makedirs(content_folder, exist_ok=True)
+    blobs = item.pop("_blob_files_", {}) or {}
+    for field, value in blobs.items():
+        blob = await export_blob(field, value, content_folder, item_id)
+        blob_files.append(blob["blob_path"])
+        item[field] = blob
+    await makedirs(content_folder, exist_ok=True)
     # Remove internal keys
-    item = {key: value for key, value in item.items() if not key.startswith("_")}
+    item_dict = {key: value for key, value in item.items() if not key.startswith("_")}
     async with aiofiles.open(data_path, "wb") as f:
-        await f.write(json_dumps(item))
+        await f.write(json_dumps(item_dict))
     return t.ItemFiles(f"{data_path.relative_to(parent_folder)}", blob_files)
 
 
-async def export_metadata(metadata: t.MetadataInfo, state: t.PipelineState) -> Path:
+async def export_metadata(
+    metadata: t.MetadataInfo, state: t.PipelineState, consoles: t.ConsoleArea
+) -> Path:
     """Export metadata."""
+    consoles.print_log("Writing metadata files")
     async for data, path in ei_utils.prepare_metadata_file(
         metadata, state, settings.is_debug
     ):
         async with aiofiles.open(path, "wb") as f:
             await f.write(json_dumps(data))
-            logger.debug(f"Wrote {path}")
+            consoles.debug(f"Wrote {path}")
     return path
 
 
