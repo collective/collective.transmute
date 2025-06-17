@@ -1,3 +1,4 @@
+from collective.transmute.settings import get_settings
 from collective.transmute.utils import default_page
 
 import pytest
@@ -24,7 +25,8 @@ def item_link(load_json_resource):
 @pytest.fixture
 def keys_from_parent():
     """Fixture to load a sample item with a link."""
-    return {"id", "UID", "@id"}
+    settings = get_settings()
+    return settings.default_pages["keys_from_parent"]
 
 
 @pytest.mark.parametrize(

@@ -1,9 +1,8 @@
 from collective.html2blocks.converter import volto_blocks
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 
 
-def _blocks_collection(item: dict, blocks: list[dict]) -> list[dict]:
+def _blocks_collection(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
     """Add a listing block."""
     # TODO: Process query to remove old types
     query = item.get("query")
@@ -35,7 +34,7 @@ def _blocks_collection(item: dict, blocks: list[dict]) -> list[dict]:
     return blocks
 
 
-def _blocks_folder(item: dict, blocks: list[dict]) -> list[dict]:
+def _blocks_folder(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
     """Adds a listing block."""
     possible_variations = {
         "listing_view": "listing",
@@ -70,14 +69,13 @@ BLOCKS_ORIG_TYPE = {
 
 
 def _get_default_blocks(
-    type_: str, has_image: bool, has_description: bool
+    type_info: dict, has_image: bool, has_description: bool
 ) -> list[dict]:
-    type_info = pb_config.types.get(type_, {})
-    default_blocks = type_info.get("override_blocks", type_info.get("blocks", None))
-    blocks = [b.to_dict() for b in default_blocks] if default_blocks else []
+    default_blocks = type_info.get("override_blocks", type_info.get("blocks"))
+    blocks = list(default_blocks) if default_blocks else []
     if default_blocks:
         blocks = []
-        for block in [b.to_dict() for b in default_blocks]:
+        for block in default_blocks:
             block_type = block["@type"]
             if (block_type == "leadimage" and not has_image) or (
                 block_type == "description" and not has_description
@@ -88,19 +86,20 @@ def _get_default_blocks(
 
 
 async def process_blocks(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     type_ = item["@type"]
     has_image = bool(item.get("image"))
     has_description = has_description = bool(
         item.get("description") is not None and item.get("description", "").strip()
     )
-    blocks = _get_default_blocks(type_, has_image, has_description)
+    type_info = settings.types.get(type_, {})
+    blocks = _get_default_blocks(type_info, has_image, has_description)
     # Blocks defined somewhere else
     item_blocks = item.pop("_blocks_", [])
     if blocks or item_blocks:
         blocks.extend(item_blocks)
-        orig_type = item.get("_orig_type")
+        orig_type = item.get("_orig_type", "")
         if processor := BLOCKS_ORIG_TYPE.get(orig_type):
             blocks = processor(item, blocks)
         text = item.get("text", {})

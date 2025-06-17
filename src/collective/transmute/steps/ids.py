@@ -1,21 +1,18 @@
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
-from functools import cache
 from urllib import parse
 
 import re
 
 
-@cache
-def get_export_prefixes() -> list[str]:
-    """Return cleanup paths."""
-    return pb_config.paths.get("export_prefixes", [])
+_CLEANUP: tuple[tuple[str, str], ...] | None = None
 
 
-@cache
-def get_paths_cleanup() -> tuple[tuple[str, str], ...]:
+def get_paths_cleanup(settings: t.TransmuteSettings) -> tuple[tuple[str, str], ...]:
     """Return cleanup paths."""
-    return pb_config.paths.get("cleanup", {}).items()
+    global _CLEANUP
+    if _CLEANUP is None:
+        _CLEANUP = tuple(settings.paths["cleanup"].items())
+    return _CLEANUP
 
 
 PATTERNS = [
@@ -33,10 +30,10 @@ def fix_short_id(id_: str) -> str:
 
 
 async def process_export_prefix(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     path = item["@id"]
-    for src in get_export_prefixes():
+    for src in settings.paths["export_prefixes"]:
         if path.startswith(src):
             path = path.replace(src, "")
     item["@id"] = path
@@ -46,10 +43,10 @@ async def process_export_prefix(
 
 
 async def process_ids(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     path = parse.unquote(item["@id"].replace(" ", "_"))
-    cleanup_paths = get_paths_cleanup()
+    cleanup_paths = get_paths_cleanup(settings)
     for src, rpl in cleanup_paths:
         if src in path:
             path = path.replace(src, rpl)

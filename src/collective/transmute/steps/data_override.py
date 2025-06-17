@@ -1,9 +1,8 @@
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 
 
 async def process_data_override(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     """Overwrite an item data (identified by its @id) with information from settings.
 
@@ -16,7 +15,7 @@ async def process_data_override(
     ```
     """
     id_ = item["@id"]
-    override = pb_config.get("data_override", {}).get(id_, {})
+    override = settings.data_override.get(id_, {})
     for key, value in override.items():
         item[key] = value
     yield item

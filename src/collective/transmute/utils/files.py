@@ -4,8 +4,7 @@ from collections.abc import AsyncGenerator
 from collections.abc import Generator
 from collections.abc import Iterable
 from collective.transmute import _types as t
-from collective.transmute import logger
-from collective.transmute import settings
+from collective.transmute import get_logger
 from collective.transmute.utils import exportimport as ei_utils
 from pathlib import Path
 
@@ -127,13 +126,14 @@ async def export_item(item: t.PloneItem, parent_folder: Path) -> t.ItemFiles:
 
 
 async def export_metadata(
-    metadata: t.MetadataInfo, state: t.PipelineState, consoles: t.ConsoleArea
+    metadata: t.MetadataInfo,
+    state: t.PipelineState,
+    consoles: t.ConsoleArea,
+    settings: t.TransmuteSettings,
 ) -> Path:
     """Export metadata."""
     consoles.print_log("Writing metadata files")
-    async for data, path in ei_utils.prepare_metadata_file(
-        metadata, state, settings.is_debug
-    ):
+    async for data, path in ei_utils.prepare_metadata_file(metadata, state, settings):
         async with aiofiles.open(path, "wb") as f:
             await f.write(json_dumps(data))
             consoles.debug(f"Wrote {path}")
@@ -142,6 +142,7 @@ async def export_metadata(
 
 def remove_data(path: Path, consoles: t.ConsoleArea | None = None):
     """Remove all data inside a given path."""
+    logger = get_logger()
     report = consoles.print_log if consoles else logger.debug
     contents: Generator[Path] = path.glob("*")
     for content in contents:

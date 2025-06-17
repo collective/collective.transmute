@@ -3,6 +3,18 @@ debug=false
 log_file="transmute.log"
 report=1000
 
+[principals]
+default='Plone'
+remove=['admin']
+
+[default_pages]
+keep = false
+keys_from_parent = [
+    "id",
+    "UID",
+    "@id"
+]
+
 [pipeline]
 steps=[
     'collective.transmute.steps.ids.process_export_prefix',
@@ -23,18 +35,6 @@ steps=[
 do_not_add_drop = [
     "process_paths",
     "process_default_page",
-]
-
-[principals]
-default='Plone'
-remove=['admin']
-
-[default_pages]
-keep = false
-keys_from_parent = [
-    "@id",
-    "id",
-    "UID"
 ]
 
 [review_state.filter]
@@ -61,7 +61,7 @@ drop=[]
 [paths.portal_type]
 
 [images]
-to_preview_image_link = []
+to_preview_image_link=[]
 
 [sanitize]
 drop_keys = [

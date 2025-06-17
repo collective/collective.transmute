@@ -1,0 +1,46 @@
+{
+    "@id": "http://localhost:8080/Plone/service/bibliothek",
+    "@type": "Folder",
+    "UID": "cbebd70218b348f68d6bb1b7dd7830c4",
+    "allow_discussion": false,
+    "constrainTypesMode": -1,
+    "contributors": [],
+    "created": "2016-03-23T08:44:31+00:00",
+    "creators": [
+        "admin"
+    ],
+    "description": null,
+    "effective": "2016-06-08T15:52:32+00:00",
+    "exclude_from_nav": false,
+    "expires": null,
+    "id": "bibliothek",
+    "is_folderish": true,
+    "language": "de",
+    "layout": "listing_view",
+    "location": "",
+    "modified": "2022-01-03T14:27:50+00:00",
+    "nextPreviousEnabled": false,
+    "review_state": "published",
+    "rights": null,
+    "subjects": [],
+    "title": "Medienservice",
+    "version": "current",
+    "workflow_history": {
+        "simple_publication_workflow": [
+            {
+                "action": null,
+                "actor": "admin",
+                "comments": "",
+                "review_state": "visible",
+                "time": "2016-03-23T08:44:31+00:00"
+            },
+            {
+                "action": "publish",
+                "actor": "admin",
+                "comments": "",
+                "review_state": "published",
+                "time": "2016-06-08T15:52:32+00:00"
+            }
+        ]
+    }
+}

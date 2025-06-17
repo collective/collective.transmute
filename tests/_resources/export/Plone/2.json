@@ -1,0 +1,46 @@
+{
+    "@id": "http://localhost:8080/Plone/service/bibliothek/bibliothek-link",
+    "@type": "Link",
+    "UID": "714cbe2b3fe74c608d4ae20a608eab67",
+    "allow_discussion": false,
+    "contributors": [],
+    "created": "2016-03-23T10:36:39+00:00",
+    "creators": [
+        "admin"
+    ],
+    "description": null,
+    "effective": null,
+    "exclude_from_nav": false,
+    "expires": null,
+    "id": "bibliothek-link",
+    "is_folderish": false,
+    "language": "de",
+    "layout": "link_redirect_view",
+    "location": "",
+    "modified": "2017-03-08T07:44:45+00:00",
+    "parent": {
+        "@id": "http://localhost:8080/Plone/service/bibliothek",
+        "@type": "Folder",
+        "UID": "cbebd70218b348f68d6bb1b7dd7830c4",
+        "description": "",
+        "review_state": "published",
+        "title": "Medienservice"
+    },
+    "remoteUrl": "/praesidialabteilung/bibliothek/neu/bibliothek",
+    "review_state": "published",
+    "rights": null,
+    "subjects": [],
+    "title": "Bibliothek - Link",
+    "version": "current",
+    "workflow_history": {
+        "simple_publication_workflow": [
+            {
+                "action": null,
+                "actor": "admin",
+                "comments": "",
+                "review_state": "published",
+                "time": "2016-03-23T10:36:39+00:00"
+            }
+        ]
+    }
+}
