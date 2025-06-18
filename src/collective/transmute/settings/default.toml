@@ -34,7 +34,6 @@ keep = false
 keys_from_parent = [
     "@id",
     "id",
-    "UID"
 ]
 
 [review_state.filter]
