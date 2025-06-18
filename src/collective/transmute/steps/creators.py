@@ -1,9 +1,8 @@
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 
 
 async def process_creators(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     """Process list of creators for an item.
 
@@ -15,10 +14,13 @@ async def process_creators(
     remove=['admin']
     ```
     """
-    remove = pb_config.principals.remove
+    remove = settings.principals["remove"]
+    default = [
+        settings.principals["default"],
+    ]
     current = item.get("creators", [])
     creators = [creator for creator in current if creator not in remove]
     if not creators:
-        creators = [pb_config.principals.default]
+        creators = default
     item["creators"] = creators
     yield item

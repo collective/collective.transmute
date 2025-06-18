@@ -1,0 +1,54 @@
+{
+    "@id": "http://localhost:8080/Plone/my-folder/my-subfolder",
+    "@type": "Folder",
+    "UID": "2d2db4d11ef58cfb8e2611abb08582f1",
+    "allow_discussion": false,
+    "constrainTypesMode": -1,
+    "contributors": [],
+    "created": "2007-08-30T09:07:34+00:00",
+    "creators": [
+        "admin"
+    ],
+    "description": null,
+    "effective": "2022-01-13T13:43:43+00:00",
+    "exclude_from_nav": false,
+    "expires": null,
+    "id": "my-subfolder",
+    "is_folderish": true,
+    "language": "",
+    "layout": "listing_view",
+    "location": "",
+    "modified": "2023-08-31T13:37:37+00:00",
+    "nextPreviousEnabled": false,
+    "parent": {
+        "@id": "http://localhost:8080/Plone/my-folder",
+        "@type": "Folder",
+        "UID": "cbebd70218b348f68d6bb1b7dd7830c4",
+        "description": "",
+        "review_state": "published",
+        "title": "My Folder"
+    },
+    "review_state": "published",
+    "rights": null,
+    "subjects": [],
+    "title": "My Subfolder",
+    "version": "current",
+    "workflow_history": {
+        "simple_publication_workflow": [
+            {
+                "action": null,
+                "actor": "admin",
+                "comments": "",
+                "review_state": "visible",
+                "time": "2024-08-30T09:07:34+00:00"
+            },
+            {
+                "action": "publish",
+                "actor": "admin",
+                "comments": "",
+                "review_state": "published",
+                "time": "2024-08-30T10:23:39+00:00"
+            }
+        ]
+    }
+}

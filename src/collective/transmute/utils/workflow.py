@@ -1,16 +1,17 @@
 from collective.transmute._types import PloneItem
-from collective.transmute.settings import pb_config
+from collective.transmute.settings import get_settings
 from functools import cache
 
 
 @cache
 def rewrite_settings() -> dict:
-    settings = pb_config.review_state.get("rewrite")
-    if "workflows" not in settings:
-        settings["workflows"] = {}
-    if "states" not in settings:
-        settings["states"] = {}
-    return settings
+    settings = get_settings()
+    wf_settings = settings.review_state["rewrite"]
+    if "workflows" not in wf_settings:
+        wf_settings["workflows"] = {}
+    if "states" not in wf_settings:
+        wf_settings["states"] = {}
+    return dict(wf_settings)
 
 
 def rewrite_workflow_history(item: PloneItem) -> PloneItem:

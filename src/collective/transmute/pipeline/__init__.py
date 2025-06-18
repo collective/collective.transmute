@@ -1,13 +1,11 @@
 from collective.transmute import _types as t
 from collective.transmute.pipeline import report
 from collective.transmute.pipeline.pipeline import run_pipeline
-from collective.transmute.settings import is_debug
-from collective.transmute.settings import pb_config
+from collective.transmute.settings import get_settings
 from collective.transmute.utils import exportimport as ei_utils
 from collective.transmute.utils import files as file_utils
 from collective.transmute.utils import load_all_steps
 from contextlib import contextmanager
-from functools import cache
 from pathlib import Path
 
 
@@ -22,10 +20,9 @@ def pipeline_debugger(
     consoles.debug(f"Finished pipeline processing of {state.total} items")
 
 
-@cache
-def all_steps() -> tuple[t.PipelineStep, ...]:
-    """List all steps for this pipeline."""
-    config_steps = list(pb_config.pipeline.get("steps", []))
+def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
+    """Return all steps for this pipeline."""
+    config_steps = settings.pipeline.get("steps")
     return load_all_steps(config_steps)
 
 
@@ -57,11 +54,14 @@ async def _write_metadata(
     metadata: t.MetadataInfo,
     state: t.PipelineState,
     consoles: t.ConsoleArea,
+    settings: t.TransmuteSettings,
 ):
     # Sort data files according to path
     state.paths.sort()
     metadata._data_files_ = [i[1] for i in state.paths]
-    metadata_file = await file_utils.export_metadata(metadata, state, consoles)
+    metadata_file = await file_utils.export_metadata(
+        metadata, state, consoles, settings
+    )
     return metadata_file
 
 
@@ -71,12 +71,15 @@ async def pipeline(
     state: t.PipelineState,
     write_report: bool,
     consoles: t.ConsoleArea,
+    settings: t.TransmuteSettings | None = None,
 ):
+    if not settings:
+        settings = get_settings()
     content_folder = dst / "content"
     metadata: t.MetadataInfo = await ei_utils.initialize_metadata(
         src_files, content_folder
     )
-    steps: tuple[t.PipelineStep, ...] = all_steps()
+    steps: tuple[t.PipelineStep, ...] = all_steps(settings)
     content_files: list[Path] = src_files.content
     # Pipeline state variables
     total = state.total
@@ -103,7 +106,7 @@ async def pipeline(
                 f"({processed + 1} / {total})"
             )
             async for item, last_step, is_new in run_pipeline(
-                steps, raw_item, metadata, consoles
+                steps, raw_item, metadata, consoles, settings
             ):
                 processed += 1
                 progress.advance("processed")
@@ -136,7 +139,7 @@ async def pipeline(
                     uids[old_uid] = item_uid
 
     # Reports after pipeline execution
-    await report.final_reports(consoles, state, write_report, is_debug)
+    await report.final_reports(consoles, state, write_report, settings.is_debug)
     # Write metadata file
-    metadata_file = await _write_metadata(metadata, state, consoles)
+    metadata_file = await _write_metadata(metadata, state, consoles, settings)
     return metadata_file

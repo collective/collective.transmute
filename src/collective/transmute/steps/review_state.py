@@ -1,22 +1,20 @@
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 from collective.transmute.utils import workflow
 
 
-def _is_valid_state(state_filter: dict[str, list], review_state: str) -> bool:
+def _is_valid_state(state_filter: tuple[str, ...], review_state: str) -> bool:
     """Check if review_state is allowed to be processed."""
-    allowed = state_filter.get("allowed", [])
     status = True
-    if review_state and allowed:
-        status = review_state in allowed
+    if review_state and state_filter:
+        status = review_state in state_filter
     return status
 
 
 async def process_review_state(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     review_state: str = item.get("review_state", "")
-    state_filter: dict[str, list] = pb_config.review_state.get("filter", {})
+    state_filter: tuple[str, ...] = settings.review_state["filter"]["allowed"]
     if not _is_valid_state(state_filter, review_state):
         yield None
     else:

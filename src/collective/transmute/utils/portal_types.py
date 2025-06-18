@@ -1,7 +1,8 @@
-from collective.transmute.settings import pb_config
+from collective.transmute.settings import get_settings
 from functools import cache
 
 
 @cache
 def fix_portal_type(type_: str) -> str:
-    return pb_config.types.get(type_, {}).get("portal_type", "")
+    settings = get_settings()
+    return settings.types.get(type_, {}).get("portal_type", "")

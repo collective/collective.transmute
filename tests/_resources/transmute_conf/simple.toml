@@ -1,0 +1,45 @@
+[config]
+debug=true
+report=2000
+
+[principals]
+default='User'
+
+[review_state.filter]
+allowed=[
+    "visible",
+    "published"
+]
+
+[review_state.rewrite]
+states = {}
+workflows = {}
+
+[paths]
+export_prefixes = [
+    "http://localhost:8080/Plone",
+    "http://staging.foo",
+]
+
+[paths.cleanup]
+"/foo" = "/bar"
+"/_" = "/"
+
+[paths.filter]
+allowed=[
+    "/bar"
+]
+drop=[
+    "/bar/hidden",
+    "/bar/hidden2",
+    "/bar/hidden3",
+]
+
+
+[images]
+to_preview_image_link=[
+    "News Item"
+]
+
+[types.'News Item']
+blocks=[{"@type"= "title"}, {"@type"= "leadimage"}, {"@type"= "description"}]

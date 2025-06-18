@@ -1,6 +1,5 @@
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 from collective.transmute.utils import files
 from dataclasses import asdict
 from pathlib import Path
@@ -40,7 +39,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
 
 
 async def prepare_metadata_file(
-    metadata: t.MetadataInfo, state: t.PipelineState, debug: bool = False
+    metadata: t.MetadataInfo, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> AsyncGenerator[tuple[dict | list, Path]]:
     data: dict = asdict(metadata)
     path: Path = data.pop("path")
@@ -50,12 +49,12 @@ async def prepare_metadata_file(
         data["relations"], fix_relations, path, state
     ):
         yield rel_data, rel_path
-    if debug:
+    if settings.is_debug:
         data["__seen__"] = list(state.seen)
         debug_path = path.parent / "__debug_metadata__.json"
         yield data, debug_path
     remove = [key for key in data if key.startswith("__") and key != "__version__"]
-    if not bool(pb_config.default_pages.keep):
+    if not bool(settings.default_pages["keep"]):
         # Remove default_page from list
         data["default_page"] = {}
     for key in ["default_page", "ordering", "local_roles"]:

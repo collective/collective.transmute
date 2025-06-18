@@ -1,8 +1,6 @@
-from collective.transmute import logger
-from collective.transmute import settings
-from dynaconf.loaders import toml_loader
-from tempfile import NamedTemporaryFile
+from collective.transmute import _types as t
 
+import tomlkit
 import typer
 
 
@@ -10,14 +8,16 @@ app = typer.Typer()
 
 
 @app.command(name="settings")
-def app_settings():
+def sanity(ctx: typer.Context) -> None:
     """Report settings to be used by this application."""
-    logger.info("Settings used by this application")
-    logger.info("")
-    data = {k.lower(): v for k, v in settings.pb_config.as_dict().items()}
-    with NamedTemporaryFile(suffix=".toml", delete_on_close=False) as fp:
-        filepath = fp.name
-        toml_loader.write(filepath, data)
-        response = fp.read().decode("utf-8")
+    msg = "Settings used by this application"
+    typer.echo(msg)
+    typer.echo("-" * len(msg))
+    settings: t.TransmuteSettings = ctx.obj.settings
+    config_file = settings.config["filepath"]
+    typer.echo(f"Local settings: {config_file}")
+    typer.echo("-" * len(msg))
+    data = settings._raw_data
+    response = tomlkit.dumps(data)
     for line in response.split("\n"):
-        logger.info(line)
+        typer.echo(line)

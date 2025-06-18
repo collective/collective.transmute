@@ -10,9 +10,13 @@ import pytest
         [{"@id": "http://localhost:8080/Plone/ foo"}, "/ foo"],
     ],
 )
-async def test_process_export_prefix(metadata, base_item, path: str):
+async def test_process_export_prefix(
+    metadata, transmute_settings, base_item, path: str
+):
     results = []
-    async for item in ids.process_export_prefix(base_item, metadata):
+    async for item in ids.process_export_prefix(
+        base_item, metadata, transmute_settings
+    ):
         results.append(item)
     assert len(results) == 1
     result = results[0]
@@ -34,9 +38,11 @@ async def test_process_export_prefix(metadata, base_item, path: str):
         ],
     ],
 )
-async def test_process_ids(metadata, base_item, path: str, id_: str):
+async def test_process_ids(
+    metadata, transmute_settings, base_item, path: str, id_: str
+):
     results = []
-    async for item in ids.process_ids(base_item, metadata):
+    async for item in ids.process_ids(base_item, metadata, transmute_settings):
         results.append(item)
     assert len(results) == 1
     result = results[0]

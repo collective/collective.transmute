@@ -25,6 +25,7 @@ dependencies = [
     "aiofiles>=24.1.0",
     "collective-html2blocks",
     "dynaconf>=3.2.7",
+    "tomlkit>=0.13.2",
     "orjson>=3.10.15",
     "typer>=0.15.1",
 ]

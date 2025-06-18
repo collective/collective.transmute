@@ -1,5 +1,5 @@
 {
-    "@id": "https://staging-intranet-brh/intra_net_t/galerie/gesundheitstag-2024",
+    "@id": "http://localhost:8080/Plone/intra_net_t/galerie/gesundheitstag-2024",
     "@type": "Document",
     "UID": "bb37ca09a63e4215970bdfe755dbddcd",
     "allow_discussion": false,
@@ -19,7 +19,7 @@
     "location": "",
     "modified": "2024-08-28T11:31:02+00:00",
     "parent": {
-        "@id": "https://staging-intranet-brh/intra_net_t/galerie",
+        "@id": "http://localhost:8080/Plone/intra_net_t/galerie",
         "@type": "Folder",
         "UID": "16de1b2e43eb703fdbed7f4ec08e9e4a",
         "description": "",

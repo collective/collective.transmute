@@ -1,6 +1,4 @@
 from collective.transmute import _types as t
-from collective.transmute import logger
-from collective.transmute.settings import pb_config
 from contextlib import contextmanager
 from datetime import datetime
 from functools import cache
@@ -21,14 +19,14 @@ def load_step(name: str) -> t.PipelineStep:
     return func
 
 
-def load_all_steps(names: list[str]) -> tuple[t.PipelineStep]:
+def load_all_steps(names: tuple[str]) -> tuple[t.PipelineStep]:
     steps = []
     for name in names:
         steps.append(load_step(name))
     return tuple(steps)
 
 
-def check_steps(names: list[str]) -> list[tuple[str, bool]]:
+def check_steps(names: tuple[str]) -> list[tuple[str, bool]]:
     steps: list[tuple[str, bool]] = []
     for name in names:
         status = True
@@ -40,13 +38,12 @@ def check_steps(names: list[str]) -> list[tuple[str, bool]]:
     return steps
 
 
-@cache
-def load_processor(type_: str) -> t.ItemProcessor:
+def load_processor(type_: str, settings: t.TransmuteSettings) -> t.ItemProcessor:
     """Load a processor for a given type."""
-    types_config = pb_config.types
+    types_config = settings.types
     name = types_config.get(type_, {}).get("processor")
     if not name:
-        name = types_config.processor
+        name = types_config.get("processor", "")
     mod_name, func_name = name.rsplit(".", 1)
     try:
         mod = import_module(mod_name)
@@ -73,4 +70,3 @@ def report_time(title: str, consoles: t.ConsoleArea):
     finish = datetime.now()
     msg = f"{title} ended at {finish}\n{title} took {(finish - start).seconds} seconds"
     consoles.print_log(msg)
-    logger.info(msg)

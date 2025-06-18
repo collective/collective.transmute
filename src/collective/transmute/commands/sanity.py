@@ -1,5 +1,5 @@
-from collective.transmute import logger
-from collective.transmute.settings import pb_config
+from collective.transmute import _types as t
+from collective.transmute import get_logger
 from collective.transmute.utils import check_steps
 
 import typer
@@ -9,12 +9,14 @@ app = typer.Typer()
 
 
 @app.command()
-def sanity() -> None:
+def sanity(ctx: typer.Context) -> None:
     """Run a sanity check on pipeline steps."""
+    logger = get_logger()
     logger.info("Pipeline Steps")
     logger.info("")
     pipeline_status = True
-    for name, status in check_steps(pb_config.pipeline.steps):
+    settings: t.TransmuteSettings = ctx.obj.settings
+    for name, status in check_steps(settings.pipeline["steps"]):
         pipeline_status = pipeline_status and status
         status_check = "✅" if status else "❗"
         logger.info(f" - {name}: {status_check}")

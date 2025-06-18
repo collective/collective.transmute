@@ -1,8 +1,8 @@
 from collections import defaultdict
 from collections.abc import Iterator
 from collective.transmute import _types as t
+from collective.transmute import get_logger
 from collective.transmute import layout
-from collective.transmute import logger
 from collective.transmute.utils import files as file_utils
 from collective.transmute.utils import report_time
 from pathlib import Path
@@ -33,6 +33,7 @@ def _create_state(
 
 
 async def _create_report(dst: Path, state: t.ReportState, report_types: list) -> Path:
+    logger = get_logger()
     async for _, item in file_utils.json_reader(state.files):
         type_ = item.get("@type")
         state.types[type_] += 1

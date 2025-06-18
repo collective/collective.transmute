@@ -5,7 +5,7 @@ import pytest
 
 @pytest.fixture
 def patch_settings(monkeypatch):
-    monkeypatch.setattr(image, "get_conversion_types", lambda: ["News Item"])
+    monkeypatch.setattr(image, "get_conversion_types", lambda x: ["News Item"])
 
 
 @pytest.fixture
@@ -15,8 +15,9 @@ def base_news_item(load_json_resource) -> dict:
 
 class TestImageToPreviewLink:
     @pytest.fixture(autouse=True)
-    def _setup(self, metadata, patch_settings):
+    def _setup(self, metadata, patch_settings, transmute_settings):
         self.metadata = metadata
+        self.settings = transmute_settings
         self.func = image.process_image_to_preview_image_link
 
     @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ class TestImageToPreviewLink:
         self, base_news_item, idx: int, attr: str, expected: str
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata):
+        async for item in self.func(base_news_item, self.metadata, self.settings):
             results.append(item)
         assert results[idx][attr] == expected
 
@@ -52,7 +53,7 @@ class TestImageToPreviewLink:
         self, base_news_item, idx: int, attr: str, expected: bool
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata):
+        async for item in self.func(base_news_item, self.metadata, self.settings):
             results.append(item)
         assert (attr in results[idx]) is expected
 
@@ -60,7 +61,7 @@ class TestImageToPreviewLink:
         metadata = self.metadata
         total_relations = len(metadata.relations)
         results = []
-        async for item in self.func(base_news_item, metadata):
+        async for item in self.func(base_news_item, metadata, self.settings):
             results.append(item)
         relations = metadata.relations
         assert len(relations) == total_relations + 1
@@ -72,8 +73,9 @@ class TestImageToPreviewLink:
 
 class TestImageToPreviewLinkNoSettings:
     @pytest.fixture(autouse=True)
-    def _setup(self, metadata):
+    def _setup(self, metadata, transmute_settings):
         self.metadata = metadata
+        self.settings = transmute_settings
         self.func = image.process_image_to_preview_image_link
 
     @pytest.mark.parametrize(
@@ -87,7 +89,7 @@ class TestImageToPreviewLinkNoSettings:
         self, base_news_item, idx: int, attr: str, expected: str
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata):
+        async for item in self.func(base_news_item, self.metadata, self.settings):
             results.append(item)
         assert len(results) == 1
         assert results[idx][attr] == expected
@@ -103,7 +105,7 @@ class TestImageToPreviewLinkNoSettings:
         self, base_news_item, idx: int, attr: str, expected: bool
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata):
+        async for item in self.func(base_news_item, self.metadata, self.settings):
             results.append(item)
         assert (attr in results[idx]) is expected
 
@@ -111,7 +113,7 @@ class TestImageToPreviewLinkNoSettings:
         metadata = self.metadata
         total_relations = len(metadata.relations)
         results = []
-        async for item in self.func(base_news_item, metadata):
+        async for item in self.func(base_news_item, metadata, self.settings):
             results.append(item)
         relations = metadata.relations
         assert len(relations) == total_relations
