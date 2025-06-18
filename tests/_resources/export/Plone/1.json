@@ -1,5 +1,5 @@
 {
-    "@id": "http://localhost:8080/Plone/service/bibliothek",
+    "@id": "http://localhost:8080/Plone/my-folder",
     "@type": "Folder",
     "UID": "cbebd70218b348f68d6bb1b7dd7830c4",
     "allow_discussion": false,
@@ -13,7 +13,7 @@
     "effective": "2016-06-08T15:52:32+00:00",
     "exclude_from_nav": false,
     "expires": null,
-    "id": "bibliothek",
+    "id": "my-folder",
     "is_folderish": true,
     "language": "de",
     "layout": "listing_view",
@@ -23,7 +23,7 @@
     "review_state": "published",
     "rights": null,
     "subjects": [],
-    "title": "Medienservice",
+    "title": "My Folder",
     "version": "current",
     "workflow_history": {
         "simple_publication_workflow": [
@@ -32,14 +32,14 @@
                 "actor": "admin",
                 "comments": "",
                 "review_state": "visible",
-                "time": "2016-03-23T08:44:31+00:00"
+                "time": "2024-03-23T08:44:31+00:00"
             },
             {
                 "action": "publish",
                 "actor": "admin",
                 "comments": "",
                 "review_state": "published",
-                "time": "2016-06-08T15:52:32+00:00"
+                "time": "2024-06-08T15:52:32+00:00"
             }
         ]
     }

@@ -1,5 +1,5 @@
 {
-    "@id": "http://localhost:8080/Plone/service/bibliothek/medienservice",
+    "@id": "http://localhost:8080/Plone/my-folder/my-subfolder",
     "@type": "Folder",
     "UID": "2d2db4d11ef58cfb8e2611abb08582f1",
     "allow_discussion": false,
@@ -13,7 +13,7 @@
     "effective": "2022-01-13T13:43:43+00:00",
     "exclude_from_nav": false,
     "expires": null,
-    "id": "medienservice",
+    "id": "my-subfolder",
     "is_folderish": true,
     "language": "",
     "layout": "listing_view",
@@ -21,17 +21,17 @@
     "modified": "2023-08-31T13:37:37+00:00",
     "nextPreviousEnabled": false,
     "parent": {
-        "@id": "http://localhost:8080/Plone/service/bibliothek",
+        "@id": "http://localhost:8080/Plone/my-folder",
         "@type": "Folder",
         "UID": "cbebd70218b348f68d6bb1b7dd7830c4",
         "description": "",
         "review_state": "published",
-        "title": "Medienservice"
+        "title": "My Folder"
     },
     "review_state": "published",
     "rights": null,
     "subjects": [],
-    "title": "Medienservice",
+    "title": "My Subfolder",
     "version": "current",
     "workflow_history": {
         "simple_publication_workflow": [
@@ -40,35 +40,14 @@
                 "actor": "admin",
                 "comments": "",
                 "review_state": "visible",
-                "time": "2007-08-30T09:07:34+00:00"
+                "time": "2024-08-30T09:07:34+00:00"
             },
             {
                 "action": "publish",
                 "actor": "admin",
                 "comments": "",
                 "review_state": "published",
-                "time": "2007-08-30T10:23:39+00:00"
-            },
-            {
-                "action": "retract",
-                "actor": "admin",
-                "comments": "",
-                "review_state": "visible",
-                "time": "2022-01-13T13:43:43+00:00"
-            },
-            {
-                "action": "publish",
-                "actor": "admin",
-                "comments": "",
-                "review_state": "published",
-                "time": "2023-08-31T13:37:09+00:00"
-            },
-            {
-                "action": "retract",
-                "actor": "admin",
-                "comments": "",
-                "review_state": "visible",
-                "time": "2023-08-31T13:37:37+00:00"
+                "time": "2024-08-30T10:23:39+00:00"
             }
         ]
     }
