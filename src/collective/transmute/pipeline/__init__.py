@@ -130,7 +130,7 @@ async def pipeline(
                 data_file = item_files.data
                 paths.append((item["@id"], data_file))
                 metadata._blob_files_.extend(item_files.blob_files)
-                item_uid = item["UID"]
+                item_uid = item.get("UID") or item.get("_UID")
                 exported[item["@type"]] += 1
                 seen.add(item_uid)
                 uids[item_uid] = item_uid
