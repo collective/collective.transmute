@@ -41,6 +41,8 @@ def transmute_config() -> str:
             "types.News Item.blocks",
             [{"@type": "title"}, {"@type": "leadimage"}, {"@type": "description"}],
         ],
+        ["default_pages.keep", False],
+        ["default_pages.keys_from_parent", ("@id", "id")],
     ],
 )
 def test_settings_values(transmute_settings, key: str, expected):

@@ -14,6 +14,8 @@ import pytest
         ["paths.cleanup", dict],
         ["paths.filter.allowed", set],
         ["paths.filter.drop", set],
+        ["default_pages.keep", bool],
+        ["default_pages.keys_from_parent", tuple],
     ],
 )
 def test_settings(transmute_settings, key: str, expected):

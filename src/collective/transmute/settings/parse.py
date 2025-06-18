@@ -89,13 +89,11 @@ def parse_default() -> dict:
 
 def parse_config(cwd_path: Path) -> dict:
     """Parse transmute config settings."""
-    validators = settings_validators()
     settings = Dynaconf(
         envvar_prefix="TRANSMUTE",
         root_path=cwd_path,
         settings_files=[SETTINGS_FILE],
         merge_enabled=False,
-        validators=validators,
     )
     settings.config.filepath = _find_config_path(settings)
     return settings.as_dict()
