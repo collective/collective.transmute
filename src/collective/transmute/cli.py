@@ -18,9 +18,9 @@ def main(ctx: typer.Context):
     """
     try:
         settings = get_settings()
-    except RuntimeError:
-        typer.echo("Did not find a repository.toml file.")
-        raise typer.Exit() from None
+    except (RuntimeError, FileNotFoundError):
+        typer.echo("Did not find a transmute.toml file.")
+        raise typer.Exit(1) from None
     else:
         ctx_obj = ContextObject(settings=settings)
         ctx.obj = ctx_obj

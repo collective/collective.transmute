@@ -1,4 +1,5 @@
 from collective.transmute import _types as t
+from copy import deepcopy
 from dynaconf import Dynaconf
 from dynaconf import Validator
 from dynaconf.base import Settings
@@ -95,7 +96,12 @@ def parse_config(cwd_path: Path) -> dict:
         settings_files=[SETTINGS_FILE],
         merge_enabled=False,
     )
-    settings.config.filepath = _find_config_path(settings)
+    filepath = _find_config_path(settings)
+    if filepath.is_dir():
+        raise FileNotFoundError(
+            f"Transmute settings file '{SETTINGS_FILE}' not found in {cwd_path}."
+        )
+    settings.config.filepath = str(filepath)
     return settings.as_dict()
 
 
@@ -136,6 +142,11 @@ def _merge_defaults(defaults: dict, settings: dict) -> dict:
             merged[key] = _merge_dicts(merged[key], value)
         else:
             merged[key] = value
+    # Store the raw data to be used with cli settings command.
+    raw_data = deepcopy(merged)
+    raw_data["config"].pop("filepath", None)
+    merged["_raw_data"] = raw_data
+    # Apply validators to the merged settings.
     for key, checks in _VALIDATORS.items():
         for kwargs in checks:
             if cast := kwargs.get("cast"):
@@ -149,6 +160,5 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     defaults = parse_default()
     raw_settings = parse_config(cwd_path)
     payload = _merge_defaults(defaults, raw_settings)
-    payload["_raw_data"] = payload
     data = t.TransmuteSettings(**payload)
     return data

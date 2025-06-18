@@ -37,7 +37,7 @@ def load_json_resource(load_json):
 
 @pytest.fixture
 def transmute_config() -> str:
-    return "base.toml"
+    return "complete.toml"
 
 
 @pytest.fixture(autouse=True)
@@ -95,7 +95,7 @@ def pipeline_runner(
     from collective.transmute.pipeline import pipeline
 
     def func(
-        trasmute_config: str = "base.toml",
+        trasmute_config: str = "complete.toml",
         write_report: bool = False,
     ) -> None:
         # Write transmute configuration
