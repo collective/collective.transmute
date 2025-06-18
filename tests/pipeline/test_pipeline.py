@@ -41,3 +41,47 @@ def test_pipeline_results(pipeline_result, filename: str, expected: bool):
     """Test pipeline execution."""
     path = (pipeline_result / filename).resolve()
     assert path.exists() is expected
+
+
+@pytest.mark.parametrize(
+    "filename,key,expected",
+    [
+        (
+            "import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json",
+            "@id",
+            "/my-folder",
+        ),
+        (
+            "import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json",
+            "@type",
+            "Document",
+        ),
+        (
+            "import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json",
+            "UID",
+            "cbebd70218b348f68d6bb1b7dd7830c4",
+        ),
+        (
+            "import/content/2d2db4d11ef58cfb8e2611abb08582f1/data.json",
+            "@type",
+            "Document",
+        ),
+        (
+            "import/content/2d2db4d11ef58cfb8e2611abb08582f1/data.json",
+            "UID",
+            "2d2db4d11ef58cfb8e2611abb08582f1",
+        ),
+        (
+            "import/content/2d2db4d11ef58cfb8e2611abb08582f1/data.json",
+            "@id",
+            "/my-folder/my-subfolder",
+        ),
+    ],
+)
+def test_pipeline_results_values(
+    pipeline_result, load_json, filename: str, key: str, expected: str
+):
+    """Test pipeline execution."""
+    path = (pipeline_result / filename).resolve()
+    data = load_json(path)
+    assert data[key] == expected

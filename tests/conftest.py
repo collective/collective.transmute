@@ -18,10 +18,19 @@ def write_transmute_config(filename: str, dst_path: Path) -> Path:
 
 
 @pytest.fixture(scope="session")
-def load_json_resource():
+def load_json():
+    def func(filepath: str | Path) -> dict:
+        path = Path(filepath)
+        return json.loads(path.read_text())
+
+    return func
+
+
+@pytest.fixture(scope="session")
+def load_json_resource(load_json):
     def func(filename: str) -> dict:
         path = RESOURCES / filename
-        return json.loads(path.read_text())
+        return load_json(path)
 
     return func
 
