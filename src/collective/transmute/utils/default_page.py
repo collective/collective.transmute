@@ -22,7 +22,9 @@ def _handle_link(item: t.PloneItem) -> t.PloneItem:
     # If the default page item is a Link, we handle it differently
     item.pop("layout", None)
     remote_url = item.pop("remoteUrl")
-    text = {"data": f"<div><a href='{remote_url}'>{remote_url}</a></div>"}
+    text = {
+        "data": f"<div><span>Link:<a href='{remote_url}'>{remote_url}</a></span></div>"
+    }
     item["@type"] = "Document"
     item["text"] = text
     return item

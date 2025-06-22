@@ -58,7 +58,10 @@ def test__handle_link_keys(item_link, key: str, exists: bool):
         (
             "text",
             {
-                "data": "<div><a href='https://pycerrado2025.eventbrite.com.br'>https://pycerrado2025.eventbrite.com.br</a></div>"
+                "data": (
+                    "<div><span>Link:<a href='https://pycerrado2025.eventbrite.com.br'>"
+                    "https://pycerrado2025.eventbrite.com.br</a></span></div>"
+                )
             },
         ),
     ],
