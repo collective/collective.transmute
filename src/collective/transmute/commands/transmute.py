@@ -38,6 +38,7 @@ def _run_pipeline(
     consoles: t.ConsoleArea,
     clean_up: bool,
     write_report: bool,
+    settings: t.TransmuteSettings,
 ):
     consoles.print(f"Listing content in {src}")
     src_files = file_utils.get_src_files(src)
@@ -48,11 +49,12 @@ def _run_pipeline(
     state = _create_state(app_layout, total)
     app_layout.update_layout(state)
     with report_time("Transmute", consoles):
-        asyncio.run(pipeline(src_files, dst, state, write_report, consoles))
+        asyncio.run(pipeline(src_files, dst, state, write_report, consoles, settings))
 
 
 @app.command()
 def run(
+    ctx: typer.Context,
     src: Annotated[Path, typer.Argument(help="Source path of the migration")],
     dst: Annotated[Path, typer.Argument(help="Destination path of the migration")],
     write_report: Annotated[
@@ -73,13 +75,16 @@ def run(
     """Transmutes data from src folder (in collective.exportimport format)
     to plone.exportimport format in the dst folder.
     """
+    settings: t.TransmuteSettings = ctx.obj.settings
     # Check if paths exist
     file_utils.check_paths(src, dst)
     app_layout = layout.TransmuteLayout(title=f"{src} -> {dst}")
     consoles = app_layout.consoles
     if ui:
         with layout.live(app_layout, redirect_stderr=False):
-            _run_pipeline(src, dst, app_layout, consoles, clean_up, write_report)
+            _run_pipeline(
+                src, dst, app_layout, consoles, clean_up, write_report, settings
+            )
     else:
         consoles.disable_ui()
-        _run_pipeline(src, dst, app_layout, consoles, clean_up, write_report)
+        _run_pipeline(src, dst, app_layout, consoles, clean_up, write_report, settings)

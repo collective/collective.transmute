@@ -3,7 +3,7 @@ from collective.transmute.utils.portal_types import fix_portal_type
 
 
 async def process_constraints(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     """Fixes exportimport constraints for an Item."""
     key = "exportimport.constrains"

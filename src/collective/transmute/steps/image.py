@@ -1,20 +1,17 @@
 from collective.transmute import _types as t
-from collective.transmute.settings import pb_config
 from collective.transmute.utils import item as utils
-from functools import cache
 
 
-@cache
-def get_conversion_types() -> list[str]:
+def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
     """Content types that will have the image to preview_image_link conversion."""
-    return pb_config.images.to_preview_image_link.get("types", [])
+    return settings.images["to_preview_image_link"]
 
 
 async def process_image_to_preview_image_link(
-    item: t.PloneItem, metadata: t.MetadataInfo
+    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     type_ = item["@type"]
-    if type_ not in get_conversion_types():
+    if type_ not in get_conversion_types(settings):
         yield item
     else:
         image = item.get("image", None)

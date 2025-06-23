@@ -1,7 +1,9 @@
+from collective.transmute._types import ContextObject
 from collective.transmute.commands.report import app as app_report
 from collective.transmute.commands.sanity import app as app_sanity
 from collective.transmute.commands.settings import app as app_settings
 from collective.transmute.commands.transmute import app as app_transmute
+from collective.transmute.settings.parse import get_settings
 
 import typer
 
@@ -14,7 +16,15 @@ def main(ctx: typer.Context):
     """Welcome to transmute, the utility to transform data from
     collective.exportimport to plone.exportimport.
     """
-    pass
+    try:
+        settings = get_settings()
+    except (RuntimeError, FileNotFoundError):
+        typer.echo("Did not find a transmute.toml file.")
+        raise typer.Exit(1) from None
+    else:
+        ctx_obj = ContextObject(settings=settings)
+        ctx.obj = ctx_obj
+        ctx.ensure_object(ContextObject)
 
 
 app.add_typer(app_transmute)
