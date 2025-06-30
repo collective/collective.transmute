@@ -35,6 +35,7 @@ def pipeline_result(pipeline_runner, test_dir) -> Path:
         ("import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json", True),
         ("import/content/714cbe2b3fe74c608d4ae20a608eab67/data.json", False),
         ("import/content/2d2db4d11ef58cfb8e2611abb08582f1/data.json", True),
+        ("import/content/32a753eb768f1fb942a0b30536011c65/data.json", True),
     ],
 )
 def test_pipeline_results(pipeline_result, filename: str, expected: bool):
@@ -44,7 +45,7 @@ def test_pipeline_results(pipeline_result, filename: str, expected: bool):
 
 
 @pytest.mark.parametrize(
-    "filename,key,expected",
+    "filename,path,expected",
     [
         (
             "import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json",
@@ -76,12 +77,40 @@ def test_pipeline_results(pipeline_result, filename: str, expected: bool):
             "@id",
             "/my-folder/my-subfolder",
         ),
+        (
+            "import/content/32a753eb768f1fb942a0b30536011c65/data.json",
+            "@id",
+            "/my-folder/my-subfolder/recent",
+        ),
     ],
 )
 def test_pipeline_results_values(
-    pipeline_result, load_json, filename: str, key: str, expected: str
+    pipeline_result, load_json, traverse, filename: str, path: str, expected: str
 ):
     """Test pipeline execution."""
-    path = (pipeline_result / filename).resolve()
-    data = load_json(path)
-    assert data[key] == expected
+    data = load_json((pipeline_result / filename).resolve())
+    value = traverse(data, path)
+    assert value == expected, f"{value} != {expected}"
+
+
+@pytest.mark.parametrize(
+    "uid,path,expected",
+    [
+        ("32a753eb768f1fb942a0b30536011c65", "0/@type", "title"),
+        ("32a753eb768f1fb942a0b30536011c65", "1/@type", "listing"),
+        ("32a753eb768f1fb942a0b30536011c65", "1/b_size", 10),
+        ("32a753eb768f1fb942a0b30536011c65", "1/headline", ""),
+        ("32a753eb768f1fb942a0b30536011c65", "1/headlineTag", "h2"),
+        ("32a753eb768f1fb942a0b30536011c65", "1/limit", 1000),
+        ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_on", "modified"),
+        ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order", "descending"),
+        ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order_boolean", True),
+    ],
+)
+def test_pipeline_results_blocks(
+    pipeline_result, blocks_data, traverse, uid: str, path: str, expected: str
+):
+    """Test pipeline execution."""
+    data = blocks_data(pipeline_result, uid)
+    value = traverse(data, path)
+    assert value == expected, f"{value} != {expected}"

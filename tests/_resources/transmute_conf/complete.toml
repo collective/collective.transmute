@@ -116,3 +116,7 @@ portal_type = 'Document'
 [types.Collection]
 portal_type='Document'
 processor='collective.transmute.steps.portal_type.collection.processor'
+
+[types.Topic]
+portal_type='Document'
+processor='collective.transmute.steps.portal_type.collection.processor'

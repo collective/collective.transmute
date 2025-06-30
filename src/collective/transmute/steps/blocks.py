@@ -15,8 +15,11 @@ def _blocks_collection(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
             querystring["sort_on"] = item["sort_on"]
 
         if "sort_order" in item:
+            querystring["sort_order"] = item["sort_order"]
+            querystring["sort_order_boolean"] = True
+        elif "sort_reversed" in item:
             querystring["sort_order"] = (
-                ("ascending" if item["sort_reversed"] == "" else "descending"),
+                "ascending" if item["sort_reversed"] == "" else "descending"
             )
             querystring["sort_order_boolean"] = True
 
