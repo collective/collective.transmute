@@ -16,6 +16,26 @@ def parse_path_value(value: str) -> str:
     return value
 
 
+def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
+    """Process date between operation."""
+    oper = "plone.app.querystring.operation.date.between"
+    if len(raw_value) != 2:
+        raise ValueError("Date between operation requires two values.")
+    from_, to_ = raw_value
+    if from_ is None and to_ is None:
+        oper = ""
+        value = []
+    elif from_ is None:
+        oper = "plone.app.querystring.operation.date.lessThan"
+        value = to_
+    elif to_ is None:
+        oper = "plone.app.querystring.operation.date.largerThan"
+        value = from_
+    else:
+        value = [from_, to_]
+    return oper, value
+
+
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """Cleanup the querystring of a collection-like object or listing block."""
     post_processing = False
@@ -39,10 +59,12 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
             case "plone.app.querystring.operation.selection.any":
                 oper = "plone.app.querystring.operation.selection.any"
                 value = list(set(value))
+            case "plone.app.querystring.operation.date.between":
+                oper, value = _process_date_between(value)
             case "plone.app.querystring.operation.string.path":
                 value = parse_path_value(str(value))
                 post_processing = value.startswith("UID##")
-        if value:
+        if oper and value:
             item["v"] = value
             item["o"] = oper
             new_query.append(item)

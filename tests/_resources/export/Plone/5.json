@@ -1,0 +1,81 @@
+{
+    "@id": "http://localhost:8080/Plone/my-folder/my-subfolder/old",
+    "@type": "Topic",
+    "UID": "42a753eb768f1fb942a0b30536011c65",
+    "acquireCriteria": false,
+    "allow_discussion": false,
+    "contributors": [],
+    "created": "2011-10-10T09:28:06+00:00",
+    "creators": [
+        "admin"
+    ],
+    "customViewFields": [
+        "Title",
+        "Description",
+        "ModificationDate"
+    ],
+    "description": null,
+    "effective": null,
+    "exclude_from_nav": false,
+    "expires": null,
+    "id": "recent",
+    "is_folderish": false,
+    "itemCount": 0,
+    "language": "de",
+    "layout": "tabular_view",
+    "limitNumber": false,
+    "location": "",
+    "modified": "2011-10-10T09:28:06+00:00",
+    "parent": {
+        "@id": "http://localhost:8080/Plone/my-folder/my-subfolder",
+        "@type": "Folder",
+        "UID": "2d2db4d11ef58cfb8e2611abb08582f1",
+        "description": "",
+        "review_state": "published",
+        "title": "My Subfolder"
+    },
+    "query": [
+        {
+            "i": "portal_type",
+            "o": "plone.app.querystring.operation.selection.any",
+            "v": [
+                "News Item"
+            ]
+        },
+        {
+          "i": "effective",
+          "o": "plone.app.querystring.operation.date.between",
+          "v": [
+            "2014-03-26T23:00:00+00:00",
+            null
+          ]
+        }
+
+    ],
+    "review_state": "published",
+    "rights": null,
+    "sort_on": "modified",
+    "sort_reversed": true,
+    "subjects": [],
+    "text": null,
+    "title": "Old",
+    "version": "current",
+    "workflow_history": {
+        "folder_workflow": [
+            {
+                "action": null,
+                "actor": "admin",
+                "comments": "",
+                "review_state": "visible",
+                "time": "2011-10-10T09:28:06+00:00"
+            },
+            {
+                "action": null,
+                "actor": "admin",
+                "comments": "",
+                "review_state": "published",
+                "time": "2011-10-10T09:28:06+00:00"
+            }
+        ]
+    }
+}
