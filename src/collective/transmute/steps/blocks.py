@@ -89,7 +89,7 @@ def _get_default_blocks(
 
 
 async def process_blocks(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     type_ = item["@type"]
     has_image = bool(item.get("image"))

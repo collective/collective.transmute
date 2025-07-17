@@ -105,6 +105,11 @@ def test_pipeline_results_values(
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_on", "modified"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order", "descending"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order_boolean", True),
+        (
+            "32a753eb768f1fb942a0b30536011c65",
+            "1/querystring/query/2/v",
+            "/my-folder/my-subfolder",
+        ),
     ],
 )
 def test_pipeline_results_blocks(

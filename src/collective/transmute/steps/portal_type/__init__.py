@@ -6,7 +6,7 @@ _PROCESSORS: dict[str, t.ItemProcessor] = {}
 
 
 async def _pre_process(
-    item: t.PloneItem, settings: t.TransmuteSettings
+    item: t.PloneItem, settings: t.TransmuteSettings, state: t.PipelineState
 ) -> t.PloneItemGenerator:
     """Pre-process an item."""
     type_ = item["@type"]
@@ -15,16 +15,16 @@ async def _pre_process(
         # Load the processor for the type
         processor = load_processor(type_, settings)
         _PROCESSORS[type_] = processor
-    async for processed in processor(item):
+    async for processed in processor(item, state):
         yield processed
 
 
 async def process_type(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     types = settings.types
     types_path = settings.paths.get("portal_type", {})
-    async for processed in _pre_process(item, settings):
+    async for processed in _pre_process(item, settings, state):
         if processed:
             id_ = processed["@id"]
             type_ = processed["@type"]

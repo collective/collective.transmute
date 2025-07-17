@@ -14,7 +14,11 @@ import typer
 app = typer.Typer()
 
 
-def _create_state(app_layout: layout.ApplicationLayout, total: int) -> t.PipelineState:
+def _create_state(
+    app_layout: layout.ApplicationLayout,
+    total: int,
+    metadata: t.MetadataInfo | None = None,
+) -> t.PipelineState:
     """Initialize a PipelineState object."""
     app_layout.initialize_progress(total)
     return t.PipelineState(
@@ -23,6 +27,7 @@ def _create_state(app_layout: layout.ApplicationLayout, total: int) -> t.Pipelin
         exported=defaultdict(int),
         dropped=defaultdict(int),
         progress=app_layout.progress,
+        metadata=metadata,
     )
 
 

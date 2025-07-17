@@ -11,11 +11,11 @@ import pytest
     ],
 )
 async def test_process_export_prefix(
-    metadata, transmute_settings, base_item, path: str
+    pipeline_state, transmute_settings, base_item, path: str
 ):
     results = []
     async for item in ids.process_export_prefix(
-        base_item, metadata, transmute_settings
+        base_item, pipeline_state, transmute_settings
     ):
         results.append(item)
     assert len(results) == 1
@@ -39,10 +39,10 @@ async def test_process_export_prefix(
     ],
 )
 async def test_process_ids(
-    metadata, transmute_settings, base_item, path: str, id_: str
+    pipeline_state, transmute_settings, base_item, path: str, id_: str
 ):
     results = []
-    async for item in ids.process_ids(base_item, metadata, transmute_settings):
+    async for item in ids.process_ids(base_item, pipeline_state, transmute_settings):
         results.append(item)
     assert len(results) == 1
     result = results[0]

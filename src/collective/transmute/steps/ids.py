@@ -30,7 +30,7 @@ def fix_short_id(id_: str) -> str:
 
 
 async def process_export_prefix(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     path = item["@id"]
     for src in settings.paths["export_prefixes"]:
@@ -43,7 +43,7 @@ async def process_export_prefix(
 
 
 async def process_ids(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     path = parse.unquote(item["@id"].replace(" ", "_"))
     cleanup_paths = get_paths_cleanup(settings)

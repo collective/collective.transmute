@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from collective.transmute import _types as t
 from collective.transmute.pipeline import report
 from collective.transmute.pipeline.pipeline import run_pipeline
@@ -58,11 +59,61 @@ async def _write_metadata(
 ):
     # Sort data files according to path
     state.paths.sort()
-    metadata._data_files_ = [i[1] for i in state.paths]
+    metadata._data_files_ = [i[-1] for i in state.paths]
     metadata_file = await file_utils.export_metadata(
         metadata, state, consoles, settings
     )
     return metadata_file
+
+
+async def post_process(
+    state: t.PipelineState,
+    consoles: t.ConsoleArea,
+    content_folder: Path,
+    settings: t.TransmuteSettings,
+    debugger: Callable,
+):
+    metadata = state.metadata
+    if not metadata:
+        consoles.debug("No metadata found, skipping post-processing")
+        return
+    total_post_processing = len(state.post_processing)
+    consoles.debug(
+        f"Starting pipeline post-processing of {total_post_processing} items"
+    )
+    # Process uids
+    uids = []
+    for uid in state.post_processing:
+        if uid in state.uids:
+            uids.append(state.uids[uid])
+        else:
+            consoles.debug(f"UID {uid} not found in state.uids")
+    # Get data paths
+    content_files = [
+        content_folder / path for _, uid, path in state.paths if uid in uids
+    ]
+    # Process
+    async for _, raw_item in file_utils.json_reader(content_files):
+        uid = raw_item["UID"]
+        data_folder = content_folder / uid
+        steps_names = tuple(state.post_processing[uid])
+        steps = load_all_steps(steps_names)
+        async for item, last_step, is_new in run_pipeline(
+            steps, raw_item, state, consoles, settings
+        ):
+            if not item:
+                # Dropped item, we need to remove it
+                file_utils.remove_data(data_folder, consoles)
+                debugger(f"Item {uid} dropped during post-processing")
+                continue
+            item_files = await file_utils.export_item(item, content_folder)
+            if is_new:
+                # This should not happen, but just in case we log it
+                debugger(f"New item found during post-processing: {item.get('UID')}")
+                data_file = item_files.data
+                metadata._blob_files_.extend(item_files.blob_files)
+                state.paths.append((item["@id"], item["UID"], data_file))
+            debugger(f"Post-processing: Item {uid} last step {last_step}")
 
 
 async def pipeline(
@@ -79,6 +130,8 @@ async def pipeline(
     metadata: t.MetadataInfo = await ei_utils.initialize_metadata(
         src_files, content_folder
     )
+    # Add metadata to the state
+    state.metadata = metadata
     steps: tuple[t.PipelineStep, ...] = all_steps(settings)
     content_files: list[Path] = src_files.content
     # Pipeline state variables
@@ -89,6 +142,7 @@ async def pipeline(
     progress = state.progress
     seen = state.seen
     uids = state.uids
+    uid_path = state.uid_path
     path_transforms = state.path_transforms
     paths = state.paths
     consoles.debug(f"Starting pipeline processing of {state.total} items")
@@ -106,7 +160,7 @@ async def pipeline(
                 f"({processed + 1} / {total})"
             )
             async for item, last_step, is_new in run_pipeline(
-                steps, raw_item, metadata, consoles, settings
+                steps, raw_item, state, consoles, settings
             ):
                 processed += 1
                 progress.advance("processed")
@@ -128,15 +182,21 @@ async def pipeline(
                 item_files = await file_utils.export_item(item, content_folder)
                 # Update metadata
                 data_file = item_files.data
-                paths.append((item["@id"], data_file))
                 metadata._blob_files_.extend(item_files.blob_files)
+                item_path = item["@id"]
                 item_uid = item["UID"]
                 exported[item["@type"]] += 1
                 seen.add(item_uid)
                 uids[item_uid] = item_uid
+                uid_path[item_uid] = item_path
+                paths.append((item_path, item_uid, data_file))
                 # Map the old_uid to the new uid
                 if old_uid := item.pop("_UID", None):
                     uids[old_uid] = item_uid
+                    uid_path[old_uid] = item_path
+
+        if state.post_processing:
+            await post_process(state, consoles, content_folder, settings, debugger)
 
     # Reports after pipeline execution
     await report.final_reports(consoles, state, write_report, settings.is_debug)

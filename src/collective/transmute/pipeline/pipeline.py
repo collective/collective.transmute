@@ -26,7 +26,7 @@ async def _sub_item_pipeline(
     item: t.PloneItem,
     src_uid: str,
     step_name: str,
-    metadata: t.MetadataInfo,
+    state: t.PipelineState,
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
@@ -34,7 +34,7 @@ async def _sub_item_pipeline(
     consoles.print(msg)
     consoles.debug(f"({src_uid}) - Step {step_name} - Produced {item.get('UID')}")
     async for sub_item, last_step, _ in run_pipeline(
-        steps, item, metadata, consoles, settings
+        steps, item, state, consoles, settings
     ):
         yield sub_item, last_step, True
 
@@ -44,7 +44,7 @@ async def run_step(
     step: t.PipelineStep,
     item: t.PloneItem,
     src_uid: str,
-    metadata: t.MetadataInfo,
+    state: t.PipelineState,
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
@@ -53,14 +53,14 @@ async def run_step(
     step_name = step.__name__
     item_id, is_folderish = item["@id"], item.get("is_folderish", False)
     add_to_drop = step_name not in settings.do_not_add_drop
-    async for result_item in step(item, metadata, settings):
+    async for result_item in step(item, state, settings):
         if not result_item:
             if is_folderish and add_to_drop:
                 # Add this path to drop, to drop all children objects as well
                 _add_to_drop(item_id, settings)
         elif result_item.pop("_is_new_item", False):
             async for sub_item, last_step, _ in _sub_item_pipeline(
-                steps, result_item, src_uid, step_name, metadata, consoles, settings
+                steps, result_item, src_uid, step_name, state, consoles, settings
             ):
                 yield sub_item, last_step, True
     yield result_item, step_name, False
@@ -69,7 +69,7 @@ async def run_step(
 async def run_pipeline(
     steps: tuple[t.PipelineStep, ...],
     item: t.PloneItem | None,
-    metadata: t.MetadataInfo,
+    state: t.PipelineState,
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
@@ -83,7 +83,7 @@ async def run_pipeline(
             continue
         with step_debugger(consoles, src_uid, result_item, step_name):
             async for sub_item, last_step, is_new in run_step(
-                steps, step, result_item, src_uid, metadata, consoles, settings
+                steps, step, result_item, src_uid, state, consoles, settings
             ):
                 if is_new:
                     yield sub_item, last_step, True

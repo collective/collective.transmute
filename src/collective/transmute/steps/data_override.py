@@ -2,7 +2,7 @@ from collective.transmute import _types as t
 
 
 async def process_data_override(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     """Overwrite an item data (identified by its @id) with information from settings.
 

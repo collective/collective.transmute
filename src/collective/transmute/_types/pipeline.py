@@ -12,6 +12,7 @@ from typing import TypedDict
 
 
 __all__ = [
+    "ItemProcessor",
     "PipelineItemReport",
     "PipelineProgress",
     "PipelineState",
@@ -71,8 +72,11 @@ class PipelineState:
     progress: PipelineProgress
     seen: set = field(default_factory=set)
     uids: dict = field(default_factory=dict)
+    uid_path: dict = field(default_factory=dict)
     path_transforms: list[PipelineItemReport] = field(default_factory=list)
-    paths: list[tuple[str, str]] = field(default_factory=list)
+    paths: list[tuple[str, str, str]] = field(default_factory=list)
+    post_processing: dict[str, list[str]] = field(default_factory=dict)
+    metadata: MetadataInfo | None = None
 
 
 @dataclass
@@ -95,5 +99,7 @@ class ReportState:
 
 
 PipelineStep = Callable[
-    [PloneItem, MetadataInfo, TransmuteSettings], PloneItemGenerator
+    [PloneItem, PipelineState, TransmuteSettings], PloneItemGenerator
 ]
+
+ItemProcessor = Callable[[PloneItem, PipelineState], PloneItem]

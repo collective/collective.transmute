@@ -19,14 +19,14 @@ def load_step(name: str) -> t.PipelineStep:
     return func
 
 
-def load_all_steps(names: tuple[str]) -> tuple[t.PipelineStep]:
+def load_all_steps(names: tuple[str, ...]) -> tuple[t.PipelineStep]:
     steps = []
     for name in names:
         steps.append(load_step(name))
     return tuple(steps)
 
 
-def check_steps(names: tuple[str]) -> list[tuple[str, bool]]:
+def check_steps(names: tuple[str, ...]) -> list[tuple[str, bool]]:
     steps: list[tuple[str, bool]] = []
     for name in names:
         status = True
