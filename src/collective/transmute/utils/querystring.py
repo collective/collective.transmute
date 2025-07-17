@@ -35,6 +35,10 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
             # Volto is not happy with `selection.is`
             case "plone.app.querystring.operation.selection.is":
                 oper = "plone.app.querystring.operation.selection.any"
+                value = list(set(value))
+            case "plone.app.querystring.operation.selection.any":
+                oper = "plone.app.querystring.operation.selection.any"
+                value = list(set(value))
             case "plone.app.querystring.operation.string.path":
                 value = parse_path_value(str(value))
                 post_processing = value.startswith("UID##")

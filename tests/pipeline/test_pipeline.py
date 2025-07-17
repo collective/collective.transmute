@@ -105,11 +105,14 @@ def test_pipeline_results_values(
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_on", "modified"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order", "descending"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order_boolean", True),
+        # Fix path value (UID to path)
         (
             "32a753eb768f1fb942a0b30536011c65",
             "1/querystring/query/2/v",
             "/my-folder/my-subfolder",
         ),
+        # Remove duplicated items
+        ("32a753eb768f1fb942a0b30536011c65", "len:1/querystring/query/1/v", 4),
     ],
 )
 def test_pipeline_results_blocks(
