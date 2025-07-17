@@ -92,11 +92,16 @@ def src_files(test_src) -> t.SourceFiles:
 
 
 @pytest.fixture
-def pipeline_state(app_layout, src_files) -> t.PipelineState:
+def metadata() -> t.MetadataInfo:
+    return t.MetadataInfo(path=Path(__file__))
+
+
+@pytest.fixture
+def pipeline_state(app_layout, src_files, metadata) -> t.PipelineState:
     from collective.transmute.commands.transmute import _create_state
 
     total = len(src_files.content)
-    return _create_state(app_layout, total=total)
+    return _create_state(app_layout, total=total, metadata=metadata)
 
 
 @pytest.fixture

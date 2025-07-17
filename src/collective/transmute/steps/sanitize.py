@@ -15,7 +15,7 @@ def get_drop_keys(has_blocks: bool, settings: t.TransmuteSettings) -> set[str]:
 
 
 async def process_cleanup(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     has_blocks = "blocks" in item
     drop_keys = get_drop_keys(has_blocks, settings)

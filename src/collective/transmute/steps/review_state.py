@@ -11,7 +11,7 @@ def _is_valid_state(state_filter: tuple[str, ...], review_state: str) -> bool:
 
 
 async def process_review_state(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     review_state: str = item.get("review_state", "")
     state_filter: tuple[str, ...] = settings.review_state["filter"]["allowed"]

@@ -15,8 +15,8 @@ def base_news_item(load_json_resource) -> dict:
 
 class TestImageToPreviewLink:
     @pytest.fixture(autouse=True)
-    def _setup(self, metadata, patch_settings, transmute_settings):
-        self.metadata = metadata
+    def _setup(self, pipeline_state, patch_settings, transmute_settings):
+        self.pipeline_state = pipeline_state
         self.settings = transmute_settings
         self.func = image.process_image_to_preview_image_link
 
@@ -36,7 +36,7 @@ class TestImageToPreviewLink:
         self, base_news_item, idx: int, attr: str, expected: str
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         assert results[idx][attr] == expected
 
@@ -53,15 +53,15 @@ class TestImageToPreviewLink:
         self, base_news_item, idx: int, attr: str, expected: bool
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         assert (attr in results[idx]) is expected
 
     async def test_relation_created(self, base_news_item):
-        metadata = self.metadata
+        metadata = self.pipeline_state.metadata
         total_relations = len(metadata.relations)
         results = []
-        async for item in self.func(base_news_item, metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         relations = metadata.relations
         assert len(relations) == total_relations + 1
@@ -73,8 +73,8 @@ class TestImageToPreviewLink:
 
 class TestImageToPreviewLinkNoSettings:
     @pytest.fixture(autouse=True)
-    def _setup(self, metadata, transmute_settings):
-        self.metadata = metadata
+    def _setup(self, pipeline_state, transmute_settings):
+        self.pipeline_state = pipeline_state
         self.settings = transmute_settings
         self.func = image.process_image_to_preview_image_link
 
@@ -89,7 +89,7 @@ class TestImageToPreviewLinkNoSettings:
         self, base_news_item, idx: int, attr: str, expected: str
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         assert len(results) == 1
         assert results[idx][attr] == expected
@@ -105,15 +105,15 @@ class TestImageToPreviewLinkNoSettings:
         self, base_news_item, idx: int, attr: str, expected: bool
     ):
         results = []
-        async for item in self.func(base_news_item, self.metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         assert (attr in results[idx]) is expected
 
     async def test_relation_not_created(self, base_news_item):
-        metadata = self.metadata
+        metadata = self.pipeline_state.metadata
         total_relations = len(metadata.relations)
         results = []
-        async for item in self.func(base_news_item, metadata, self.settings):
+        async for item in self.func(base_news_item, self.pipeline_state, self.settings):
             results.append(item)
         relations = metadata.relations
         assert len(relations) == total_relations

@@ -16,7 +16,7 @@ def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
 
 
 async def process_paths(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     id_ = item["@id"]
     path_filter = settings.paths["filter"]

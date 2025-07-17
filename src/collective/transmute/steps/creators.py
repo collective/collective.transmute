@@ -2,7 +2,7 @@ from collective.transmute import _types as t
 
 
 async def process_creators(
-    item: t.PloneItem, metadata: t.MetadataInfo, settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     """Process list of creators for an item.
 

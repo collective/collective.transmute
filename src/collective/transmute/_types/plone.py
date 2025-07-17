@@ -1,5 +1,4 @@
 from collections.abc import AsyncGenerator
-from collections.abc import Callable
 from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path
@@ -8,7 +7,6 @@ from typing import TypedDict
 
 
 __all__ = [
-    "ItemProcessor",
     "MetadataInfo",
     "PloneItem",
     "PloneItemGenerator",
@@ -45,6 +43,7 @@ PloneItem = TypedDict(
         "language": NotRequired[str],
         "text": NotRequired[dict[str, str]],
         "nav_title": NotRequired[str],
+        "query": NotRequired[list],
         "_UID": NotRequired[str],
         "exclude_from_nav": NotRequired[bool],
         "_is_new_item": NotRequired[bool],
@@ -53,5 +52,3 @@ PloneItem = TypedDict(
 )
 
 PloneItemGenerator = AsyncGenerator[PloneItem | None]
-
-ItemProcessor = Callable[[PloneItem], PloneItem]
