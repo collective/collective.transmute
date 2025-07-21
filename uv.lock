@@ -39,7 +39,7 @@ wheels = [
 [[package]]
 name = "collective-html2blocks"
 version = "1.0.0a0"
-source = { git = "https://github.com/collective/collective.html2blocks#b044d601183f4532f27f7f01eb7f62895a6ffbd7" }
+source = { git = "https://github.com/collective/collective.html2blocks#7b947bdecea69bc332cc4f3ca1197784537a7620" }
 dependencies = [
     { name = "beautifulsoup4" },
     { name = "python-slugify" },

@@ -1,4 +1,7 @@
 from collections.abc import AsyncGenerator
+from collective.html2blocks._types import BlocksLayout
+from collective.html2blocks._types import VoltoBlock
+from collective.html2blocks._types import VoltoBlocksInfo
 from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path
@@ -44,6 +47,9 @@ PloneItem = TypedDict(
         "text": NotRequired[dict[str, str]],
         "nav_title": NotRequired[str],
         "query": NotRequired[list],
+        "blocks": NotRequired[dict[str, VoltoBlock]],
+        "blocks_layout": NotRequired[BlocksLayout],
+        "_blocks_": NotRequired[list[VoltoBlock]],
         "_UID": NotRequired[str],
         "exclude_from_nav": NotRequired[bool],
         "_is_new_item": NotRequired[bool],

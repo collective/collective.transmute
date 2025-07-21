@@ -13,6 +13,8 @@ from .pipeline import ReportState
 from .plone import MetadataInfo
 from .plone import PloneItem
 from .plone import PloneItemGenerator
+from .plone import VoltoBlock
+from .plone import VoltoBlocksInfo
 from .settings import TransmuteSettings
 
 
@@ -33,4 +35,6 @@ __all__ = [
     "ReportState",
     "SourceFiles",
     "TransmuteSettings",
+    "VoltoBlock",
+    "VoltoBlocksInfo",
 ]

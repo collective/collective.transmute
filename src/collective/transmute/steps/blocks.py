@@ -2,7 +2,9 @@ from collective.html2blocks.converter import volto_blocks
 from collective.transmute import _types as t
 
 
-def _blocks_collection(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
+def _blocks_collection(
+    item: t.PloneItem, blocks: list[t.VoltoBlock]
+) -> list[t.VoltoBlock]:
     """Add a listing block."""
     # TODO: Process query to remove old types
     query = item.get("query")
@@ -37,7 +39,7 @@ def _blocks_collection(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
     return blocks
 
 
-def _blocks_folder(item: t.PloneItem, blocks: list[dict]) -> list[dict]:
+def _blocks_folder(item: t.PloneItem, blocks: list[t.VoltoBlock]) -> list[t.VoltoBlock]:
     """Adds a listing block."""
     possible_variations = {
         "listing_view": "listing",
@@ -73,7 +75,7 @@ BLOCKS_ORIG_TYPE = {
 
 def _get_default_blocks(
     type_info: dict, has_image: bool, has_description: bool
-) -> list[dict]:
+) -> list[t.VoltoBlock]:
     default_blocks = type_info.get("override_blocks", type_info.get("blocks"))
     blocks = list(default_blocks) if default_blocks else []
     if default_blocks:
@@ -98,9 +100,9 @@ async def process_blocks(
     )
     type_info = settings.types.get(type_, {})
     blocks = _get_default_blocks(type_info, has_image, has_description)
-    additional_blocks: list[dict] = []
+    additional_blocks: list[t.VoltoBlock] = []
     # Blocks defined somewhere else
-    item_blocks = item.pop("_blocks_", [])
+    item_blocks: list[t.VoltoBlock] = item.pop("_blocks_", [])
     if blocks or item_blocks:
         blocks.extend(item_blocks)
         orig_type = item.get("_orig_type", type_)
@@ -111,5 +113,7 @@ async def process_blocks(
         blocks_info = volto_blocks(
             source=src, default_blocks=blocks, additional_blocks=additional_blocks
         )
-        item.update(blocks_info)
+        item["blocks"], item["blocks_layout"] = blocks_info.get(
+            "blocks", {}
+        ), blocks_info.get("blocks_layout", {})
     yield item
