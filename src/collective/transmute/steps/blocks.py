@@ -98,15 +98,18 @@ async def process_blocks(
     )
     type_info = settings.types.get(type_, {})
     blocks = _get_default_blocks(type_info, has_image, has_description)
+    additional_blocks: list[dict] = []
     # Blocks defined somewhere else
     item_blocks = item.pop("_blocks_", [])
     if blocks or item_blocks:
         blocks.extend(item_blocks)
-        orig_type = item.get("_orig_type", "")
+        orig_type = item.get("_orig_type", type_)
         if processor := BLOCKS_ORIG_TYPE.get(orig_type):
-            blocks = processor(item, blocks)
+            additional_blocks = processor(item, additional_blocks)
         text = item.get("text", {})
         src = text.get("data", "") if text else ""
-        blocks_info = volto_blocks(source=src, default_blocks=blocks)
+        blocks_info = volto_blocks(
+            source=src, default_blocks=blocks, additional_blocks=additional_blocks
+        )
         item.update(blocks_info)
     yield item

@@ -57,7 +57,11 @@
     "sort_on": "modified",
     "sort_reversed": true,
     "subjects": [],
-    "text": null,
+    "text": {
+        "content-type": "text/html",
+        "data": "<p>Hello World!</p>"
+    },
+
     "title": "Old",
     "version": "current",
     "workflow_history": {
