@@ -194,6 +194,8 @@ async def pipeline(
                 if old_uid := item.pop("_UID", None):
                     uids[old_uid] = item_uid
                     uid_path[old_uid] = item_path
+                    if post_steps := state.post_processing.pop(old_uid, None):
+                        state.post_processing[item_uid] = post_steps
 
         if state.post_processing:
             await post_process(state, consoles, content_folder, settings, debugger)
