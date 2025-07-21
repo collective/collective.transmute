@@ -1,7 +1,7 @@
 from collections.abc import AsyncGenerator
 from collective.html2blocks._types import BlocksLayout
 from collective.html2blocks._types import VoltoBlock
-from collective.html2blocks._types import VoltoBlocksInfo
+from collective.html2blocks._types import VoltoBlocksInfo  # noqa: F401
 from dataclasses import dataclass
 from dataclasses import field
 from pathlib import Path

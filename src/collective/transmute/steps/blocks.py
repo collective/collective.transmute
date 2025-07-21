@@ -113,7 +113,8 @@ async def process_blocks(
         blocks_info = volto_blocks(
             source=src, default_blocks=blocks, additional_blocks=additional_blocks
         )
-        item["blocks"], item["blocks_layout"] = blocks_info.get(
-            "blocks", {}
-        ), blocks_info.get("blocks_layout", {})
+        item["blocks"], item["blocks_layout"] = (
+            blocks_info.get("blocks", {}),
+            blocks_info.get("blocks_layout", {}),
+        )
     yield item
