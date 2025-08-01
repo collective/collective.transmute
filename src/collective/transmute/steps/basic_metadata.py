@@ -15,11 +15,9 @@ async def process_no_title(
     item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     title = item.get("title", None)
-    if title:
-        yield item
-    else:
-        if file := item.get("image") or item.get("file"):
-            item["title"] = file["filename"]
+    if not title:
+        if blob := item.get("image") or item.get("file"):
+            item["title"] = blob["filename"]
         else:
             item["title"] = item["id"]
     yield item
