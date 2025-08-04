@@ -1,14 +1,15 @@
 [config]
-debug=false
-log_file="transmute.log"
-report=1000
+debug = false
+log_file = "transmute.log"
+report = 1000
 
 [pipeline]
-steps=[
+steps = [
     'collective.transmute.steps.ids.process_export_prefix',
     'collective.transmute.steps.ids.process_ids',
     'collective.transmute.steps.paths.process_paths',
     'collective.transmute.steps.portal_type.process_type',
+    'collective.transmute.steps.basic_metadata.process_no_title',
     'collective.transmute.steps.basic_metadata.process_title_description',
     'collective.transmute.steps.review_state.process_review_state',
     'collective.transmute.steps.default_page.process_default_page',
@@ -20,42 +21,32 @@ steps=[
     'collective.transmute.steps.blobs.process_blobs',
     'collective.transmute.steps.sanitize.process_cleanup',
 ]
-do_not_add_drop = [
-    "process_paths",
-    "process_default_page",
-]
+do_not_add_drop = ["process_paths", "process_default_page"]
 
 [principals]
-default='Plone'
-remove=['admin']
+default = 'Plone'
+remove = ['admin']
 
 [default_pages]
 keep = false
-keys_from_parent = [
-    "@id",
-    "id",
-]
+keys_from_parent = ["@id", "id"]
 
 [review_state.filter]
-allowed=[
-    "published"
-]
+allowed = ["published"]
 
 [review_state.rewrite]
 states = {}
 workflows = {}
 
 [paths]
-export_prefixes = [
-    "http://localhost:8080/Plone",
-]
+export_prefixes = ["http://localhost:8080/Plone"]
 
 [paths.cleanup]
 "/_" = "/"
 
 [paths.filter]
-allowed=[]
-drop=[]
+allowed = []
+drop = []
 
 [paths.portal_type]
 
@@ -87,36 +78,36 @@ block_keys = [
 [data_override]
 
 [types]
-processor='collective.transmute.steps.portal_type.default.processor'
+processor = 'collective.transmute.steps.portal_type.default.processor'
 
 [types.'News Item']
-portal_type='News Item'
-blocks=[{"@type"= "title"}, {"@type"= "description"}]
+portal_type = 'News Item'
+blocks = [{ "@type" = "title" }, { "@type" = "description" }]
 
 [types.'Document']
-portal_type='Document'
-blocks=[{"@type"= "title"}, {"@type"= "description"}]
+portal_type = 'Document'
+blocks = [{ "@type" = "title" }, { "@type" = "description" }]
 
 [types.'Event']
-portal_type='Event'
-blocks=[{"@type"= "title"}, {"@type"= "description"}]
+portal_type = 'Event'
+blocks = [{ "@type" = "title" }, { "@type" = "description" }]
 
 [types.File]
-portal_type="File"
+portal_type = "File"
 
 [types.Link]
-portal_type="Link"
+portal_type = "Link"
 
 [types.Image]
-portal_type='Image'
+portal_type = 'Image'
 
 [types.Folder]
 portal_type = 'Document'
 
 [types.Collection]
-portal_type='Document'
-processor='collective.transmute.steps.portal_type.collection.processor'
+portal_type = 'Document'
+processor = 'collective.transmute.steps.portal_type.collection.processor'
 
 [types.Topic]
-portal_type='Document'
-processor='collective.transmute.steps.portal_type.collection.processor'
+portal_type = 'Document'
+processor = 'collective.transmute.steps.portal_type.collection.processor'
