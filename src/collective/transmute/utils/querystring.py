@@ -36,7 +36,7 @@ def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
     return oper, value
 
 
-def deduplicate(value):
+def deduplicate(value: list | None) -> list | None:
     return list(set(value)) if value is not None else None
 
 
@@ -54,8 +54,6 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
                 value = [fix_portal_type(v) for v in value]
                 value = [v for v in value if v.strip()]
             case "section":
-                value = None
-            case "review_state":
                 value = None
         match oper:
             # Volto is not happy with `selection.is`
