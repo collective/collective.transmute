@@ -36,6 +36,10 @@ def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
     return oper, value
 
 
+def deduplicate(value):
+    return list(set(value)) if value is not None else None
+
+
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """Cleanup the querystring of a collection-like object or listing block."""
     post_processing = False
@@ -51,14 +55,16 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
                 value = [v for v in value if v.strip()]
             case "section":
                 value = None
+            case "review_state":
+                value = None
         match oper:
             # Volto is not happy with `selection.is`
             case "plone.app.querystring.operation.selection.is":
                 oper = "plone.app.querystring.operation.selection.any"
-                value = list(set(value))
+                value = deduplicate(value)
             case "plone.app.querystring.operation.selection.any":
                 oper = "plone.app.querystring.operation.selection.any"
-                value = list(set(value))
+                value = deduplicate(value)
             case "plone.app.querystring.operation.date.between":
                 oper, value = _process_date_between(value)
             case "plone.app.querystring.operation.string.path":
