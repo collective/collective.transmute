@@ -9,7 +9,7 @@ steps = [
     'collective.transmute.steps.ids.process_ids',
     'collective.transmute.steps.paths.process_paths',
     'collective.transmute.steps.portal_type.process_type',
-    'collective.transmute.steps.basic_metadata.process_no_title',
+    'collective.transmute.steps.basic_metadata.process_title',
     'collective.transmute.steps.basic_metadata.process_title_description',
     'collective.transmute.steps.review_state.process_review_state',
     'collective.transmute.steps.default_page.process_default_page',
