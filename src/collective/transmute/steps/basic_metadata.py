@@ -11,7 +11,7 @@ async def process_title_description(
     yield item
 
 
-async def process_no_title(
+async def process_title(
     item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
     title = item.get("title", None)

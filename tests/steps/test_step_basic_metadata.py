@@ -38,11 +38,11 @@ import pytest
         ],
     ],
 )
-async def test_process_no_title(
+async def test_process_title(
     pipeline_state, transmute_settings, base_item, idx, attr, expected
 ):
     results = []
-    async for item in basic_metadata.process_no_title(
+    async for item in basic_metadata.process_title(
         base_item, pipeline_state, transmute_settings
     ):
         results.append(item)
