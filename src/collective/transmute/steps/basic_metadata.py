@@ -9,3 +9,15 @@ async def process_title_description(
         if cur_value is not None:
             item[field] = cur_value.strip()
     yield item
+
+
+async def process_title(
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
+) -> t.PloneItemGenerator:
+    title = item.get("title", None)
+    if not title:
+        if blob := item.get("image") or item.get("file"):
+            item["title"] = blob["filename"]
+        else:
+            item["title"] = item["id"]
+    yield item
