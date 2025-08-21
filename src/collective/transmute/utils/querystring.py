@@ -42,6 +42,7 @@ def deduplicate(value: list | None) -> list | None:
 
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """Cleanup the querystring of a collection-like object or listing block."""
+    prefix = "plone.app.querystring.operation"
     post_processing = False
     query = query if query else []
     new_query = []
@@ -57,17 +58,21 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
                 value = None
         match oper:
             # Volto is not happy with `selection.is`
-            case "plone.app.querystring.operation.selection.is":
-                oper = "plone.app.querystring.operation.selection.any"
+            case f"{prefix}.selection.is":
+                oper = f"{prefix}.selection.any"
                 value = deduplicate(value)
-            case "plone.app.querystring.operation.selection.any":
-                oper = "plone.app.querystring.operation.selection.any"
+            case f"{prefix}.selection.any":
+                oper = f"{prefix}.selection.any"
                 value = deduplicate(value)
-            case "plone.app.querystring.operation.date.between":
+            case f"{prefix}.date.between":
                 oper, value = _process_date_between(value)
-            case "plone.app.querystring.operation.string.path":
+            case f"{prefix}.string.path":
                 value = parse_path_value(str(value))
                 post_processing = value.startswith("UID##")
+            case f"{prefix}.date.lessThanRelativeDate":
+                if isinstance(value, int) and value < 0:
+                    oper = f"{prefix}.date.largerThanRelativeDate"
+                    value = abs(value)
         if oper and value:
             item["v"] = value
             item["o"] = oper
