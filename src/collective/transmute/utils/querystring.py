@@ -58,18 +58,18 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
                 value = None
         match oper:
             # Volto is not happy with `selection.is`
-            case f"{prefix}.selection.is":
-                oper = f"{prefix}.selection.any"
+            case "plone.app.querystring.operation.selection.is":
+                oper = "plone.app.querystring.operation.selection.any"
                 value = deduplicate(value)
-            case f"{prefix}.selection.any":
-                oper = f"{prefix}.selection.any"
+            case "plone.app.querystring.operation.selection.any":
+                oper = "plone.app.querystring.operation.selection.any"
                 value = deduplicate(value)
-            case f"{prefix}.date.between":
+            case "plone.app.querystring.operation.date.between":
                 oper, value = _process_date_between(value)
-            case f"{prefix}.string.path":
+            case "plone.app.querystring.operation.string.path":
                 value = parse_path_value(str(value))
                 post_processing = value.startswith("UID##")
-            case f"{prefix}.date.lessThanRelativeDate":
+            case "plone.app.querystring.operation.date.lessThanRelativeDate":
                 if isinstance(value, int) and value < 0:
                     oper = f"{prefix}.date.largerThanRelativeDate"
                     value = abs(value)
