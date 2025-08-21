@@ -21,9 +21,9 @@ def _blocks_collection(
             querystring["sort_order_boolean"] = True
         elif "sort_reversed" in item:
             querystring["sort_order"] = (
-                "ascending" if item["sort_reversed"] == "" else "descending"
+                "descending" if item.get("sort_reversed") else "ascending"
             )
-            querystring["sort_order_boolean"] = True
+            querystring["sort_order_boolean"] = bool(item.get("sort_reversed"))
 
         block = {
             "@type": "listing",
