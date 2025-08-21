@@ -42,6 +42,7 @@ def deduplicate(value: list | None) -> list | None:
 
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """Cleanup the querystring of a collection-like object or listing block."""
+    prefix = "plone.app.querystring.operation"
     post_processing = False
     query = query if query else []
     new_query = []
@@ -68,6 +69,10 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
             case "plone.app.querystring.operation.string.path":
                 value = parse_path_value(str(value))
                 post_processing = value.startswith("UID##")
+            case "plone.app.querystring.operation.date.lessThanRelativeDate":
+                if isinstance(value, int) and value < 0:
+                    oper = f"{prefix}.date.largerThanRelativeDate"
+                    value = abs(value)
         if oper and value:
             item["v"] = value
             item["o"] = oper
