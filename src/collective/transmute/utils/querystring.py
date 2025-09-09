@@ -27,7 +27,7 @@ def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
         value = []
     elif from_ is None:
         oper = "plone.app.querystring.operation.date.lessThan"
-        value = to_
+        value = to_.split("T")[0]
     elif to_ is None:
         oper = "plone.app.querystring.operation.date.largerThan"
         value = from_.split("T")[0]
