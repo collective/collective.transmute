@@ -125,7 +125,7 @@ def test_pipeline_results_values(
         (
             "42a753eb768f1fb942a0b30536011c65",
             "2/querystring/query/1/v",
-            "2014-03-26T23:00:00+00:00",
+            "2014-03-26",
         ),
     ],
 )
