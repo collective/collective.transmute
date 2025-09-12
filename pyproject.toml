@@ -22,7 +22,7 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=24.1.0",
-    "collective.html2blocks>=1.0.0a1",
+    "collective.html2blocks>=1.0.0a2",
     "dynaconf>=3.2.7",
     "tomlkit>=0.13.2",
     "orjson>=3.10.15",
@@ -45,12 +45,15 @@ build-backend = "hatchling.build"
 path = "src/collective/transmute/__init__.py"
 
 [tool.hatch.build]
-strict-naming = false
-packages = ["src/collective"]
+strict-naming = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+]
 
 [tool.hatch.build.targets.wheel]
-sources = ["src"]
-only-include = ["src/collective/transmute"]
+packages = ["src/collective"]
 
 [dependency-groups]
 test = [
