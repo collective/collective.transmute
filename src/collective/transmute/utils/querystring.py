@@ -36,47 +36,60 @@ def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
     return oper, value
 
 
-def deduplicate(value: list | None) -> list | None:
+def deduplicate_value(value: list | None) -> list | None:
     return list(set(value)) if value is not None else None
+
+
+def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
+    """Cleanup an item in a querystring definition."""
+    prefix = "plone.app.querystring.operation"
+    post_processing = False
+    index = item["i"]
+    oper = item["o"]
+    value = item["v"]
+    match index:
+        case "portal_type":
+            value = [fix_portal_type(v) for v in value]
+            value = [v for v in value if v.strip()]
+        case "section":
+            value = None
+    match oper:
+        # Volto is not happy with `selection.is`
+        case (
+            "plone.app.querystring.operation.selection.is"
+            | "plone.app.querystring.operation.selection.any"
+        ):
+            oper = "plone.app.querystring.operation.selection.any"
+            value = deduplicate_value(value)
+        case "plone.app.querystring.operation.date.between":
+            oper, value = _process_date_between(value)
+        case "plone.app.querystring.operation.string.path":
+            value = parse_path_value(str(value))
+            post_processing = value.startswith("UID##")
+        case "plone.app.querystring.operation.date.lessThanRelativeDate":
+            if isinstance(value, int) and value < 0:
+                oper = f"{prefix}.date.largerThanRelativeDate"
+                value = abs(value)
+    if oper and value:
+        item["v"] = value
+        item["o"] = oper
+    else:
+        item = {}
+    return item, post_processing
 
 
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """Cleanup the querystring of a collection-like object or listing block."""
-    prefix = "plone.app.querystring.operation"
     post_processing = False
     query = query if query else []
     new_query = []
     for item in query:
-        index = item["i"]
-        oper = item["o"]
-        value = item["v"]
-        match index:
-            case "portal_type":
-                value = [fix_portal_type(v) for v in value]
-                value = [v for v in value if v.strip()]
-            case "section":
-                value = None
-        match oper:
-            # Volto is not happy with `selection.is`
-            case "plone.app.querystring.operation.selection.is":
-                oper = "plone.app.querystring.operation.selection.any"
-                value = deduplicate(value)
-            case "plone.app.querystring.operation.selection.any":
-                oper = "plone.app.querystring.operation.selection.any"
-                value = deduplicate(value)
-            case "plone.app.querystring.operation.date.between":
-                oper, value = _process_date_between(value)
-            case "plone.app.querystring.operation.string.path":
-                value = parse_path_value(str(value))
-                post_processing = value.startswith("UID##")
-            case "plone.app.querystring.operation.date.lessThanRelativeDate":
-                if isinstance(value, int) and value < 0:
-                    oper = f"{prefix}.date.largerThanRelativeDate"
-                    value = abs(value)
-        if oper and value:
-            item["v"] = value
-            item["o"] = oper
-            new_query.append(item)
+        item, status = cleanup_querystring_item(item)
+        if not item:
+            # Drop empty items
+            continue
+        post_processing = post_processing or status
+        new_query.append(item)
     return new_query, post_processing
 
 
