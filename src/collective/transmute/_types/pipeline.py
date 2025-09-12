@@ -8,6 +8,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from dataclasses import field
 from rich.progress import Progress
+from typing import Any
 from typing import TypedDict
 
 
@@ -76,6 +77,7 @@ class PipelineState:
     path_transforms: list[PipelineItemReport] = field(default_factory=list)
     paths: list[tuple[str, str, str]] = field(default_factory=list)
     post_processing: dict[str, list[str]] = field(default_factory=dict)
+    annotations: dict[str, dict[str, Any]] = field(default_factory=dict)
     metadata: MetadataInfo | None = None
 
 
@@ -85,6 +87,7 @@ class ReportState:
     types: defaultdict[str, int]
     creators: defaultdict[str, int]
     states: defaultdict[str, int]
+    subjects: defaultdict[str, int]
     layout: dict[str, defaultdict[str, int]]
     type_report: defaultdict[str, list]
     progress: PipelineProgress
@@ -92,7 +95,7 @@ class ReportState:
     def to_dict(self) -> dict[str, int | dict]:
         """Return report as dictionary."""
         data = {}
-        for key in ("types", "creators", "states", "layout"):
+        for key in ("types", "creators", "states", "layout", "subjects"):
             value = getattr(self, key)
             data[key] = value
         return data

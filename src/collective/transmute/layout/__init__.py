@@ -27,15 +27,21 @@ class Header:
 class TransmuteReport:
     """Report Metadata info."""
 
-    def __init__(self, data: dict[str, int], title: str):
+    limit: int
+
+    def __init__(self, data: dict[str, int], title: str, limit: int = 30):
         self.title = title
         self.data = data
+        self.limit = limit
 
     def __rich__(self) -> Panel:
         grid = Table.grid(expand=True)
         grid.add_column(justify="left", ratio=2)
         grid.add_column(justify="right", ratio=1)
         for name, total in sort_data(self.data):
+            if len(name) > self.limit:
+                idx = self.limit - 3
+                name = name[:idx] + "..."
             grid.add_row(name, f"{total}")
         return Panel(grid, title=self.title, border_style="green")
 
@@ -169,13 +175,14 @@ class ReportLayout(ApplicationLayout):
         layout = self.layout
         layout["footer"].update(progress_panel(state.progress))
         grid = Table.grid(expand=True)
-        grid.add_column(justify="left", ratio=1)
-        grid.add_column(justify="left", ratio=1)
-        grid.add_column(justify="left", ratio=1)
+        columns = ("Types", "States", "Creators", "Subjects")
+        for _ in columns:
+            grid.add_column(justify="left", ratio=1)
+
         row = []
-        for name in ("Types", "States", "Creators"):
+        for name in columns:
             data = getattr(state, name.lower())
-            row.append(TransmuteReport(data, name))
+            row.append(TransmuteReport(data, name, limit=30))
         grid.add_row(*row)
         layout["main"].update(
             Panel(

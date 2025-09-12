@@ -95,7 +95,7 @@ async def prepare_relations_data(
             data.append({
                 "from_attribute": from_attribute,
                 "from_uuid": from_uuid,
-                "to_uuid": from_uuid,
+                "to_uuid": to_uuid,
             })
     path = (metadata_path.parent.parent / "relations.json").resolve()
     yield data, path

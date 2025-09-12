@@ -26,6 +26,7 @@ def _create_state(
         types=defaultdict(int),
         creators=defaultdict(int),
         states=defaultdict(int),
+        subjects=defaultdict(int),
         layout=defaultdict(dict),
         type_report=defaultdict(list),
         progress=app_layout.progress,
@@ -49,6 +50,9 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
             })
         review_state = item.get("review_state", "-") or "-"
         state.states[review_state] += 1
+        subjects = item.get("subjects", []) or []
+        for subject in subjects:
+            state.subjects[subject] += 1
         for creator in item.get("creators", []):
             state.creators[creator] += 1
         if layout := item.get("layout"):
@@ -56,7 +60,7 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
             if layout not in type_info:
                 type_info[layout] = 0
             state.layout[type_][layout] += 1
-        state.progress.advance()
+        state.progress.advance("processed")
     data = state.to_dict()
     report_path = Path(dst / "report.json").resolve()
     path = await file_utils.json_dump(data, report_path)
@@ -74,7 +78,7 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
 def parse_report_types(value: str) -> list[str]:
     types = []
     if raw_types := value.split(","):
-        types = [v.strip() for v in raw_types]
+        types = [v.strip() for v in raw_types if v.strip()]
     return types
 
 
