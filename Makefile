@@ -25,8 +25,10 @@ endif
 
 BACKEND_FOLDER=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
+GIT_FOLDER=$(BACKEND_FOLDER)/.git
 VENV_FOLDER=$(BACKEND_FOLDER)/.venv
 BIN_FOLDER=$(VENV_FOLDER)/bin
+
 
 all: build
 
@@ -36,42 +38,75 @@ all: build
 help: ## This help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-$(VENV_FOLDER): ## Install dependencies
+
+############################################
+# Installation
+############################################
+
+$(BIN_FOLDER)/pytest: ## Install dependencies
 	@echo "$(GREEN)==> Install environment$(RESET)"
-	@uv venv $(VENV_FOLDER)
 	@uv sync
 
+ $(BIN_FOLDER)/ruff: $(BIN_FOLDER)/pytest
+
 .PHONY: install
-install: $(VENV_FOLDER) ## Install the project
+install: $(BIN_FOLDER)/pytest ## Install package
 
 .PHONY: clean
 clean: ## Clean environment
 	@echo "$(RED)==> Cleaning environment and build$(RESET)"
-	rm -rf $(VENV_FOLDER) .python-version .ruff_cache .pytest_cache
+	rm -rf $(VENV_FOLDER) .python-version .venv .ruff_cache .pytest_cache uv.lock
 
-# QA
-.PHONY: lint
-lint: $(VENV_FOLDER) ## Check code base according to our standards
-	@echo "$(GREEN)==> Lint codebase$(RESET)"
-	@uvx ruff@latest check --fix --config $(BACKEND_FOLDER)/pyproject.toml
-	@uvx pyroma@latest -d .
-	@uvx check-python-versions@latest .
+############################################
+# Linting
+############################################
+.PHONY: lint-mypy
+lint-mypy: $(BIN_FOLDER)/mypy ## Check type hints
+	@echo "$(GREEN)==> Check type hints$(RESET)"
 	@uv run mypy src
 
+.PHONY: lint
+lint: $(BIN_FOLDER)/ruff ## Check and fix code base according to Plone standards
+	@echo "$(GREEN)==> Lint codebase$(RESET)"
+	@uvx ruff@latest check --fix
+	@uvx pyroma@latest -d .
+	@uvx check-python-versions@latest .
+	$(MAKE) lint-mypy
+
+############################################
+# Formatting
+############################################
 .PHONY: format
-format: $(VENV_FOLDER) ## Fix code base according to our standards
+format: $(BIN_FOLDER)/ruff ## Check and fix code base according to Plone standards
 	@echo "$(GREEN)==> Format codebase$(RESET)"
-	@uvx ruff@latest check --select I --fix --config $(BACKEND_FOLDER)/pyproject.toml
-	@uvx ruff@latest format --config $(BACKEND_FOLDER)/pyproject.toml
+	@uvx ruff@latest check --select I --fix
+	@uvx ruff@latest format
 
-.PHONY: check
-check: format lint ## Check and fix code base according to Plone standards
-
+############################################
 # Tests
+############################################
 .PHONY: test
-test: $(VENV_FOLDER) ## run tests
+test: $(BIN_FOLDER)/pytest ## run tests
 	@uv run pytest
 
-.PHONY: test-cov
-test-cov: $(VENV_FOLDER) ## run tests
+.PHONY: test-coverage
+test-coverage: $(BIN_FOLDER)/pytest ## run tests
 	@uv run pytest --cov=collective.transmute --cov-report term-missing
+
+############################################
+# Release
+############################################
+.PHONY: changelog
+changelog: ## Release the package to pypi.org
+	@echo "🚀 Display the draft for the changelog"
+	@uv run towncrier --draft
+
+.PHONY: release
+release: ## Release the package to pypi.org
+	@echo "🚀 Release package"
+	@uv run prerelease
+	@uv run release
+	@rm -Rf dist
+	@uv build
+	@uv publish
+	@uv run postrelease
