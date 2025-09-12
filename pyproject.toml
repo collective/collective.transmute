@@ -42,7 +42,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/collective/transmute/about.py"
+path = "src/collective/transmute/__init__.py"
 
 [tool.hatch.build]
 strict-naming = false

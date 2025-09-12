@@ -1,8 +1,9 @@
-from .about import __version__  # noQA: F401
 from pathlib import Path
 
 import logging
 
+
+__version__ = "1.0.0a0"
 
 PACKAGE_NAME = "collective.transmute"
 
