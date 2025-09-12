@@ -1,3 +1,15 @@
+"""
+CLI entry point for ``collective.transmute``.
+
+This module provides the Typer-based command-line interface for converting
+data from collective.exportimport to plone.exportimport.
+
+Example:
+    .. code-block:: shell
+
+        uv run transmute settings
+        uv run transmute sanity
+"""
 from collective.transmute._types import ContextObject
 from collective.transmute.commands.report import app as app_report
 from collective.transmute.commands.sanity import app as app_sanity
