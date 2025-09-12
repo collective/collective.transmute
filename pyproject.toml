@@ -22,7 +22,7 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=24.1.0",
-    "collective-html2blocks",
+    "collective.html2blocks>=1.0.0a1",
     "dynaconf>=3.2.7",
     "tomlkit>=0.13.2",
     "orjson>=3.10.15",
@@ -65,9 +65,6 @@ test = [
 
 [tool.uv]
 default-groups = ["test"]
-
-[tool.uv.sources]
-collective-html2blocks = { git = "https://github.com/collective/collective.html2blocks" }
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
