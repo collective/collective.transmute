@@ -1,3 +1,11 @@
+"""
+Pipeline steps for handling Volto blocks in collective.transmute.
+
+This module provides functions and async generator steps for processing, normalizing,
+and generating Volto blocks for Plone items in the transformation pipeline. These steps
+handle block layouts for collections, folders, and other types, and support block
+variation and customization.
+"""
 from collective.html2blocks.converter import volto_blocks
 from collective.transmute import _types as t
 
@@ -5,7 +13,21 @@ from collective.transmute import _types as t
 def _blocks_collection(
     item: t.PloneItem, blocks: list[t.VoltoBlock]
 ) -> list[t.VoltoBlock]:
-    """Add a listing block."""
+    """
+    Add a listing block to a collection or topic item.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to process.
+    blocks : list[VoltoBlock]
+        The list of blocks to append to.
+
+    Returns
+    -------
+    list[VoltoBlock]
+        The updated list of blocks.
+    """
     # TODO: Process query to remove old types
     query = item.get("query")
     if query:
@@ -40,7 +62,21 @@ def _blocks_collection(
 
 
 def _blocks_folder(item: t.PloneItem, blocks: list[t.VoltoBlock]) -> list[t.VoltoBlock]:
-    """Adds a listing block."""
+    """
+    Add a listing block to a folder item, using possible variations.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to process.
+    blocks : list[VoltoBlock]
+        The list of blocks to append to.
+
+    Returns
+    -------
+    list[VoltoBlock]
+        The updated list of blocks.
+    """
     possible_variations = {
         "listing_view": "listing",
         "summary_view": "summary",
@@ -76,6 +112,24 @@ BLOCKS_ORIG_TYPE = {
 def _get_default_blocks(
     type_info: dict, has_image: bool, has_description: bool
 ) -> list[t.VoltoBlock]:
+    """
+    Get the default blocks for an item type, filtering by image and
+    description presence.
+
+    Parameters
+    ----------
+    type_info : dict
+        Type information from settings.
+    has_image : bool
+        Whether the item has an image.
+    has_description : bool
+        Whether the item has a description.
+
+    Returns
+    -------
+    list[VoltoBlock]
+        The list of default blocks for the item.
+    """
     default_blocks = type_info.get("override_blocks", type_info.get("blocks"))
     blocks = list(default_blocks) if default_blocks else []
     if default_blocks:
@@ -91,8 +145,32 @@ def _get_default_blocks(
 
 
 async def process_blocks(
-    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
+    item: t.PloneItem,
+    state: t.PipelineState,
+    settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
+    """
+    Process and generate Volto blocks for an item, updating its block layout.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to process.
+    state : PipelineState
+        The pipeline state object.
+    settings : TransmuteSettings
+        The transmute settings object.
+
+    Yields
+    ------
+    PloneItem
+        The updated item with Volto blocks and blocks_layout.
+
+    Example
+    -------
+    >>> async for result in process_blocks(item, state, settings):
+    ...     print(result['blocks'])
+    """
     type_ = item["@type"]
     has_image = bool(item.get("image"))
     has_description = has_description = bool(

@@ -1,3 +1,12 @@
+"""
+Querystring utilities for collective.transmute.
+
+This module provides helper functions for cleaning up, deduplicating, and
+post-processing querystring definitions used in Plone collections and
+listing blocks. Functions are documented for Sphinx autodoc and support
+normalization and transformation of querystring items and values.
+"""
+
 from .portal_types import fix_portal_type
 from collective.transmute import _types as t
 
@@ -8,7 +17,24 @@ _PATH_UID_PATTERN = re.compile(r"UID##(?P<UID>.*)##")
 
 
 def parse_path_value(value: str) -> str:
-    """Parse a path value to ensure it is a valid URL."""
+    """
+    Parse a path value to ensure it is a valid URL or UID reference.
+
+    Parameters
+    ----------
+    value : str
+        The path value to parse.
+
+    Returns
+    -------
+    str
+        The parsed path value, possibly converted to UID format.
+
+    Example
+    -------
+    >>> parse_path_value('12345678901234567890123456789012')
+    'UID##12345678901234567890123456789012##'
+    """
     parts = value.split(":")
     path = parts[0]
     if "/" not in path and len(path) == 32:
@@ -17,7 +43,19 @@ def parse_path_value(value: str) -> str:
 
 
 def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
-    """Process date between operation."""
+    """
+    Process a date between operation for querystring items.
+
+    Parameters
+    ----------
+    raw_value : list[str]
+        List containing two date strings.
+
+    Returns
+    -------
+    tuple[str, list[str] | str]
+        The operation and processed value(s).
+    """
     oper = "plone.app.querystring.operation.date.between"
     if len(raw_value) != 2:
         raise ValueError("Date between operation requires two values.")
@@ -37,11 +75,36 @@ def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
 
 
 def deduplicate_value(value: list | None) -> list | None:
+    """
+    Deduplicate values in a list, preserving None.
+
+    Parameters
+    ----------
+    value : list or None
+        The list to deduplicate.
+
+    Returns
+    -------
+    list or None
+        The deduplicated list, or None if input is None.
+    """
     return list(set(value)) if value is not None else None
 
 
 def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
-    """Cleanup an item in a querystring definition."""
+    """
+    Cleanup a single item in a querystring definition.
+
+    Parameters
+    ----------
+    item : dict
+        The querystring item to clean up.
+
+    Returns
+    -------
+    tuple[dict, bool]
+        The cleaned item and a post-processing status flag.
+    """
     prefix = "plone.app.querystring.operation"
     post_processing = False
     index = item["i"]
@@ -54,7 +117,6 @@ def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
         case "section":
             value = None
     match oper:
-        # Volto is not happy with `selection.is`
         case (
             "plone.app.querystring.operation.selection.is"
             | "plone.app.querystring.operation.selection.any"
@@ -79,14 +141,25 @@ def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
 
 
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
-    """Cleanup the querystring of a collection-like object or listing block."""
+    """
+    Cleanup the querystring of a collection-like object or listing block.
+
+    Parameters
+    ----------
+    query : list[dict]
+        The querystring to clean up.
+
+    Returns
+    -------
+    tuple[list[dict], bool]
+        The cleaned querystring and a post-processing status flag.
+    """
     post_processing = False
     query = query if query else []
     new_query = []
     for item in query:
         item, status = cleanup_querystring_item(item)
         if not item:
-            # Drop empty items
             continue
         post_processing = post_processing or status
         new_query.append(item)
@@ -94,7 +167,21 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
 
 
 def post_process_querystring(query: list[dict], state: t.PipelineState) -> list[dict]:
-    """Post-process a querystring."""
+    """
+    Post-process a querystring, replacing UID references with actual paths.
+
+    Parameters
+    ----------
+    query : list[dict]
+        The querystring to post-process.
+    state : PipelineState
+        The pipeline state object containing UID-path mapping.
+
+    Returns
+    -------
+    list[dict]
+        The post-processed querystring.
+    """
     query = query if query else []
     new_query = []
     for item in query:
@@ -108,7 +195,6 @@ def post_process_querystring(query: list[dict], state: t.PipelineState) -> list[
                     if path := state.uid_path.get(uid):
                         value = re.sub(_PATH_UID_PATTERN, path, value)
                     else:
-                        # Path not found, keep original value
                         value = re.sub(_PATH_UID_PATTERN, uid, value)
         if value:
             item["v"] = value

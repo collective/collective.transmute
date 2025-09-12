@@ -1,3 +1,13 @@
+"""
+Pipeline initialization and orchestration for collective.transmute.
+
+This module provides functions and context managers to run, debug, and manage
+pipeline steps for Plone item transformation. Used in the collective.transmute
+pipeline.
+
+Example:
+    >>> metadata_file = await pipeline(src_files, dst, state, True, consoles, settings)
+"""
 from collections.abc import Callable
 from collective.transmute import _types as t
 from collective.transmute.pipeline import report
@@ -15,14 +25,35 @@ def pipeline_debugger(
     consoles: t.ConsoleArea,
     state: t.PipelineState,
 ):
-    """Context manager to debug the processing of a pipeline."""
+    """
+    Context manager to debug the processing of a pipeline.
+
+    Args:
+        consoles (ConsoleArea): Console logging utility.
+        state (PipelineState): The pipeline state object.
+
+    Example:
+        >>> with pipeline_debugger(consoles, state) as dbg:
+        ...     dbg("Debug message")
+    """
     consoles.debug(f"Starting pipeline processing of {state.total} items")
     yield consoles.debug
     consoles.debug(f"Finished pipeline processing of {state.total} items")
 
 
 def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
-    """Return all steps for this pipeline."""
+    """
+    Return all steps for this pipeline.
+
+    Args:
+        settings (TransmuteSettings): The transmute settings object.
+
+    Returns:
+        tuple[PipelineStep, ...]: All pipeline steps.
+
+    Example:
+        >>> steps = all_steps(settings)
+    """
     config_steps = settings.pipeline.get("steps")
     return load_all_steps(config_steps)
 
@@ -30,6 +61,21 @@ def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
 def _prepare_report_items(
     item: t.PloneItem | None, last_step: str, is_new: bool, src_item: dict
 ) -> tuple[dict, dict]:
+    """
+    Prepare source and destination report items for pipeline reporting.
+
+    Args:
+        item (PloneItem | None): The processed item.
+        last_step (str): The last step name.
+        is_new (bool): Whether the item is new.
+        src_item (dict): The source item dictionary.
+
+    Returns:
+        tuple[dict, dict]: Source and destination report items.
+
+    Example:
+        >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
+    """
     if not item:
         return src_item, {
             "dst_path": "--",

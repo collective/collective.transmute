@@ -1,3 +1,11 @@
+"""
+Pipeline steps for handling and normalizing IDs in collective.transmute.
+
+This module provides async generator functions and helpers for cleaning up, fixing,
+and transforming item IDs and paths in the transformation pipeline. These steps
+support export prefix removal, path cleanup, and short ID normalization.
+"""
+
 from collective.transmute import _types as t
 from urllib import parse
 
@@ -8,7 +16,23 @@ _CLEANUP: tuple[tuple[str, str], ...] | None = None
 
 
 def get_paths_cleanup(settings: t.TransmuteSettings) -> tuple[tuple[str, str], ...]:
-    """Return cleanup paths."""
+    """
+    Return cleanup paths from settings.
+
+    Parameters
+    ----------
+    settings : TransmuteSettings
+        The transmute settings object.
+
+    Returns
+    -------
+    tuple[tuple[str, str], ...]
+        Tuple of (source, replacement) path pairs for cleanup.
+
+    Example
+    -------
+    >>> cleanup = get_paths_cleanup(settings)
+    """
     global _CLEANUP
     if _CLEANUP is None:
         _CLEANUP = tuple(settings.paths["cleanup"].items())
@@ -21,6 +45,24 @@ PATTERNS = [
 
 
 def fix_short_id(id_: str) -> str:
+    """
+    Normalize a short ID by removing spaces and special characters.
+
+    Parameters
+    ----------
+    id_ : str
+        The ID string to normalize.
+
+    Returns
+    -------
+    str
+        The normalized ID string.
+
+    Example
+    -------
+    >>> fix_short_id(' my id ')
+    'my_id'
+    """
     for pattern in PATTERNS:
         if match := re.match(pattern, id_):
             id_ = match.groupdict()["path"]
@@ -30,8 +72,32 @@ def fix_short_id(id_: str) -> str:
 
 
 async def process_export_prefix(
-    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
+    item: t.PloneItem,
+    state: t.PipelineState,
+    settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
+    """
+    Remove export prefixes from the '@id' field of an item.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to process.
+    state : PipelineState
+        The pipeline state object.
+    settings : TransmuteSettings
+        The transmute settings object.
+
+    Yields
+    ------
+    PloneItem
+        The updated item with export prefix removed from '@id'.
+
+    Example
+    -------
+    >>> async for result in process_export_prefix(item, state, settings):
+    ...     print(result['@id'])
+    """
     path = item["@id"]
     for src in settings.paths["export_prefixes"]:
         if path.startswith(src):
@@ -43,8 +109,32 @@ async def process_export_prefix(
 
 
 async def process_ids(
-    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
+    item: t.PloneItem,
+    state: t.PipelineState,
+    settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
+    """
+    Normalize and clean up the '@id' and 'id' fields of an item.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to process.
+    state : PipelineState
+        The pipeline state object.
+    settings : TransmuteSettings
+        The transmute settings object.
+
+    Yields
+    ------
+    PloneItem
+        The updated item with cleaned up IDs.
+
+    Example
+    -------
+    >>> async for result in process_ids(item, state, settings):
+    ...     print(result['@id'], result['id'])
+    """
     path = parse.unquote(item["@id"].replace(" ", "_"))
     cleanup_paths = get_paths_cleanup(settings)
     for src, rpl in cleanup_paths:

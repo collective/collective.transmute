@@ -55,6 +55,7 @@ PloneItem = TypedDict(
         "_orig_type": NotRequired[str],
         "_is_new_item": NotRequired[bool],
         "_blob_files_": NotRequired[dict[str, dict[str, str]]],
+        "_@id": NotRequired[str],
     },
 )
 
