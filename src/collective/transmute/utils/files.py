@@ -1,8 +1,8 @@
 from aiofiles.os import makedirs
 from base64 import b64decode
 from collections.abc import AsyncGenerator
-from collections.abc import Generator
 from collections.abc import Iterable
+from collections.abc import Iterator
 from collective.transmute import _types as t
 from collective.transmute import get_logger
 from collective.transmute.utils import exportimport as ei_utils
@@ -144,7 +144,7 @@ def remove_data(path: Path, consoles: t.ConsoleArea | None = None):
     """Remove all data inside a given path."""
     logger = get_logger()
     report = consoles.print_log if consoles else logger.debug
-    contents: Generator[Path] = path.glob("*")
+    contents: Iterator[Path] = path.glob("*")
     for content in contents:
         if content.is_dir():
             shutil.rmtree(content, True)

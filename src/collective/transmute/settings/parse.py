@@ -162,3 +162,10 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     payload = _merge_defaults(defaults, raw_settings)
     data = t.TransmuteSettings(**payload)
     return data
+
+
+def get_default_settings() -> t.TransmuteSettings:
+    """Return the default settings used by collective.transmute."""
+    defaults = _merge_defaults(parse_default(), {})
+    data = t.TransmuteSettings(**defaults)
+    return data

@@ -24,3 +24,12 @@ def get_logger():
     logger.addHandler(file_handler)
 
     return logger
+
+
+def main():
+    from collective.transmute.utils import settings
+
+    settings.register_encoders()
+
+
+main()

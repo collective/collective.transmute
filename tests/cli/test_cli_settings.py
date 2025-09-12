@@ -19,3 +19,4 @@ def test_run_app_no_transmute(test_dir):
     assert result.exit_code == 1
     stdout = result.stdout
     assert "Did not find a transmute.toml file" in stdout
+    assert "You should first run 'uv run transmute generate'" in stdout
