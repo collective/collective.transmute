@@ -9,6 +9,7 @@ Example:
     >>> async for result in processor(item, state):
     ...     print(result)
 """
+
 from collective.transmute import _types as t
 from collective.transmute.utils import querystring as qs_utils
 

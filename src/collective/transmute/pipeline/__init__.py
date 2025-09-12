@@ -8,6 +8,7 @@ pipeline.
 Example:
     >>> metadata_file = await pipeline(src_files, dst, state, True, consoles, settings)
 """
+
 from collections.abc import Callable
 from collective.transmute import _types as t
 from collective.transmute.pipeline import report

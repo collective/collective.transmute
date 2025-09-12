@@ -6,6 +6,7 @@ used in the transformation pipeline. Functions here are designed to be reusable
 across steps and reporting.
 """
 
+
 def sort_data_by_value(
     data: dict[str, int], reverse: bool = True
 ) -> tuple[tuple[str, int], ...]:

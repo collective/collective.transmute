@@ -6,6 +6,7 @@ and generating Volto blocks for Plone items in the transformation pipeline. Thes
 handle block layouts for collections, folders, and other types, and support block
 variation and customization.
 """
+
 from collective.html2blocks.converter import volto_blocks
 from collective.transmute import _types as t
 

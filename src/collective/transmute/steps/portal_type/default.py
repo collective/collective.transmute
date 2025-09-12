@@ -7,6 +7,7 @@ Example:
     >>> async for result in processor(item, state):
     ...     print(result)
 """
+
 from collective.transmute import _types as t
 
 

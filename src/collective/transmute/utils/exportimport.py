@@ -131,6 +131,7 @@ async def prepare_relations_data(
     tuple[list[dict], Path]
         Tuples of relations data and their corresponding file paths.
     """
+
     def final_uid(item: dict, attr: str) -> str | None:
         uid = item.get(attr, "")
         if uid:

@@ -10,6 +10,7 @@ Example:
     ...     steps, item, state, consoles, settings):
     ...     print(result, step_name, is_new)
 """
+
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
 from collective.transmute.utils import item as item_utils

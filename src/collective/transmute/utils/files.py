@@ -156,6 +156,7 @@ def _sort_content_files(content: list[Path]) -> list[Path]:
     list[Path]
         Sorted list of file paths.
     """
+
     def key(filepath: Path) -> str:
         name, _ = filepath.name.split(".")
         return f"{int(name):07d}"
@@ -191,7 +192,9 @@ def get_src_files(src: Path) -> t.SourceFiles:
     return t.SourceFiles(metadata, content)
 
 
-async def json_reader(files: Iterable[Path]) -> AsyncGenerator[tuple[str, t.PloneItem], None]:  # noQA: E501
+async def json_reader(
+    files: Iterable[Path],
+) -> AsyncGenerator[tuple[str, t.PloneItem], None]:
     """
     Asynchronously read JSON files and yield filename and data.
 

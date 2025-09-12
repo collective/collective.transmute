@@ -9,6 +9,7 @@ Example:
     >>> async for result in process_review_state(item, state, settings):
     ...     print(result)
 """
+
 from collective.transmute import _types as t
 from collective.transmute.utils import workflow
 
@@ -34,6 +35,7 @@ def _is_valid_state(state_filter: tuple[str, ...], review_state: str) -> bool:
     if review_state and state_filter:
         status = review_state in state_filter
     return status
+
 
 async def process_review_state(
     item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings

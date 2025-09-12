@@ -8,6 +8,7 @@ export in the collective.transmute pipeline.
 Example:
     >>> await final_reports(consoles, state, write_report=True, is_debug=True)
 """
+
 from collective.transmute import _types as t
 from collective.transmute.utils import files as file_utils
 from collective.transmute.utils import sort_data_by_value

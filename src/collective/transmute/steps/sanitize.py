@@ -8,6 +8,7 @@ Example:
     >>> async for result in process_cleanup(item, state, settings):
     ...     print(result)
 """
+
 from collective.transmute import _types as t
 
 

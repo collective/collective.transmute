@@ -8,6 +8,7 @@ Example:
     >>> async for result in process_type(item, state, settings):
     ...     print(result)
 """
+
 from collective.transmute import _types as t
 from collective.transmute.utils import load_processor
 
@@ -44,11 +45,8 @@ async def _pre_process(
 
 
 async def process_type(
-    item: t.PloneItem,
-    state: t.PipelineState,
-    settings: t.TransmuteSettings
+    item: t.PloneItem, state: t.PipelineState, settings: t.TransmuteSettings
 ) -> t.PloneItemGenerator:
-
     """
     Pipeline step to map and update the portal type of a Plone item.
 
