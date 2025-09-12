@@ -1,3 +1,12 @@
+---
+myst:
+  html_meta:
+    "description": "Documentation for collective.transmute"
+    "property=og:description": "Documentation for collective.transmute"
+    "property=og:title": "collective.transmute"
+    "keywords": "collective.transmute, documentation, Documentation for collective.transmute"
+---
+
 <h1 align="center">collective.transmute</h1>
 
 <blockquote align="center">To change something completely, especially into something different and better</blockquote>
@@ -25,4 +34,40 @@
 **collective.transmute** transforms data extracted by `collective.exportimport` into data to be loaded by `plone.exportimport`.
 
 
-Read the [documentation](https://collective.github.io/collective.transmute).
+```{toctree}
+:caption: Concepts
+:maxdepth: 2
+:hidden: true
+
+concepts/index
+concepts/transmute
+```
+
+```{toctree}
+:caption: How to guides
+:maxdepth: 2
+:hidden: true
+
+how-to-guides/installation
+how-to-guides/usage
+how-to-guides/cli
+how-to-guides/create_step
+```
+
+```{toctree}
+:caption: Reference
+:maxdepth: 2
+:hidden: true
+
+reference/api
+```
+
+```{toctree}
+:caption: Appendices
+:maxdepth: 2
+:hidden: true
+
+CHANGELOG
+glossary
+genindex
+```

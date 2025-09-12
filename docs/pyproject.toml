@@ -1,0 +1,65 @@
+[project]
+name = "collective_transmute_docs"
+description = "Technical documentation for the collective.transmute package"
+keywords = [
+    "collective.transmute",
+    "documentation",
+    "Plone",
+    "Diátaxis",
+]
+version="1.0.0"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+maintainers = [
+    { name = "Érico Andrei", email = "collective@plone.org" },
+]
+authors = [
+    { name = "Érico Andrei", email = "collective@plone.org" },
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+dependencies = [
+    "collective-transmute",
+]
+
+[dependency-groups]
+dev = [
+    "graphviz",
+    "linkify-it-py",
+    "myst-parser",
+    "plone-sphinx-theme>=1.4.1",  # Use the latest stable version or a minimum
+    "setuptools",  # required by sphinxcontrib.httpexample, remove when it migrates to importlib. See https://github.com/collective/sphinxcontrib-httpexample/issues/106
+    "sphinx-autobuild",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "sphinx-examples",
+    "sphinx-notfound-page",
+    "sphinx-reredirects",
+    "sphinx-sitemap",
+    "sphinx-tippy",
+    "sphinxcontrib-httpdomain",
+    "sphinxcontrib-httpexample",
+    "sphinxcontrib-mermaid",
+    "sphinxcontrib-video",
+    "sphinxcontrib-youtube",
+    "sphinxext-opengraph",
+    "vale",
+]
+
+[project.urls]
+Repository = "https://github.com/collective/collective.transmute"
+Documentation = "https://collective.github.io/collective.transmute"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv.sources]
+collective-transmute = { path = "../", editable = true }
