@@ -12,9 +12,11 @@ RESET=`tput sgr0`
 SPHINXBUILD     = "$(realpath .venv/bin/sphinx-build)"
 DOCS_DIR        = ./docs/
 BUILDDIR        = ./_build
+SRCDIR          = ../src/collective/transmute/
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(DOCS_DIR)
+AUTOBUILDOPTS   = --watch $(SRCDIR)
 VALEFILES       := $(shell find $(DOCS_DIR) -type f -name "*.md" -print)
 VALEOPTS        ?=
 PYTHONVERSION   = >=3.11,<3.14
@@ -39,7 +41,7 @@ init: clean clean-python .venv/bin/python  ## Clean docs build directory and Pyt
 
 .PHONY: clean
 clean:  ## Clean docs build directory
-	cd $(DOCS_DIR) && rm -rf $(BUILDDIR)/
+	rm -rf $(BUILDDIR)/
 
 .PHONY: clean-python
 clean-python: clean
@@ -68,6 +70,7 @@ livehtml: changelog  ## Rebuild Sphinx documentation on changes, with live-reloa
 	@uv run sphinx-autobuild \
 		--ignore "*.swp" \
 		--port 8050 \
+		$(AUTOBUILDOPTS) \
 		-b html $(DOCS_DIR) "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
 
 .PHONY: dirhtml
