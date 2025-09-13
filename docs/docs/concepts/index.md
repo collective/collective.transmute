@@ -49,7 +49,7 @@ Developers can extend its functionality by subclassing base classes for custom e
 
 ### `plone.exportimport`
 
-Since Plone 6.0, {term}`plone.exportimport` is a slimmer version of `collective.exportimport`.
+{term}`plone.exportimport` is a slimmer version of `collective.exportimport`.
 While `collective.exportimport` supports older Plone versions and Python 2, and also takes care of data conversion from Archetypes to Dexterity, `plone.exportimport` focuses only on latest Plone and Python.
 It offers a predictable directory structure and a clear contract for importing data into Plone.
 This makes it easier for developers and integrators to move data between recent Plone sites.
