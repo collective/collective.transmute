@@ -7,6 +7,7 @@ Functions are documented for Sphinx autodoc and support common item operations.
 """
 
 from collective.transmute import _types as t
+from typing import Any
 from uuid import uuid4
 
 
@@ -124,3 +125,87 @@ def add_relation(
         "to_uuid": dst_item["UID"],
     }
     metadata.relations.append(relation)
+
+
+def add_annotation(
+    item_uid: str,
+    key: str,
+    value: Any,
+    state: t.PipelineState,
+):
+    """
+    Add a new annotation to the PipelineStep.
+
+    Parameters
+    ----------
+    item_uid : Item UID
+        The UID of the item to be annotated.
+    key : Annotation key
+    value : str
+        The annotation value
+    state : PipelineState
+        Pipeline state object
+    """
+    if item_uid not in state.annotations:
+        state.annotations[item_uid] = {}
+    state.annotations[item_uid][key] = value
+
+
+def get_annotation(
+    item_uid: str,
+    key: str,
+    default_value: Any,
+    state: t.PipelineState,
+) -> Any:
+    """
+    Return an existing annotation value from the PipelineStep.
+
+    Parameters
+    ----------
+    item_uid : Item UID
+        The UID of the item to be annotated.
+    key : Annotation key
+    state : PipelineState
+        Pipeline state object
+
+    Returns
+    -------
+    value
+        The value stored in the annotation
+    """
+    value = default_value
+    annotation = state.annotations.get(item_uid, None)
+    if annotation:
+        # Remove annotation
+        value = annotation.get(key, value)
+    return value
+
+
+def pop_annotation(
+    item_uid: str,
+    key: str,
+    default_value: Any,
+    state: t.PipelineState,
+) -> Any:
+    """
+    Pop an existing annotation from the PipelineStep.
+
+    Parameters
+    ----------
+    item_uid : Item UID
+        The UID of the item to be annotated.
+    key : Annotation key
+    state : PipelineState
+        Pipeline state object
+
+    Returns
+    -------
+    value
+        The value stored in the annotation
+    """
+    value = default_value
+    annotation = state.annotations.get(item_uid, None)
+    if annotation:
+        # Remove annotation
+        value = annotation.pop(key, value)
+    return value

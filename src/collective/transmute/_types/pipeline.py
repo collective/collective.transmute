@@ -70,15 +70,15 @@ class PipelineState:
     processed: int
     exported: defaultdict[str, int]
     dropped: defaultdict[str, int]
-    progress: PipelineProgress
-    seen: set = field(default_factory=set)
-    uids: dict = field(default_factory=dict)
-    uid_path: dict = field(default_factory=dict)
-    path_transforms: list[PipelineItemReport] = field(default_factory=list)
-    paths: list[tuple[str, str, str]] = field(default_factory=list)
-    post_processing: dict[str, list[str]] = field(default_factory=dict)
-    annotations: dict[str, dict[str, Any]] = field(default_factory=dict)
-    metadata: MetadataInfo | None = None
+    progress: PipelineProgress = field(repr=False)
+    seen: set = field(default_factory=set, repr=False)
+    uids: dict = field(default_factory=dict, repr=False)
+    uid_path: dict = field(default_factory=dict, repr=False)
+    path_transforms: list[PipelineItemReport] = field(default_factory=list, repr=False)
+    paths: list[tuple[str, str, str]] = field(default_factory=list, repr=False)
+    post_processing: dict[str, list[str]] = field(default_factory=dict, repr=False)
+    annotations: dict[str, dict[str, Any]] = field(default_factory=dict, repr=False)
+    metadata: MetadataInfo | None = field(default=None, repr=False)
 
 
 @dataclass
