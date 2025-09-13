@@ -11,10 +11,11 @@ myst:
 
 Migrating data into {term}`Plone` is a common requirement, whether you are upgrading an older site or moving content from a legacy {term}`CMS`. There are several strategies and tools available, each suited to different scenarios and levels of complexity.
 
-```{note}
-For further reading, see:
-* [Migration best practices](https://2022.training.plone.org/migrations/index.html)
-* [Transmogrifier training](https://2022.training.plone.org/transmogrifier/index.html)
+```{seealso}
+Further reading:
+
+-   {doc}`training-2022:migrations/index`
+-   {doc}`training-2022:transmogrifier/index`
 ```
 
 ## In-place migrations (upgrades)

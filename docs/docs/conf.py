@@ -273,6 +273,7 @@ myst_substitutions = {}
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "plone": ("https://6.docs.plone.org/", None),
+    "training-2022": ("https://2022.training.plone.org/", None),
 }
 
 
