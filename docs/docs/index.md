@@ -9,7 +9,7 @@ myst:
 
 <h1 align="center">collective.transmute</h1>
 
-<blockquote align="center">To change something completely, especially into something different and better</blockquote>
+<blockquote align="center">To change something completely, especially into something different and better.</blockquote>
 
 <hr/>
 
@@ -22,7 +22,7 @@ myst:
 [![PyPI - Status](https://img.shields.io/pypi/status/collective.transmute)](https://pypi.org/project/collective.transmute/)
 
 
-[![CI](https://github.com/collective/collective.transmute/actions/workflows/ci.yml/badge.svg)](https://github.com/collective/collective.transmute/actions/workflows/ci.yml)
+[![CI](https://github.com/collective/collective.transmute/actions/workflows/main.yml/badge.svg)](https://github.com/collective/collective.transmute/actions/workflows/main.yml)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/collective/collective.transmute)](https://github.com/collective/collective.transmute)
 [![GitHub Repo stars](https://img.shields.io/github/stars/collective/collective.transmute?style=social)](https://github.com/collective/collective.transmute)
@@ -31,7 +31,7 @@ myst:
 
 
 
-**collective.transmute** transforms data extracted by `collective.exportimport` into data to be loaded by `plone.exportimport`.
+`collective.transmute` transforms data extracted by `collective.exportimport` into data to be loaded by `plone.exportimport`.
 
 
 ```{toctree}
