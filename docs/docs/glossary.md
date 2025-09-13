@@ -108,4 +108,8 @@ Uvicorn
 OpenAPI
     [OpenAPI](https://www.openapis.org/) is a specification for describing RESTful APIs, enabling automatic documentation, client generation, and validation.
 
+ETL
+    Extract, Transform, Load.
+    A process for extracting data from one source, transforming it, and loading it into another destination.
+    It is used to transform data from one format into another.
 ```
