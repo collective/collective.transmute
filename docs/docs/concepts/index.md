@@ -7,7 +7,7 @@ myst:
     "keywords": "Plone, migration, ETL, collective.transmute, collective.exportimport, Transmogrifier, plone.exportimport, upgrades, glossary"
 ---
 
-# Migrating Data into {term}`Plone`
+# Migrate data into Plone
 
 Migrating data into {term}`Plone` is a common requirement, whether you are upgrading an older site or moving content from a legacy {term}`CMS`. There are several strategies and tools available, each suited to different scenarios and levels of complexity.
 
@@ -17,15 +17,15 @@ For further reading, see:
 * [Transmogrifier training](https://2022.training.plone.org/transmogrifier/index.html)
 ```
 
-## In-Place Migrations (Upgrades)
+## In-place migrations (upgrades)
 
-{term}`Plone` provides built-in upgrade mechanisms to migrate older sites to newer versions using "in-place" upgrades. This approach is often the simplest and fastest when your site has minimal customizations, add-ons, or content types.
+Plone provides built-in upgrade mechanisms to migrate older sites to newer versions using "in-place" upgrades. This approach is often the simplest and fastest when your site has minimal customizations, add-ons, or content types.
 
-For example, upgrading from {term}`Plone` 5.2 (Python 3) to {term}`Plone` 6 Classic is typically straightforward. However, in-place migrations can become complex when dealing with major changes, such as moving from {term}`Plone` 4.3 to {term}`Plone` 6.1, migrating from {term}`Archetypes` to {term}`Dexterity`, or implementing {term}`Volto` support.
+For example, upgrading from Plone 5.2 (Python 3) to Plone 6 Classic is typically straightforward. However, in-place migrations can become complex when dealing with major changes, such as moving from Plone 4.3 to Plone 6.1, migrating from {term}`Archetypes` to {term}`Dexterity`, or implementing {term}`Volto` support.
 
-## ETL Add-ons for {term}`Plone`
+## ETL Add-ons for Plone
 
-The {term}`Plone` community has developed robust tools for handling migrations using the {term}`ETL` ({term}`Extract`, {term}`Transform`, {term}`Load`) process. Two notable solutions are:
+The Plone community has developed robust tools for handling migrations using the {term}`ETL` ({term}`Extract`, {term}`Transform`, {term}`Load`) process. Two notable solutions are:
 
 ### {term}`Transmogrifier`
 
@@ -35,12 +35,12 @@ Its modularity and extensibility make it powerful, but its configuration complex
 
 ### {term}`collective.exportimport`
 
-Created by Philip Bauer, {term}`collective.exportimport` leverages years of migration experience. It can be installed on {term}`Plone` sites (version 4 and above) to export data to {term}`JSON`, applying some transformations during export. The exported data can then be imported into a target {term}`Plone` site using the same add-on.
+Created by Philip Bauer, {term}`collective.exportimport` leverages years of migration experience. It can be installed on Plone sites (version 4 and above) to export data to {term}`JSON`, applying some transformations during export. The exported data can then be imported into a target Plone site using the same add-on.
 
 Developers can extend its functionality by subclassing base classes for custom extraction, transformation, or loading logic.
 
 ## Plone Core: {term}`plone.exportimport`
 
-Since {term}`Plone` 6.0 (and as a core package from 6.1), {term}`plone.exportimport` provides standardized export and import capabilities. Inspired by {term}`collective.exportimport`, it offers a predictable directory structure and a clear contract for importing data into {term}`Plone`.
+Since Plone 6.0 (and as a core package from 6.1), {term}`plone.exportimport` provides standardized export and import capabilities. Inspired by {term}`collective.exportimport`, it offers a predictable directory structure and a clear contract for importing data into Plone.
 
-This makes it easier for developers and integrators to move data between recent {term}`Plone` sites.
+This makes it easier for developers and integrators to move data between recent Plone sites.
