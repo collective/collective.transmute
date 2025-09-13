@@ -3,7 +3,7 @@ myst:
   html_meta:
     "description": "Comprehensive overview of migration strategies and ETL tools for Plone, including collective.transmute, collective.exportimport, and Transmogrifier."
     "property=og:description": "Comprehensive overview of migration strategies and ETL tools for Plone, including collective.transmute, collective.exportimport, and Transmogrifier."
-    "property=og:title": "Plone Migration Concepts and collective.transmute"
+    "property=og:title": "Plone migration concepts and collective.transmute"
     "keywords": "Plone, migration, ETL, collective.transmute, collective.exportimport, Transmogrifier, plone.exportimport, upgrades, glossary"
 ---
 
