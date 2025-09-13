@@ -23,24 +23,24 @@ Plone provides built-in upgrade mechanisms to migrate older sites to newer versi
 
 For example, upgrading from Plone 5.2 (Python 3) to Plone 6 Classic is typically straightforward. However, in-place migrations can become complex when dealing with major changes, such as moving from Plone 4.3 to Plone 6.1, migrating from {term}`Archetypes` to {term}`Dexterity`, or implementing {term}`Volto` support.
 
-## ETL Add-ons for Plone
+## ETL add-ons for Plone
 
 The Plone community has developed robust tools for handling migrations using the {term}`ETL` ({term}`Extract`, {term}`Transform`, {term}`Load`) process. Two notable solutions are:
 
-### {term}`Transmogrifier`
+### Transmogrifier
 
 Inspired by Calvin's invention in Calvin and Hobbes, {term}`collective.transmogrifier` enables building configurable pipelines to transform content. It supports all three ETL phases and allows you to extract, transform, and load data independently or in combination.
 
 Its modularity and extensibility make it powerful, but its configuration complexity can present a steep learning curve.
 
-### {term}`collective.exportimport`
+### `collective.exportimport`
 
 Created by Philip Bauer, {term}`collective.exportimport` leverages years of migration experience. It can be installed on Plone sites (version 4 and above) to export data to {term}`JSON`, applying some transformations during export. The exported data can then be imported into a target Plone site using the same add-on.
 
 Developers can extend its functionality by subclassing base classes for custom extraction, transformation, or loading logic.
 
-## Plone Core: {term}`plone.exportimport`
+## Plone core: `plone.exportimport`
 
-Since Plone 6.0 (and as a core package from 6.1), {term}`plone.exportimport` provides standardized export and import capabilities. Inspired by {term}`collective.exportimport`, it offers a predictable directory structure and a clear contract for importing data into Plone.
+Since Plone 6.0 (and as a core package from 6.1), {term}`plone.exportimport` provides standardized export and import capabilities. Inspired by `collective.exportimport`, it offers a predictable directory structure and a clear contract for importing data into Plone.
 
 This makes it easier for developers and integrators to move data between recent Plone sites.
