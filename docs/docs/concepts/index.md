@@ -20,13 +20,13 @@ Further reading:
 
 ## In-place migrations (upgrades)
 
-Plone provides built-in upgrade mechanisms to migrate older sites to newer versions using "in-place" upgrades. This approach is often the simplest and fastest when your site has minimal customizations, add-ons, or content types.
+Plone provides built-in upgrade mechanisms to migrate older sites to newer versions using in-place upgrades. This approach is often the simplest and fastest when your site has minimal customizations, add-ons, or content types.
 
 For example, upgrading from Plone 5.2 (Python 3) to Plone 6 Classic is typically straightforward. However, in-place migrations can become complex when dealing with major changes, such as moving from Plone 4.3 to Plone 6.1, migrating from {term}`Archetypes` to {term}`Dexterity`, or implementing {term}`Volto` support.
 
-## ETL add-ons for Plone
+## ETL add-ons and packages for Plone
 
-The Plone community has developed robust tools for handling migrations using the {term}`ETL` ({term}`Extract`, {term}`Transform`, {term}`Load`) process. Two notable solutions are:
+The Plone community has developed robust tools for handling migrations using the {term}`extract`, {term}`transform`, {term}`load` ({term}`ETL`) process. Notable solutions include Transmogrifier, `collective.exportimport`, and `plone.exportimport`.
 
 ### Transmogrifier
 
@@ -40,8 +40,12 @@ Created by Philip Bauer, {term}`collective.exportimport` leverages years of migr
 
 Developers can extend its functionality by subclassing base classes for custom extraction, transformation, or loading logic.
 
-## Plone core: `plone.exportimport`
+### Plone core: `plone.exportimport`
 
-Since Plone 6.0 (and as a core package from 6.1), {term}`plone.exportimport` provides standardized export and import capabilities. Inspired by `collective.exportimport`, it offers a predictable directory structure and a clear contract for importing data into Plone.
-
+Since Plone 6.0, {term}`plone.exportimport` is a slimmer version of `collective.exportimport`.
+While `collective.exportimport` supports older Plone versions and Python 2, and also takes care of data conversion from Archetypes to Dexterity, `plone.exportimport` focuses only on latest Plone and Python.
+It offers a predictable directory structure and a clear contract for importing data into Plone.
 This makes it easier for developers and integrators to move data between recent Plone sites.
+
+In Plone 6.0.x versions, `plone.exportimport` was a separate add-on.
+It became a Plone core package in 6.1.0.
