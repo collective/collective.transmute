@@ -1,5 +1,5 @@
 """
-Settings utilities for collective.transmute.
+Settings utilities for ``collective.transmute``.
 
 This module provides helper classes and functions for handling custom TOML encoding
 and registration of encoders for settings serialization. Functions and classes are

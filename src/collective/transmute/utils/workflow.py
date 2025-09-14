@@ -1,5 +1,5 @@
 """
-Workflow utilities for collective.transmute.
+Workflow utilities for ``collective.transmute``.
 
 This module provides helper functions for rewriting workflow history and review states
 in Plone items during the transformation pipeline. Functions are documented for Sphinx

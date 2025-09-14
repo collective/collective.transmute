@@ -1,5 +1,5 @@
 """
-Performance utilities for collective.transmute.
+Performance utilities for ``collective.transmute``.
 
 This module provides context managers and helpers for timing and reporting
 performance metrics during the transformation pipeline. Functions are documented

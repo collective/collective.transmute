@@ -1,5 +1,5 @@
 """
-Querystring utilities for collective.transmute.
+Querystring utilities for ``collective.transmute``.
 
 This module provides helper functions for cleaning up, deduplicating, and
 post-processing querystring definitions used in Plone collections and

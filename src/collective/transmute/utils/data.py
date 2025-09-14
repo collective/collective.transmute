@@ -1,5 +1,5 @@
 """
-Data utilities for collective.transmute.
+Data utilities for ``collective.transmute``.
 
 This module provides helper functions for sorting and manipulating data structures
 used in the transformation pipeline. Functions here are designed to be reusable

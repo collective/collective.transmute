@@ -1,5 +1,5 @@
 """
-File utilities for collective.transmute.
+File utilities for ``collective.transmute``.
 
 This module provides asynchronous and synchronous helper functions for reading,
 writing, exporting, and removing files and data structures used in the transformation

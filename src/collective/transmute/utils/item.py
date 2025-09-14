@@ -1,5 +1,5 @@
 """
-Item utilities for collective.transmute.
+Item utilities for ``collective.transmute``.
 
 This module provides helper functions for generating UIDs, handling parent paths,
 creating image items, and managing relations in the transformation pipeline.

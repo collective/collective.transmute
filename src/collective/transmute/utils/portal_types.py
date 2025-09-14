@@ -1,5 +1,5 @@
 """
-Portal type utilities for collective.transmute.
+Portal type utilities for ``collective.transmute``.
 
 This module provides helper functions for mapping and fixing portal types
 based on settings in the transformation pipeline. Functions are documented for

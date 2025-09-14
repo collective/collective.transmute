@@ -1,5 +1,5 @@
 """
-Pipeline utilities for collective.transmute.
+Pipeline utilities for ``collective.transmute``.
 
 This module provides helper functions for loading pipeline steps and processors
 by dotted names, checking step availability, and managing step configuration in the

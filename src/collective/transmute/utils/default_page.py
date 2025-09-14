@@ -1,5 +1,5 @@
 """
-Default page utilities for collective.transmute.
+Default page utilities for ``collective.transmute``.
 
 This module provides helper functions for handling and merging default page items
 in the transformation pipeline. Functions here are designed to support merging parent

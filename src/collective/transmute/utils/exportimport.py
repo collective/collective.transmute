@@ -1,5 +1,5 @@
 """
-Export/import utilities for collective.transmute.
+Export/import utilities for ``collective.transmute``.
 
 This module provides asynchronous helper functions for preparing and handling
 metadata and relations during the transformation pipeline. Functions here are used
