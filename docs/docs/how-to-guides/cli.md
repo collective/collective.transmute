@@ -97,13 +97,13 @@ uv run transmute run --help
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-Given a path to the source data SRC and a path to the transmuted data DST you can run this command with:
+Given a path to the source data `src` and a path to the transmuted data `dst` you can run this command as follows.
 
 ```shell
 uv run transmute run /exported-data/ /transmuted-data/
 ```
 
-#### Additional options
+#### Options
 
 | Option | Description | Default Value |
 | --- | --- | --- |
@@ -111,6 +111,7 @@ uv run transmute run /exported-data/ /transmuted-data/
 | `--ui` or `--no-ui` | Enable or disable the graphical interface | `--ui` |
 | `--write-report` or `--write-report` | Should we write a csv report with all path transformations?  | `--no-write-report` |
 | `--help` | Show the help for the command | |
+
 
 ### `report`
 
@@ -120,10 +121,7 @@ This command generates a JSON file with a report of export data in `src` directo
 uv run transmute report --help
 ```
 
-will display:
-
 ```console
-
  Usage: transmute report [OPTIONS] SRC [DST]
 
  Generates a JSON file with a report of export data in src directory.
@@ -138,11 +136,13 @@ will display:
 │ --help                      Show this message and exit.                               │
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
-Usage:
+
+The following command will generate a report of all portal types in the `src` directory and save it to {file}`report-raw-data.json`.
 
 ```shell
 uv run transmute report /exported-data/ report-raw-data.json
 ```
+
 
 ### `settings`
 
