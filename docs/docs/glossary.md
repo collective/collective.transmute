@@ -69,10 +69,10 @@ collective.transmute
     [`collective.transmute`](https://github.com/collective/collective.transmute) is a package to convert data from {term}`collective.exportimport` to {term}`plone.exportimport`.
 
 pytest
-    [pytest](https://docs.pytest.org/) is a Python test framework that makes it easy to write small, readable tests, and can scale to support complex functional testing for applications and libraries.
+    [pytest](https://docs.pytest.org/en/stable/) is a Python test framework that makes it easy to write small, readable tests, and can scale to support complex functional testing for applications and libraries.
 
 setuptools
-    [setuptools](https://setuptools.pypa.io/) is a Python package development and distribution library.
+    [setuptools](https://setuptools.pypa.io/en/latest/) is a Python package development and distribution library.
     It is commonly used to build, package, and install Python projects, especially those using a {file}`setup.py` file.
 
 PEP 621
