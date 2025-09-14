@@ -121,7 +121,7 @@ def progress_panel(progress: t.PipelineProgress | t.ReportProgress) -> Panel:
 
 def create_consoles() -> t.ConsoleArea:
     """
-    Create a ConsoleArea object with two console panels.
+    Create a ``ConsoleArea`` object with two console panels.
 
     Returns
     -------
