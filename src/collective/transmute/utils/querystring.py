@@ -3,8 +3,8 @@ Querystring utilities for ``collective.transmute``.
 
 This module provides helper functions for cleaning up, deduplicating, and
 post-processing querystring definitions used in Plone collections and
-listing blocks. Functions are documented for Sphinx autodoc and support
-normalization and transformation of querystring items and values.
+listing blocks. Functions support normalization and transformation of
+querystring items and values.
 """
 
 from .portal_types import fix_portal_type
@@ -32,8 +32,10 @@ def parse_path_value(value: str) -> str:
 
     Example
     -------
-    >>> parse_path_value('12345678901234567890123456789012')
-    'UID##12345678901234567890123456789012##'
+    .. code-block:: pycon
+
+        >>> parse_path_value('12345678901234567890123456789012')
+        'UID##12345678901234567890123456789012##'
     """
     parts = value.split(":")
     path = parts[0]
@@ -93,7 +95,7 @@ def deduplicate_value(value: list | None) -> list | None:
 
 def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
     """
-    Cleanup a single item in a querystring definition.
+    Clean up a single item in a querystring definition.
 
     Parameters
     ----------
@@ -142,7 +144,7 @@ def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
 
 def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     """
-    Cleanup the querystring of a collection-like object or listing block.
+    Clean up the querystring of a collection-like object or listing block.
 
     Parameters
     ----------

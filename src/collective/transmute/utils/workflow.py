@@ -2,8 +2,8 @@
 Workflow utilities for ``collective.transmute``.
 
 This module provides helper functions for rewriting workflow history and review states
-in Plone items during the transformation pipeline. Functions are documented for Sphinx
-autodoc and support configuration-driven workflow normalization and migration.
+in Plone items during the transformation pipeline. Functions support
+configuration-driven workflow normalization and migration.
 """
 
 from collective.transmute._types import PloneItem
@@ -23,9 +23,11 @@ def rewrite_settings() -> dict:
 
     Example
     -------
-    >>> settings = rewrite_settings()
-    >>> settings['states']
-    {'visible': 'published'}
+    .. code-block:: pycon
+
+        >>> settings = rewrite_settings()
+        >>> settings['states']
+        {'visible': 'published'}
     """
     settings = get_settings()
     wf_settings = settings.review_state["rewrite"]
@@ -38,13 +40,15 @@ def rewrite_settings() -> dict:
 
 def rewrite_workflow_history(item: PloneItem) -> PloneItem:
     """
-    Rewrite review_state and workflow_history for a Plone item.
+    Rewrite ``review_state`` and ``workflow_history`` for a Plone item.
 
-    Configuration should be added to transmute.toml, for example:
+    Configuration should be added to ``transmute.toml``, for example:
 
-    [review_state.rewrite]
-    states = {"visible": "published"}
-    workflows = {"plone_workflow": "simple_publication_workflow"}
+    .. code-block:: toml
+
+        [review_state.rewrite]
+        states = {"visible": "published"}
+        workflows = {"plone_workflow": "simple_publication_workflow"}
 
     Parameters
     ----------
@@ -58,8 +62,10 @@ def rewrite_workflow_history(item: PloneItem) -> PloneItem:
 
     Example
     -------
-    >>> item = {'review_state': 'visible', 'workflow_history': {...}}
-    >>> rewrite_workflow_history(item)
+    .. code-block:: pycon
+
+        >>> item = {'review_state': 'visible', 'workflow_history': {...}}
+        >>> rewrite_workflow_history(item)
     """
     settings = rewrite_settings()
     review_state = item.get("review_state")

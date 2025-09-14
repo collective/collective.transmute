@@ -3,8 +3,8 @@ Pipeline utilities for ``collective.transmute``.
 
 This module provides helper functions for loading pipeline steps and processors
 by dotted names, checking step availability, and managing step configuration in the
-transformation pipeline. Functions are documented for Sphinx autodoc and support
-pipeline extensibility and dynamic loading.
+transformation pipeline. Functions support pipeline extensibility
+and dynamic loading.
 """
 
 from collective.transmute import _types as t
@@ -20,7 +20,7 @@ def load_step(name: str) -> t.PipelineStep:
     Parameters
     ----------
     name : str
-        The dotted name of the function (e.g., 'module.submodule.func').
+        The dotted name of the function (e.g., ``module.submodule.func``).
 
     Returns
     -------
@@ -34,7 +34,9 @@ def load_step(name: str) -> t.PipelineStep:
 
     Example
     -------
-    >>> step = load_step('my_module.my_step')
+    .. code-block:: pycon
+
+        >>> step = load_step('my_module.my_step')
     """
     mod_name, func_name = name.rsplit(".", 1)
     try:

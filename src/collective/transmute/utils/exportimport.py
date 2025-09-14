@@ -4,7 +4,7 @@ Export/import utilities for ``collective.transmute``.
 This module provides asynchronous helper functions for preparing and handling
 metadata and relations during the transformation pipeline. Functions here are used
 for reading, processing, and writing metadata and relations files, according to the
-format expected by plone.exportimport.
+format expected by ``plone.exportimport``.
 """
 
 from collections.abc import AsyncGenerator
@@ -16,7 +16,7 @@ from pathlib import Path
 
 async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.MetadataInfo:
     """
-    Initialize and load metadata from source files into a MetadataInfo object.
+    Initialize and load metadata from source files into a ``MetadataInfo`` object.
 
     Parameters
     ----------

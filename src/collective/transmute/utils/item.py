@@ -3,7 +3,7 @@ Item utilities for ``collective.transmute``.
 
 This module provides helper functions for generating UIDs, handling parent paths,
 creating image items, and managing relations in the transformation pipeline.
-Functions are documented for Sphinx autodoc and support common item operations.
+Functions support common item operations.
 """
 
 from collective.transmute import _types as t
@@ -22,9 +22,11 @@ def generate_uid() -> str:
 
     Example
     -------
-    >>> uid = generate_uid()
-    >>> len(uid) == 32
-    True
+    .. code-block:: pycon
+
+        >>> uid = generate_uid()
+        >>> len(uid) == 32
+        True
     """
     uid = str(uuid4())
     return uid.replace("-", "")
@@ -32,7 +34,7 @@ def generate_uid() -> str:
 
 def all_parents_for(id_: str) -> set[str]:
     """
-    Given an @id, return all possible parent paths.
+    Given an ``@id``, return all possible parent paths.
 
     Parameters
     ----------
@@ -46,8 +48,10 @@ def all_parents_for(id_: str) -> set[str]:
 
     Example
     -------
-    >>> all_parents_for('a/b/c')
-    {'a', 'a/b'}
+    .. code-block:: pycon
+
+        >>> all_parents_for('a/b/c')
+        {'a', 'a/b'}
     """
     parents = []
     parts = id_.split("/")
@@ -75,10 +79,12 @@ def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
 
     Example
     -------
-    >>> parent = {'@id': 'folder', 'image': {'filename': 'img.png'}}
-    >>> img_item = create_image_from_item(parent)
-    >>> img_item['@type']
-    'Image'
+    .. code-block:: pycon
+
+        >>> parent = {'@id': 'folder', 'image': {'filename': 'img.png'}}
+        >>> img_item = create_image_from_item(parent)
+        >>> img_item['@type']
+        'Image'
     """
     image: dict = parent.pop("image")
     image_caption: str = parent.pop("image_caption", "")
@@ -134,7 +140,7 @@ def add_annotation(
     state: t.PipelineState,
 ):
     """
-    Add a new annotation to the PipelineStep.
+    Add a new annotation to the ``PipelineStep``.
 
     Parameters
     ----------
@@ -158,7 +164,7 @@ def get_annotation(
     state: t.PipelineState,
 ) -> Any:
     """
-    Return an existing annotation value from the PipelineStep.
+    Return an existing annotation value from the ``PipelineStep``.
 
     Parameters
     ----------
@@ -188,7 +194,7 @@ def pop_annotation(
     state: t.PipelineState,
 ) -> Any:
     """
-    Pop an existing annotation from the PipelineStep.
+    Pop an existing annotation from the ``PipelineStep``.
 
     Parameters
     ----------

@@ -3,8 +3,7 @@ File utilities for ``collective.transmute``.
 
 This module provides asynchronous and synchronous helper functions for reading,
 writing, exporting, and removing files and data structures used in the transformation
-pipeline. Functions here support JSON, CSV, and binary blob operations, and are
-documented for Sphinx autodoc.
+pipeline. Functions here support JSON, CSV, and binary blob operations.
 """
 
 from aiofiles.os import makedirs
@@ -108,7 +107,7 @@ def check_path(path: Path) -> bool:
     Returns
     -------
     bool
-        True if the path exists, False otherwise.
+        ``True`` if the path exists, ``False`` otherwise.
     """
     path = path.resolve()
     return path.exists()
@@ -128,7 +127,7 @@ def check_paths(src: Path, dst: Path) -> bool:
     Returns
     -------
     bool
-        True if both paths exist.
+        ``True`` if both paths exist.
 
     Raises
     ------
@@ -167,7 +166,7 @@ def _sort_content_files(content: list[Path]) -> list[Path]:
 
 def get_src_files(src: Path) -> t.SourceFiles:
     """
-    Return a SourceFiles object containing metadata and content files from a directory.
+    Return a ``SourceFiles`` object containing metadata and content files from a directory.
 
     Parameters
     ----------

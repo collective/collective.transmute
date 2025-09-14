@@ -27,8 +27,10 @@ def sort_data_by_value(
 
     Example
     -------
-    >>> data = {'a': 2, 'b': 5, 'c': 1}
-    >>> sort_data_by_value(data)
-    (('b', 5), ('a', 2), ('c', 1))
+    .. code-block:: pycon
+
+        >>> data = {'a': 2, 'b': 5, 'c': 1}
+        >>> sort_data_by_value(data)
+        (('b', 5), ('a', 2), ('c', 1))
     """
     return tuple(sorted(data.items(), key=lambda x: x[1], reverse=reverse))

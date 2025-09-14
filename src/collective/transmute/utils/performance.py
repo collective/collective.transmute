@@ -2,8 +2,8 @@
 Performance utilities for ``collective.transmute``.
 
 This module provides context managers and helpers for timing and reporting
-performance metrics during the transformation pipeline. Functions are documented
-for Sphinx autodoc and support logging execution times.
+performance metrics during the transformation pipeline. Functions support
+logging execution times.
 """
 
 from collective.transmute import _types as t
@@ -25,8 +25,10 @@ def report_time(title: str, consoles: t.ConsoleArea):
 
     Example
     -------
-    >>> with report_time('Step 1', consoles):
-    ...     # code to time
+    .. code-block:: pycon
+
+        >>> with report_time('Step 1', consoles):
+        ...     # code to time
     """
     start = datetime.now()
     msg = f"{title} started at {start}"

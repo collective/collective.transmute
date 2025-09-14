@@ -2,8 +2,8 @@
 Settings utilities for ``collective.transmute``.
 
 This module provides helper classes and functions for handling custom TOML encoding
-and registration of encoders for settings serialization. Functions and classes are
-documented for Sphinx autodoc and support custom data types in configuration files.
+and registration of encoders for settings serialization. Functions and classes
+support custom data types in configuration files.
 """
 
 from tomlkit.exceptions import ConvertError
@@ -16,7 +16,7 @@ import tomlkit
 
 class SetItem(Array):
     """
-    TOMLKit Array subclass for encoding Python sets as TOML arrays.
+    TOMLKit ``Array`` subclass for encoding Python sets as TOML arrays.
 
     Returns
     -------
@@ -38,7 +38,7 @@ class SetItem(Array):
 
 def set_encoder(obj: set) -> Item:
     """
-    Encode a Python set as a TOMLKit Item (Array).
+    Encode a Python set as a TOMLKit Item (``Array``).
 
     Parameters
     ----------
@@ -70,6 +70,8 @@ def register_encoders():
 
     Example
     -------
-    >>> register_encoders()
+    .. code-block:: pycon
+
+        >>> register_encoders()
     """
     tomlkit.register_encoder(set_encoder)

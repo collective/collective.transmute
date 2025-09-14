@@ -79,7 +79,7 @@ myst:
 ## `collective.transmute.utils.settings`
 
 ```{eval-rst}
-.. automodule:: collective.transmute.utils.querystring
+.. automodule:: collective.transmute.utils.settings
     :members:
 ```
 
