@@ -59,8 +59,6 @@ This command displays information about the `collective.transmute` package and i
 uv run transmute info
 ```
 
-will display:
-
 ```console
 collective.transmute - 1.0.0a0
 ==============================
@@ -72,6 +70,7 @@ Dependencies:
 ### `run`
 
 This command runs the actual transmute process.
+
 ```shell
 uv run transmute run --help
 ```
