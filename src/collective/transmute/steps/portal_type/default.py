@@ -1,11 +1,13 @@
 """
-Default type processor used by the portal_type pipeline step.
+Default type processor used by the ``portal_type`` pipeline step.
 
-This processor yields the item unchanged as is the default behavior.
+This processor yields the item unchanged as the default behavior.
 
 Example:
-    >>> async for result in processor(item, state):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in processor(item, state):
+        ...     print(result)
 """
 
 from collective.transmute import _types as t
@@ -13,7 +15,7 @@ from collective.transmute import _types as t
 
 async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGenerator:
     """
-    Default type processor used by the portal_type pipeline step.
+    Default type processor used by the ``portal_type`` pipeline step.
 
     Args:
         item (PloneItem): The item to process.
@@ -23,7 +25,9 @@ async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGen
         PloneItem: The unchanged item.
 
     Example:
-        >>> async for result in processor(item, state):
-        ...     print(result)
+        .. code-block:: pycon
+
+            >>> async for result in processor(item, state):
+            ...     print(result)
     """
     yield item
