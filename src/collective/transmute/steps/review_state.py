@@ -6,8 +6,10 @@ state and to rewrite workflow history as needed. Used in the ``collective.transm
 pipeline.
 
 Example:
-    >>> async for result in process_review_state(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_review_state(item, state, settings):
+        ...     print(result)
 """
 
 from collective.transmute import _types as t
@@ -26,10 +28,12 @@ def _is_valid_state(state_filter: tuple[str, ...], review_state: str) -> bool:
         bool: True if review_state is allowed, False otherwise.
 
     Example:
-        >>> _is_valid_state(("published", "private"), "published")
-        True
-        >>> _is_valid_state(("published",), "private")
-        False
+        .. code-block:: pycon
+
+            >>> _is_valid_state(("published", "private"), "published")
+            True
+            >>> _is_valid_state(("published",), "private")
+            False
     """
     status = True
     if review_state and state_filter:
@@ -43,7 +47,7 @@ async def process_review_state(
     """
     Pipeline step to process the review state of a Plone item.
 
-    If the item's review state is not in the allowed filter, yields None.
+    If the item's review state is not in the allowed filter, yields ``None``.
     Otherwise, rewrites workflow history and yields the updated item.
 
     Args:
@@ -55,8 +59,10 @@ async def process_review_state(
         PloneItem | None: The processed item or None if filtered out.
 
     Example:
-        >>> async for result in process_review_state(item, state, settings):
-        ...     print(result)
+        .. code-block:: pycon
+
+            >>> async for result in process_review_state(item, state, settings):
+            ...     print(result)
     """
     review_state: str = item.get("review_state", "")
     state_filter: tuple[str, ...] = settings.review_state["filter"]["allowed"]

@@ -30,13 +30,15 @@ async def process_default_page(
     Yields
     ------
     PloneItem or None
-        The updated item, merged with parent data if applicable, or None if
-        waiting for parent.
+        The updated item, merged with parent data if applicable, or ``None`` if
+        waiting for a parent.
 
     Example
     -------
-    >>> async for result in process_default_page(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_default_page(item, state, settings):
+        ...     print(result)
     """
     metadata = state.metadata
     item_uid = item["UID"]

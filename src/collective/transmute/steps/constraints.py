@@ -3,7 +3,7 @@ Pipeline steps for handling constraints in ``collective.transmute``.
 
 This module provides async generator functions for processing and normalizing
 constraints on Plone items in the transformation pipeline. These steps fix and
-update exportimport constraints using portal type mappings.
+update ``exportimport`` constraints using portal type mappings.
 """
 
 from collective.transmute import _types as t
@@ -16,7 +16,7 @@ async def process_constraints(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Fix and normalize exportimport constraints for a Plone item.
+    Fix and normalize ``exportimport`` constraints for a Plone item.
 
     Parameters
     ----------
@@ -34,8 +34,10 @@ async def process_constraints(
 
     Example
     -------
-    >>> async for result in process_constraints(item, state, settings):
-    ...     print(result['exportimport.constrains'])
+    .. code-block:: pycon
+
+        >>> async for result in process_constraints(item, state, settings):
+        ...     print(result['exportimport.constrains'])
     """
     key = "exportimport.constrains"
     if old_constrains := item.pop(key, None):

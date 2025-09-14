@@ -29,8 +29,10 @@ def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
 
     Example
     -------
-    >>> _is_valid_path('/foo/bar', {'/foo'}, {'/foo/bar'})
-    False
+    .. code-block:: pycon
+
+        >>> _is_valid_path('/foo/bar', {'/foo'}, {'/foo/bar'})
+        False
     """
     status = True
     for prefix in drop:
@@ -68,8 +70,10 @@ async def process_paths(
 
     Example
     -------
-    >>> async for result in process_paths(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_paths(item, state, settings):
+        ...     print(result)
     """
     id_ = item["@id"]
     path_filter = settings.paths["filter"]

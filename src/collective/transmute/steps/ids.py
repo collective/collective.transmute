@@ -31,7 +31,9 @@ def get_paths_cleanup(settings: t.TransmuteSettings) -> tuple[tuple[str, str], .
 
     Example
     -------
-    >>> cleanup = get_paths_cleanup(settings)
+    .. code-block:: pycon
+
+        >>> cleanup = get_paths_cleanup(settings)
     """
     global _CLEANUP
     if _CLEANUP is None:
@@ -60,8 +62,10 @@ def fix_short_id(id_: str) -> str:
 
     Example
     -------
-    >>> fix_short_id(' my id ')
-    'my_id'
+    .. code-block:: pycon
+
+        >>> fix_short_id(' my id ')
+        'my_id'
     """
     for pattern in PATTERNS:
         if match := re.match(pattern, id_):
@@ -77,7 +81,7 @@ async def process_export_prefix(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Remove export prefixes from the '@id' field of an item.
+    Remove export prefixes from the ``@id`` field of an item.
 
     Parameters
     ----------
@@ -91,12 +95,14 @@ async def process_export_prefix(
     Yields
     ------
     PloneItem
-        The updated item with export prefix removed from '@id'.
+        The updated item with export prefix removed from ``@id``.
 
     Example
     -------
-    >>> async for result in process_export_prefix(item, state, settings):
-    ...     print(result['@id'])
+    .. code-block:: pycon
+
+        >>> async for result in process_export_prefix(item, state, settings):
+        ...     print(result['@id'])
     """
     path = item["@id"]
     for src in settings.paths["export_prefixes"]:
@@ -114,7 +120,7 @@ async def process_ids(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Normalize and clean up the '@id' and 'id' fields of an item.
+    Normalize and clean up the ``@id`` and ``id`` fields of an item.
 
     Parameters
     ----------
@@ -132,8 +138,10 @@ async def process_ids(
 
     Example
     -------
-    >>> async for result in process_ids(item, state, settings):
-    ...     print(result['@id'], result['id'])
+    .. code-block:: pycon
+
+        >>> async for result in process_ids(item, state, settings):
+        ...     print(result['@id'], result['id'])
     """
     path = parse.unquote(item["@id"].replace(" ", "_"))
     cleanup_paths = get_paths_cleanup(settings)

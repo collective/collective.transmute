@@ -17,11 +17,13 @@ async def process_creators(
     """
     Process and filter the list of creators for an item.
 
-    Configuration should be added to transmute.toml, for example:
+    Configuration should be added to ``transmute.toml``, for example:
 
-    [principals]
-    default = 'Plone'
-    remove = ['admin']
+    .. code-block:: toml
+
+        [principals]
+        default = 'Plone'
+        remove = ['admin']
 
     Parameters
     ----------
@@ -39,8 +41,10 @@ async def process_creators(
 
     Example
     -------
-    >>> async for result in process_creators(item, state, settings):
-    ...     print(result['creators'])
+    .. code-block:: pycon
+
+        >>> async for result in process_creators(item, state, settings):
+        ...     print(result['creators'])
     """
     remove = settings.principals["remove"]
     default = [settings.principals["default"]]

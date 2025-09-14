@@ -35,8 +35,10 @@ async def process_querystring(
 
     Example
     -------
-    >>> async for result in process_querystring(item, state, settings):
-    ...     print(result['query'])
+    .. code-block:: pycon
+
+        >>> async for result in process_querystring(item, state, settings):
+        ...     print(result['query'])
     """
     if query := item.get("query", []):
         item["query"] = post_process_querystring(query, state)

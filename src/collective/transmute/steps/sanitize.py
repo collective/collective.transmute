@@ -5,8 +5,10 @@ This module provides functions to remove specified keys from Plone items,
 including block-related keys if present. Used in the ``collective.transmute`` pipeline.
 
 Example:
-    >>> async for result in process_cleanup(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_cleanup(item, state, settings):
+        ...     print(result)
 """
 
 from collective.transmute import _types as t
@@ -27,8 +29,10 @@ def get_drop_keys(has_blocks: bool, settings: t.TransmuteSettings) -> set[str]:
         set[str]: The set of keys to drop.
 
     Example:
-        >>> get_drop_keys(True, settings)
-        {'title', 'description', 'blocks'}
+        .. code-block:: pycon
+
+            >>> get_drop_keys(True, settings)
+            {'title', 'description', 'blocks'}
     """
     if has_blocks not in _DROP_KEYS:
         drop_keys: set[str] = set(settings.sanitize["drop_keys"])
@@ -45,8 +49,8 @@ async def process_cleanup(
     """
     Pipeline step to sanitize a Plone item by dropping unwanted keys.
 
-    Removes keys specified in settings.sanitize['drop_keys'] and, if blocks are present,
-    also removes settings.sanitize['block_keys'].
+    Removes keys specified in ``settings.sanitize['drop_keys']`` and, if blocks are present,
+    also removes ``settings.sanitize['block_keys']``.
 
     Args:
         item (PloneItem): The Plone item to sanitize.
@@ -57,8 +61,10 @@ async def process_cleanup(
         PloneItem: The sanitized item.
 
     Example:
-        >>> async for result in process_cleanup(item, state, settings):
-        ...     print(result)
+        .. code-block:: pycon
+
+            >>> async for result in process_cleanup(item, state, settings):
+            ...     print(result)
     """
     has_blocks: bool = "blocks" in item
     drop_keys: set[str] = get_drop_keys(has_blocks, settings)

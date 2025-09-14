@@ -13,7 +13,7 @@ from collective.transmute.utils import item as utils
 
 def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
     """
-    Get content types that require image to preview_image_link conversion.
+    Get content types that require ``image`` to ``preview_image_link`` conversion.
 
     Parameters
     ----------
@@ -27,8 +27,10 @@ def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
 
     Example
     -------
-    >>> get_conversion_types(settings)
-    ('News Item', 'Document')
+    .. code-block:: pycon
+
+        >>> get_conversion_types(settings)
+        ('News Item', 'Document')
     """
     return settings.images["to_preview_image_link"]
 
@@ -39,7 +41,7 @@ async def process_image_to_preview_image_link(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Convert image field to preview_image_link and manage image relations for an item.
+    Convert ``image`` field to ``preview_image_link`` and manage image relations for an item.
 
     Parameters
     ----------
@@ -57,8 +59,10 @@ async def process_image_to_preview_image_link(
 
     Example
     -------
-    >>> async for result in process_image_to_preview_image_link(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_image_to_preview_image_link(item, state, settings):
+        ...     print(result)
     """
     type_ = item["@type"]
     metadata = state.metadata
