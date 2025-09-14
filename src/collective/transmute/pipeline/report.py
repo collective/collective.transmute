@@ -1,12 +1,14 @@
 """
-Pipeline reporting steps for collective.transmute.
+Pipeline reporting steps for ``collective.transmute``.
 
 This module provides functions to generate and print reports about the
 pipeline's final state and path transformations. Used for logging and CSV
-export in the collective.transmute pipeline.
+export in the ``collective.transmute`` pipeline.
 
 Example:
-    >>> await final_reports(consoles, state, write_report=True, is_debug=True)
+    .. code-block:: pycon
+
+        >>> await final_reports(consoles, state, write_report=True, is_debug=True)
 """
 
 from collective.transmute import _types as t
@@ -27,7 +29,9 @@ async def report_final_state(consoles: t.ConsoleArea, state: t.PipelineState) ->
         None
 
     Example:
-        >>> await report_final_state(consoles, state)
+        .. code-block:: pycon
+
+            >>> await report_final_state(consoles, state)
     """
     consoles.print_log("Converted")
     consoles.print_log(f"  - Total: {len(state.seen)}")
@@ -53,7 +57,9 @@ async def write_paths_report(
         None
 
     Example:
-        >>> await write_paths_report(consoles, state)
+        .. code-block:: pycon
+
+            >>> await write_paths_report(consoles, state)
     """
     headers = [
         "filename",
@@ -90,7 +96,9 @@ async def final_reports(
         None
 
     Example:
-        >>> await final_reports(consoles, state, write_report=True, is_debug=True)
+        .. code-block:: pycon
+
+            >>> await final_reports(consoles, state, write_report=True, is_debug=True)
     """
     if write_report:
         await write_paths_report(consoles, state)
