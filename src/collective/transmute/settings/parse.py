@@ -100,7 +100,7 @@ _VALIDATORS: dict[str, list[dict]] = {
 
 def settings_validators() -> tuple[Validator, ...]:
     """
-    Return a tuple of dynaconf.Validator objects for settings validation.
+    Return a tuple of ``dynaconf.Validator`` objects for settings validation.
 
     Returns
     -------
@@ -142,7 +142,7 @@ def _find_config_path(settings: Settings | Dynaconf) -> Path:
 
 def parse_default() -> dict:
     """
-    Parse and return the default transmute settings from default.toml.
+    Parse and return the default transmute settings from ``default.toml``.
 
     Returns
     -------
@@ -162,7 +162,7 @@ def parse_default() -> dict:
 
 def parse_config(cwd_path: Path) -> dict:
     """
-    Parse and return the transmute config settings from transmute.toml.
+    Parse and return the transmute config settings from ``transmute.toml``.
 
     Parameters
     ----------
@@ -287,12 +287,12 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     Parameters
     ----------
     cwd_path : Path or None, optional
-        The current working directory. If None, uses Path.cwd().
+        The current working directory. If ``None``, uses ``Path.cwd()``.
 
     Returns
     -------
     TransmuteSettings
-        The settings object for collective.transmute.
+        The settings object for ``collective.transmute``.
 
     Example
     -------
@@ -312,12 +312,12 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
 
 def get_default_settings() -> t.TransmuteSettings:
     """
-    Return the default settings used by collective.transmute.
+    Return the default settings used by ``collective.transmute``.
 
     Returns
     -------
     TransmuteSettings
-        The default settings object for collective.transmute.
+        The default settings object for ``collective.transmute``.
 
     Example
     -------
