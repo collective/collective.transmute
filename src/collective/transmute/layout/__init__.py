@@ -21,8 +21,10 @@ class Header:
 
     Example
     -------
-    >>> header = Header("My Title")
-    >>> panel = header.__rich__()
+    .. code-block:: pycon
+
+        >>> header = Header("My Title")
+        >>> panel = header.__rich__()
     """
 
     def __init__(self, title: str):
@@ -59,8 +61,10 @@ class TransmuteReport:
 
     Example
     -------
-    >>> report = TransmuteReport({'TypeA': 10, 'TypeB': 5}, 'Exported')
-    >>> panel = report.__rich__()
+    .. code-block:: pycon
+
+        >>> report = TransmuteReport({'TypeA': 10, 'TypeB': 5}, 'Exported')
+        >>> panel = report.__rich__()
     """
 
     limit: int
@@ -126,7 +130,9 @@ def create_consoles() -> t.ConsoleArea:
 
     Example
     -------
-    >>> consoles = create_consoles()
+    .. code-block:: pycon
+
+        >>> consoles = create_consoles()
     """
     main_console = t.ConsolePanel()
     side_console = t.ConsolePanel()
@@ -155,7 +161,9 @@ class ApplicationLayout:
 
     Example
     -------
-    >>> layout = ApplicationLayout('My App')
+    .. code-block:: pycon
+
+        >>> layout = ApplicationLayout('My App')
     """
 
     title: str
@@ -213,7 +221,9 @@ class TransmuteLayout(ApplicationLayout):
 
     Example
     -------
-    >>> layout = TransmuteLayout('Transmute')
+    .. code-block:: pycon
+
+        >>> layout = TransmuteLayout('Transmute')
     """
 
     def _create_layout(self, title: str) -> Layout:
@@ -311,7 +321,9 @@ class ReportLayout(ApplicationLayout):
 
     Example
     -------
-    >>> layout = ReportLayout('Report')
+    .. code-block:: pycon
+
+        >>> layout = ReportLayout('Report')
     """
 
     def _create_layout(self, title: str) -> Layout:
@@ -418,7 +430,9 @@ def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> Live:
 
     Example
     -------
-    >>> live_display = live(layout)
+    .. code-block:: pycon
+
+        >>> live_display = live(layout)
     """
     return Live(
         app_layout.layout,
