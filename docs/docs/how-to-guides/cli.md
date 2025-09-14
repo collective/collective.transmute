@@ -14,7 +14,7 @@ Installing `collective.transmute` in your project will provide you with a new {t
 You can either:
 
 1.  locate the Python virtual environment used by your project (usually present in the `.venv` folder of your backend codebase) and run `.venv/bin/transmute`, or
-1.  if your project uses `uv`, then run `uv run transmute`, and `uv` will correctly initiate this CLI application.
+1.  if your project uses `uv`, then run `uv run transmute`, and `uv` will correctly initiate the CLI application.
 
 All examples here will showcase `uv run transmute` for the sake of simplicity.
 
@@ -24,21 +24,26 @@ All examples here will showcase `uv run transmute` for the sake of simplicity.
 After running `uv run transmute`, you'll be presented with a list of options and commands available in the tool, powered by {term}`Typer`:
 
 ```console
-Usage: transmute [OPTIONS] COMMAND [ARGS]...
+ Usage: transmute [OPTIONS] COMMAND [ARGS]...
 
-Welcome to transmute, the utility to transform data from collective.exportimport to plone.exportimport.
+ Welcome to transmute, the utility to transform data from collective.exportimport to
+ plone.exportimport.
 
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --install-completion          Install completion for the current shell.                                                              │
-│ --show-completion             Show completion for the current shell, to copy it or customize the installation.                       │
-│ --help                        Show this message and exit.                                                                            │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Commands ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ run        Transmutes data from src folder (in collective.exportimport format) to plone.exportimport format in the dst folder.       │
-│ report     Generates a json file with a report of export data in src directory.                                                      │
-│ settings   Report settings to be used by this application.                                                                           │
-│ sanity     Run a sanity check on pipeline steps.                                                                                     │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────╮
+│ --install-completion          Install completion for the current shell.               │
+│ --show-completion             Show completion for the current shell, to copy it or    │
+│                               customize the installation.                             │
+│ --help                        Show this message and exit.                             │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ────────────────────────────────────────────────────────────────────────────╮
+│ info       Show information about the collective.transmute tool and its main          │
+│            dependencies.                                                              │
+│ run        Transmutes data from src folder (in collective.exportimport format) to     │
+│            plone.exportimport format in the dst folder.                               │
+│ report     Generates a json file with a report of export data in src directory.       │
+│ settings   Report settings to be used by this application.                            │
+│ sanity     Run a sanity check on pipeline steps.                                      │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
 ## Commands
