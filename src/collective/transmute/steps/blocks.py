@@ -169,8 +169,10 @@ async def process_blocks(
 
     Example
     -------
-    >>> async for result in process_blocks(item, state, settings):
-    ...     print(result['blocks'])
+    .. code-block:: pycon
+
+        >>> async for result in process_blocks(item, state, settings):
+        ...     print(result['blocks'])
     """
     type_ = item["@type"]
     has_image = bool(item.get("image"))
