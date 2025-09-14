@@ -2,11 +2,13 @@
 Pipeline step for processing and mapping Plone item portal types.
 
 This module provides functions to pre-process items and map their portal types
-according to pipeline settings. Used in the collective.transmute pipeline.
+according to pipeline settings. Used in the ``collective.transmute`` pipeline.
 
 Example:
-    >>> async for result in process_type(item, state, settings):
-    ...     print(result)
+    .. code-block:: pycon
+
+        >>> async for result in process_type(item, state, settings):
+        ...     print(result)
 """
 
 from collective.transmute import _types as t
@@ -31,8 +33,10 @@ async def _pre_process(
         PloneItem: The processed item.
 
     Example:
-        >>> async for processed in _pre_process(item, settings, state):
-        ...     print(processed)
+        .. code-block:: pycon
+
+            >>> async for processed in _pre_process(item, settings, state):
+            ...     print(processed)
     """
     type_ = item["@type"]
     processor = _PROCESSORS.get(type_)
@@ -62,8 +66,10 @@ async def process_type(
         PloneItem | None: The processed item or None if dropped.
 
     Example:
-        >>> async for result in process_type(item, state, settings):
-        ...     print(result)
+        .. code-block:: pycon
+
+            >>> async for result in process_type(item, state, settings):
+            ...     print(result)
     """
     types = settings.types
     types_path = settings.paths.get("portal_type", {})
