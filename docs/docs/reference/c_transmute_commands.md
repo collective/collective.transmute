@@ -9,6 +9,15 @@ myst:
 
 # `collective.transmute.commands`
 
+The `collective.transmute.commands` module provides the following interfaces.
+
+## `collective.transmute.commands.info`
+
+```{eval-rst}
+.. automodule:: collective.transmute.commands.info
+    :members:
+```
+
 ## `collective.transmute.commands.report`
 
 ```{eval-rst}

@@ -7,7 +7,7 @@ app = typer.Typer()
 @app.callback(invoke_without_command=True)
 def info() -> None:
     """
-    Show information about the collective.transmute tool and its main dependencies.
+    Show information about the ``collective.transmute`` tool and its main dependencies.
     """
     from collective.html2blocks import __version__ as html2blocks_version
     from collective.transmute import PACKAGE_NAME
