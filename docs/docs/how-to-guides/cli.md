@@ -122,18 +122,25 @@ will display:
 
 ```console
 
- Usage: transmute report [OPTIONS] SRC [DST]
+ Usage: transmute run [OPTIONS] SRC DST
 
- Generates a json file with a report of export data in src directory.
+ Transmutes data from src folder (in collective.exportimport format) to
+ plone.exportimport format in the dst folder.
 
-╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    src      PATH   Source path of the migration data [default: None] [required]                            │
-│      dst      [DST]  Destination path of the report [default: None]                                          │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --report-types        TEXT  Portal types to report on. Please provide as comma-separeted values.             │
-│ --help                      Show this message and exit.                                                      │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Arguments ───────────────────────────────────────────────────────────────────────────╮
+│ *    src      PATH  Source path of the migration [required]                           │
+│ *    dst      PATH  Destination path of the migration [required]                      │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────╮
+│ --write-report    --no-write-report      Should we write a csv report with all path   │
+│                                          transformations?                             │
+│                                          [default: no-write-report]                   │
+│ --clean-up        --no-clean-up          Should we remove all existing files in the   │
+│                                          dst?                                         │
+│                                          [default: no-clean-up]                       │
+│ --ui              --no-ui                Use rich UI [default: ui]                    │
+│ --help                                   Show this message and exit.                  │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 Usage:
 
