@@ -64,6 +64,7 @@ extensions = [
     "sphinx.ext.graphviz",
     "sphinx.ext.ifconfig",
     "sphinx.ext.intersphinx",
+    "sphinx.ext.napoleon",
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",  # plone.api
     "sphinx_copybutton",

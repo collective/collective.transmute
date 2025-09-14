@@ -1,10 +1,10 @@
 ---
 myst:
   html_meta:
-    "description": "collective.transmute Reference"
-    "property=og:description": "collective.transmute Reference"
-    "property=og:title": "collective.transmute Reference"
-    "keywords": "Plone, collective.transmute, reference"
+    "description": "collective.transmute CLI reference"
+    "property=og:description": "collective.transmute CLI reference"
+    "property=og:title": "collective.transmute CLI reference"
+    "keywords": "Plone, collective.transmute, CLI, reference"
 ---
 
 # `collective.transmute.cli`

@@ -2,7 +2,7 @@
 CLI entry point for ``collective.transmute``.
 
 This module provides the Typer-based command-line interface for converting
-data from collective.exportimport to plone.exportimport.
+data from ``collective.exportimport`` to ``plone.exportimport``.
 
 Example:
     .. code-block:: shell
@@ -30,7 +30,7 @@ SUBCOMMANDS_IGNORE_SETTINGS = {"info", "settings"}
 @app.callback(invoke_without_command=True)
 def main(ctx: typer.Context) -> None:
     """Welcome to transmute, the utility to transform data from
-    collective.exportimport to plone.exportimport.
+    ``collective.exportimport`` to ``plone.exportimport``.
     """
     # Always add a line
     typer.echo("")
