@@ -86,7 +86,7 @@ uv run transmute run --help
 │ *    dst      PATH  Destination path of the migration [required]                      │
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ─────────────────────────────────────────────────────────────────────────────╮
-│ --write-report    --no-write-report      Should we write a csv report with all path   │
+│ --write-report    --no-write-report      Should we write a CSV report with all path   │
 │                                          transformations?                             │
 │                                          [default: no-write-report]                   │
 │ --clean-up        --no-clean-up          Should we remove all existing files in the   │
@@ -109,7 +109,7 @@ uv run transmute run /exported-data/ /transmuted-data/
 | --- | --- | --- |
 | `--clean-up` or `--no-clean-up` | Should we remove all existing files in the destination folder? |  `--no-clean-up` |
 | `--ui` or `--no-ui` | Enable or disable the graphical interface | `--ui` |
-| `--write-report` or `--write-report` | Should we write a csv report with all path transformations?  | `--no-write-report` |
+| `--write-report` or `--write-report` | Should we write a CSV report with all path transformations?  | `--no-write-report` |
 | `--help` | Show the help for the command | |
 
 

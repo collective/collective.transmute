@@ -1,10 +1,4 @@
-csv
-dst
-DST
-json
-Repo
+JSON
 setuptools
-src
-SRC
 subclassing
 Transmogrifier

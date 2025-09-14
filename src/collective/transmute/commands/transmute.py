@@ -65,7 +65,7 @@ def run(
     write_report: Annotated[
         bool,
         typer.Option(
-            help="Should we write a csv report with all path transformations?"
+            help="Should we write a CSV report with all path transformations?"
         ),
     ] = False,
     clean_up: Annotated[
