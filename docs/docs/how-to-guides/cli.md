@@ -152,10 +152,7 @@ This command reports all settings used by `collective.transmute`
 uv run transmute settings
 ```
 
-will display:
-
 ```console
-
 Settings used by this application
 ---------------------------------
 Local settings: /home/transmute/project/transmute.toml
@@ -179,11 +176,12 @@ keys_from_parent = ["@id", "id"]
 keep = false
 ```
 
-if you do not have a `transmute.toml` file, it is possible to create one by running:
+If you don't have a {file}`transmute.toml` file, create one by running the following command.
 
 ```shell
 uv run transmute settings generate
 ```
+
 
 ### `sanity`
 
