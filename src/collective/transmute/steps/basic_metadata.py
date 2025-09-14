@@ -15,7 +15,7 @@ async def process_title_description(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Strip whitespace from the 'title' and 'description' fields of an item.
+    Strip whitespace from the ``title`` and ``description`` fields of an item.
 
     Parameters
     ----------
@@ -29,12 +29,14 @@ async def process_title_description(
     Yields
     ------
     PloneItem
-        The updated item with stripped title and description.
+        The updated item with stripped ``title`` and ``description``.
 
     Example
     -------
-    >>> async for result in process_title_description(item, state, settings):
-    ...     print(result['title'])
+    .. code-block:: pycon
+
+        >>> async for result in process_title_description(item, state, settings):
+        ...     print(result['title'])
     """
     for field in ("title", "description"):
         cur_value = item.get(field)
@@ -49,7 +51,7 @@ async def process_title(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Ensure the 'title' field is set for an item, using filename or id if missing.
+    Ensure the ``title`` field is set for an item, using its ``filename`` or ``id`` if it's missing.
 
     Parameters
     ----------
@@ -67,8 +69,10 @@ async def process_title(
 
     Example
     -------
-    >>> async for result in process_title(item, state, settings):
-    ...     print(result['title'])
+    .. code-block:: pycon
+
+        >>> async for result in process_title(item, state, settings):
+        ...     print(result['title'])
     """
     title = item.get("title", None)
     if not title:
