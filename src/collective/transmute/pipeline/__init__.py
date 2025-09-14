@@ -1,12 +1,14 @@
 """
-Pipeline initialization and orchestration for collective.transmute.
+Pipeline initialization and orchestration for ``collective.transmute``.
 
 This module provides functions and context managers to run, debug, and manage
-pipeline steps for Plone item transformation. Used in the collective.transmute
+pipeline steps for Plone item transformation. Used in the ``collective.transmute``
 pipeline.
 
 Example:
-    >>> metadata_file = await pipeline(src_files, dst, state, True, consoles, settings)
+    .. code-block:: pycon
+
+        >>> metadata_file = await pipeline(src_files, dst, state, True, consoles, settings)
 """
 
 from collections.abc import Callable
@@ -34,8 +36,10 @@ def pipeline_debugger(
         state (PipelineState): The pipeline state object.
 
     Example:
-        >>> with pipeline_debugger(consoles, state) as dbg:
-        ...     dbg("Debug message")
+        .. code-block:: pycon
+
+            >>> with pipeline_debugger(consoles, state) as dbg:
+            ...     dbg("Debug message")
     """
     consoles.debug(f"Starting pipeline processing of {state.total} items")
     yield consoles.debug
@@ -53,7 +57,9 @@ def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
         tuple[PipelineStep, ...]: All pipeline steps.
 
     Example:
-        >>> steps = all_steps(settings)
+        .. code-block:: pycon
+
+            >>> steps = all_steps(settings)
     """
     config_steps = settings.pipeline.get("steps")
     return load_all_steps(config_steps)
@@ -75,7 +81,9 @@ def _prepare_report_items(
         tuple[dict, dict]: Source and destination report items.
 
     Example:
-        >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
+        .. code-block:: pycon
+
+            >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
     """
     if not item:
         return src_item, {
