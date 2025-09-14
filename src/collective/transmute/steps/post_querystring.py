@@ -1,5 +1,5 @@
 """
-Pipeline steps for post-processing querystrings in collective.transmute.
+Pipeline steps for post-processing querystrings in ``collective.transmute``.
 
 This module provides async generator functions for updating and normalizing
 querystring definitions in collection-like objects and listing blocks during the

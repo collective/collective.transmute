@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling default pages in collective.transmute.
+Pipeline steps for handling default pages in ``collective.transmute``.
 
 This module provides async generator functions for processing and merging default
 page items in the transformation pipeline. These steps use metadata and settings to

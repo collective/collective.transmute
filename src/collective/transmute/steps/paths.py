@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling path filtering in collective.transmute.
+Pipeline steps for handling path filtering in ``collective.transmute``.
 
 This module provides functions and async generator steps for filtering and validating
 item paths in the transformation pipeline. These steps use settings to determine which

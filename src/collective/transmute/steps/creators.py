@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling creators in collective.transmute.
+Pipeline steps for handling creators in ``collective.transmute``.
 
 This module provides async generator functions for processing and normalizing
 creator fields on Plone items in the transformation pipeline. These steps update

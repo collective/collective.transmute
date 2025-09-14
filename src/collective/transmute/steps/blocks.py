@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling Volto blocks in collective.transmute.
+Pipeline steps for handling Volto blocks in ``collective.transmute``.
 
 This module provides functions and async generator steps for processing, normalizing,
 and generating Volto blocks for Plone items in the transformation pipeline. These steps

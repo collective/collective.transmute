@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling and normalizing IDs in collective.transmute.
+Pipeline steps for handling and normalizing IDs in ``collective.transmute``.
 
 This module provides async generator functions and helpers for cleaning up, fixing,
 and transforming item IDs and paths in the transformation pipeline. These steps

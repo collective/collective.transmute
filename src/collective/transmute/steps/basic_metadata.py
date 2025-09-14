@@ -1,5 +1,5 @@
 """
-Pipeline steps for basic metadata normalization in collective.transmute.
+Pipeline steps for basic metadata normalization in ``collective.transmute``.
 
 This module provides async generator functions for cleaning and setting metadata fields
 such as title and description. These steps are used in the transformation pipeline and

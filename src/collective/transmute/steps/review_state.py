@@ -2,7 +2,7 @@
 Pipeline step for processing Plone item review states.
 
 This module provides functions to filter items based on their workflow review
-state and to rewrite workflow history as needed. Used in the collective.transmute
+state and to rewrite workflow history as needed. Used in the ``collective.transmute``
 pipeline.
 
 Example:

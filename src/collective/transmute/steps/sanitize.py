@@ -2,7 +2,7 @@
 Pipeline step for sanitizing Plone items by dropping unwanted keys.
 
 This module provides functions to remove specified keys from Plone items,
-including block-related keys if present. Used in the collective.transmute pipeline.
+including block-related keys if present. Used in the ``collective.transmute`` pipeline.
 
 Example:
     >>> async for result in process_cleanup(item, state, settings):

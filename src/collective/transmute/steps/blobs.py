@@ -1,9 +1,9 @@
 """
-Pipeline steps for handling blob fields in collective.transmute.
+Pipeline steps for handling blob fields in ``collective.transmute``.
 
 This module provides async generator functions for extracting and processing blob
 fields (such as files and images) from items in the transformation pipeline. These
-steps are used by collective.transmute.
+steps are used by ``collective.transmute``.
 """
 
 from collective.transmute import _types as t

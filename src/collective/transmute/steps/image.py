@@ -1,9 +1,9 @@
 """
-Pipeline steps for handling image conversion in collective.transmute.
+Pipeline steps for handling image conversion in ``collective.transmute``.
 
 This module provides functions and async generator steps for converting image fields
 into preview image links and managing image relations in the transformation pipeline.
-These steps are used by collective.transmute for content types requiring
+These steps are used by ``collective.transmute`` for content types requiring
 image conversion.
 """
 

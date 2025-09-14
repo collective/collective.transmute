@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling constraints in collective.transmute.
+Pipeline steps for handling constraints in ``collective.transmute``.
 
 This module provides async generator functions for processing and normalizing
 constraints on Plone items in the transformation pipeline. These steps fix and

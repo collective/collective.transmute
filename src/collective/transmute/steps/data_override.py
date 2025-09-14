@@ -1,5 +1,5 @@
 """
-Pipeline steps for handling data overrides in collective.transmute.
+Pipeline steps for handling data overrides in ``collective.transmute``.
 
 This module provides async generator functions for overwriting item data fields
 based on configuration settings in the transformation pipeline. These steps allow
