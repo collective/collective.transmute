@@ -127,7 +127,7 @@ async def run_step(
         settings (TransmuteSettings): The transmute settings object.
 
     Yields:
-        tuple[PloneItem | None, str, bool]: The processed item, step name, and is_new
+        tuple[PloneItem | None, str, bool]: The processed item, step name, and ``is_new``
         flag.
 
     Example:
@@ -172,7 +172,7 @@ async def run_pipeline(
 
     Yields:
         tuple[PloneItem | None, str, bool]: The processed item, last step name,
-        and is_new flag.
+        and ``is_new`` flag.
 
     Example:
         .. code-block:: pycon
