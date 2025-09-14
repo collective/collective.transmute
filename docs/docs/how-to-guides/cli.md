@@ -1,10 +1,10 @@
 ---
 myst:
   html_meta:
-    "description": "How to use the {term}`CLI` for collective.transmute, including commands, options, and server endpoints."
-    "property=og:description": "Guide to using the {term}`CLI` and block converters in collective.transmute."
+    "description": "How to use the command line interface for collective.transmute, including commands, options, and server endpoints."
+    "property=og:description": "Guide to using the command line interface and block converters in collective.transmute."
     "property=og:title": "How to use the CLI | collective.transmute"
-    "keywords": "Plone, collective.transmute, {term}`CLI`, {term}`Typer`, Volto, migration, guide"
+    "keywords": "Plone, collective.transmute, command line interface, Typer, Volto, migration, guide"
 ---
 
 # `transmute` command line application
@@ -14,7 +14,7 @@ Installing `collective.transmute` in your project will provide you with a new {t
 You can either:
 
 1.  locate the Python virtual environment used by your project (usually present in the `.venv` folder of your backend codebase) and run `.venv/bin/transmute`, or
-1.  if your project uses `uv`, then run `uv run transmute`, and `uv` will correctly initiate this {term}`CLI` application.
+1.  if your project uses `uv`, then run `uv run transmute`, and `uv` will correctly initiate this CLI application.
 
 All examples here will showcase `uv run transmute` for the sake of simplicity.
 
