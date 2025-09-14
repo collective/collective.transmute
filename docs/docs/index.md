@@ -25,7 +25,7 @@ myst:
 [![CI](https://github.com/collective/collective.transmute/actions/workflows/main.yml/badge.svg)](https://github.com/collective/collective.transmute/actions/workflows/main.yml)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/collective/collective.transmute)](https://github.com/collective/collective.transmute)
-[![GitHub Repo stars](https://img.shields.io/github/stars/collective/collective.transmute?style=social)](https://github.com/collective/collective.transmute)
+[![GitHub repository stars](https://img.shields.io/github/stars/collective/collective.transmute?style=social)](https://github.com/collective/collective.transmute)
 
 </div>
 
