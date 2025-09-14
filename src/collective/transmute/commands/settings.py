@@ -42,7 +42,7 @@ def settings(ctx: typer.Context) -> None:
 
 @app.command(name="generate")
 def generate() -> None:
-    """Generate a new transmute.toml settings file in the current directory."""
+    """Generate a new ``transmute.toml`` settings file in the current directory."""
     settings = get_default_settings()
     data = dump_settings(settings)
     path = Path("transmute.toml").resolve()
