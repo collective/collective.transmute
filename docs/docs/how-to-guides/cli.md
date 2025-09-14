@@ -40,7 +40,7 @@ After running `uv run transmute`, you'll be presented with a list of options and
 │            dependencies.                                                              │
 │ run        Transmutes data from src folder (in collective.exportimport format) to     │
 │            plone.exportimport format in the dst folder.                               │
-│ report     Generates a json file with a report of export data in src directory.       │
+│ report     Generates a JSON file with a report of export data in src directory.       │
 │ settings   Report settings to be used by this application.                            │
 │ sanity     Run a sanity check on pipeline steps.                                      │
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
@@ -114,7 +114,7 @@ uv run transmute run /exported-data/ /transmuted-data/
 
 ### `report`
 
-This command generates a json file with a report of export data in `SRC` directory
+This command generates a JSON file with a report of export data in `src` directory.
 
 ```shell
 uv run transmute report --help
@@ -126,16 +126,17 @@ will display:
 
  Usage: transmute report [OPTIONS] SRC [DST]
 
- Generates a json file with a report of export data in src directory.
+ Generates a JSON file with a report of export data in src directory.
 
-╭─ Arguments ──────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ *    src      PATH   Source path of the migration data [default: None] [required]                            │
-│      dst      [DST]  Destination path of the report [default: None]                                          │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
-╭─ Options ────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│ --report-types        TEXT  Portal types to report on. Please provide as comma-separeted values.             │
-│ --help                      Show this message and exit.                                                      │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Arguments ───────────────────────────────────────────────────────────────────────────╮
+│ *    src      PATH   Source path of the migration data [required]                     │
+│      dst      [DST]  Destination path of the report                                   │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
+╭─ Options ─────────────────────────────────────────────────────────────────────────────╮
+│ --report-types        TEXT  Portal types to report on. Please provide as              │
+│                             comma-separated values.                                   │
+│ --help                      Show this message and exit.                               │
+╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 Usage:
 
