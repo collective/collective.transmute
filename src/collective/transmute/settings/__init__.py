@@ -7,12 +7,12 @@ __all__ = ("get_settings", "logger_settings")
 
 def logger_settings(cwd: Path) -> tuple[bool, Path]:
     """
-    Return the debug status and log file path for collective.transmute.
+    Return the debug status and log file path for ``collective.transmute``.
 
     Parameters
     ----------
     cwd : Path
-        The current working directory as a pathlib.Path object.
+        The current working directory as a ``pathlib.Path`` object.
 
     Returns
     -------
@@ -23,10 +23,12 @@ def logger_settings(cwd: Path) -> tuple[bool, Path]:
 
     Example
     -------
-    >>> from pathlib import Path
-    >>> is_debug, log_path = logger_settings(Path("/project"))
-    >>> print(is_debug)
-    >>> print(log_path)
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> is_debug, log_path = logger_settings(Path("/project"))
+        >>> print(is_debug)
+        >>> print(log_path)
     """
     settings = get_settings()
     config = settings.config

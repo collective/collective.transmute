@@ -25,8 +25,10 @@ def _as_set(value: list) -> set:
 
     Example
     -------
-    >>> _as_set([1, 2, 2])
-    {1, 2}
+    .. code-block:: pycon
+
+        >>> _as_set([1, 2, 2])
+        {1, 2}
     """
     value = value if value else []
     return set(value)
@@ -48,8 +50,10 @@ def _as_tuple(value: list) -> tuple:
 
     Example
     -------
-    >>> _as_tuple([1, 2, 3])
-    (1, 2, 3)
+    .. code-block:: pycon
+
+        >>> _as_tuple([1, 2, 3])
+        (1, 2, 3)
     """
     value = value if value else []
     return tuple(value)
@@ -105,9 +109,11 @@ def settings_validators() -> tuple[Validator, ...]:
 
     Example
     -------
-    >>> validators = settings_validators()
-    >>> isinstance(validators[0], Validator)
-    True
+    .. code-block:: pycon
+
+        >>> validators = settings_validators()
+        >>> isinstance(validators[0], Validator)
+        True
     """
     validators = []
     for key, checks in _VALIDATORS.items():
@@ -290,9 +296,11 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
 
     Example
     -------
-    >>> from pathlib import Path
-    >>> settings = get_settings(Path("/project"))
-    >>> print(settings.config)
+    .. code-block:: pycon
+
+        >>> from pathlib import Path
+        >>> settings = get_settings(Path("/project"))
+        >>> print(settings.config)
     """
     cwd_path = Path.cwd() if cwd_path is None else cwd_path
     defaults = parse_default()
@@ -313,8 +321,10 @@ def get_default_settings() -> t.TransmuteSettings:
 
     Example
     -------
-    >>> settings = get_default_settings()
-    >>> print(settings.config)
+    .. code-block:: pycon
+
+        >>> settings = get_default_settings()
+        >>> print(settings.config)
     """
     defaults = _merge_defaults(parse_default(), {})
     data = t.TransmuteSettings(**defaults)
