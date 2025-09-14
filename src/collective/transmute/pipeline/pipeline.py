@@ -1,14 +1,16 @@
 """
-Pipeline execution steps for collective.transmute.
+Pipeline execution steps for ``collective.transmute``.
 
 This module provides functions and context managers to run, debug, and manage
-pipeline steps for Plone item transformation. Used in the collective.transmute
+pipeline steps for Plone item transformation. Used in the ``collective.transmute``
 pipeline.
 
 Example:
-    >>> async for result, step_name, is_new in run_pipeline(
-    ...     steps, item, state, consoles, settings):
-    ...     print(result, step_name, is_new)
+    .. code-block:: pycon
+
+        >>> async for result, step_name, is_new in run_pipeline(
+        ...     steps, item, state, consoles, settings):
+        ...     print(result, step_name, is_new)
 """
 
 from collections.abc import AsyncGenerator
@@ -31,8 +33,10 @@ def step_debugger(
         step_name (str): Name of the pipeline step.
 
     Example:
-        >>> with step_debugger(consoles, src_uid, item, step_name):
-        ...     # step logic
+        .. code-block:: pycon
+
+            >>> with step_debugger(consoles, src_uid, item, step_name):
+            ...     # step logic
     """
     consoles.debug(f"({src_uid}) - Step {step_name} - started")
     yield
@@ -51,7 +55,9 @@ def _add_to_drop(path: str, settings: t.TransmuteSettings) -> None:
         None
 
     Example:
-        >>> _add_to_drop('/news/item', settings)
+        .. code-block:: pycon
+
+            >>> _add_to_drop('/news/item', settings)
     """
     parents = item_utils.all_parents_for(path)
     valid_path = parents & settings.paths_filter_allowed
@@ -85,8 +91,10 @@ async def _sub_item_pipeline(
         flag.
 
     Example:
-        >>> async for sub_item, last_step, is_new in _sub_item_pipeline(...):
-        ...     print(sub_item, last_step, is_new)
+        .. code-block:: pycon
+
+            >>> async for sub_item, last_step, is_new in _sub_item_pipeline(...):
+            ...     print(sub_item, last_step, is_new)
     """
     msg = f" - New: {item.get('UID')} (from {src_uid}/{step_name})"
     consoles.print(msg)
@@ -123,8 +131,10 @@ async def run_step(
         flag.
 
     Example:
-        >>> async for result, step_name, is_new in run_step(...):
-        ...     print(result, step_name, is_new)
+        .. code-block:: pycon
+
+            >>> async for result, step_name, is_new in run_step(...):
+            ...     print(result, step_name, is_new)
     """
     result_item: t.PloneItem | None = None
     step_name = step.__name__
@@ -165,9 +175,11 @@ async def run_pipeline(
         and is_new flag.
 
     Example:
-        >>> async for result, step_name, is_new in run_pipeline(
-        ...     steps, item, state, consoles, settings):
-        ...     print(result, step_name, is_new)
+        .. code-block:: pycon
+
+            >>> async for result, step_name, is_new in run_pipeline(
+            ...     steps, item, state, consoles, settings):
+            ...     print(result, step_name, is_new)
     """
     src_uid = item["UID"] if item else ""
     last_step_name = ""
