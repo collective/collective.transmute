@@ -76,6 +76,14 @@ myst:
 ```
 
 
+## `collective.transmute.utils.settings`
+
+```{eval-rst}
+.. automodule:: collective.transmute.utils.querystring
+    :members:
+```
+
+
 ## `collective.transmute.utils.workflow`
 
 ```{eval-rst}
