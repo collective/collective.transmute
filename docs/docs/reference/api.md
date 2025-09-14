@@ -1,10 +1,10 @@
 ---
 myst:
   html_meta:
-    "description": "collective.transmute Codebase"
-    "property=og:description": "collective.transmute Codebase"
-    "property=og:title": "collective.transmute Codebase"
-    "keywords": "Plone, _collective.transmute,_ codebase"
+    "description": "collective.transmute API"
+    "property=og:description": "collective.transmute API"
+    "property=og:title": "collective.transmute API"
+    "keywords": "Plone, collective.transmute, API"
 ---
 
 # API
