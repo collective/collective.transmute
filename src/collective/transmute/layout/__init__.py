@@ -265,7 +265,7 @@ class TransmuteLayout(ApplicationLayout):
 
     def update_layout(self, state: t.PipelineState) -> None:
         """
-        Update the layout with pipeline state.
+        Update the layout with the pipeline state.
 
         Parameters
         ----------
@@ -362,7 +362,7 @@ class ReportLayout(ApplicationLayout):
 
     def update_layout(self, state: t.ReportState) -> None:
         """
-        Update the layout with report state.
+        Update the layout with the report state.
 
         Parameters
         ----------
@@ -421,7 +421,7 @@ def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> Live:
     app_layout : ApplicationLayout
         The application layout to display.
     redirect_stderr : bool, optional
-        Whether to redirect stderr to the live display (default: True).
+        Whether to redirect stderr to the live display (default: ``True``).
 
     Returns
     -------
