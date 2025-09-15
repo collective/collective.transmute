@@ -49,3 +49,5 @@ validator
 Volto
 Vue
 Zope
+breakpoint
+traceback

@@ -112,4 +112,8 @@ ETL
     Extract, Transform, Load.
     A process for extracting data from one source, transforming it, and loading it into another destination.
     It is used to transform data from one format into another.
+
+TOML
+    [TOML (Tom's Obvious Minimal Language)](https://toml.io/en/) is a configuration file format designed for readability and ease of use, mapping unambiguously to a dictionary.
+
 ```

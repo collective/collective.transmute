@@ -16,7 +16,7 @@ This guide provides step-by-step instructions for running {term}`collective.tran
 
 First, you probably want to create a new Python project to host your {term}`transmute` configuration files, pipeline steps and type converters.
 
-Our suggestion is to use {term}`uv` to create a new codebase (in our case, to be named **plone-migration**) by running the following command:
+Our suggestion is to use {term}`uv` to create a new codebase (in our case, to be named **`plone-migration`**) by running the following command:
 
 ```shell
 uv init --app --package plone-migration
@@ -38,7 +38,7 @@ uv run transmute settings generate
 
 ## Configuring your migration: The {file}`transmute.toml` file
 
-The {file}`transmute.toml` file is a configuration file written in [TOML](https://toml.io/en/) format. It organizes all the settings needed to control how the migration pipeline runs. Each section is marked by a header in square brackets (e.g., `[pipeline]`, `[types]`), and settings are grouped by their purpose—such as pipeline steps, type mappings, review state filters, and more.
+The {file}`transmute.toml` file is a configuration file written in [TOML](https://toml.io/en/) format. It organizes all the settings needed to control how the migration pipeline runs. Each section is marked by a header in square brackets (for example, `[pipeline]`, `[types]`), and settings are grouped by their purpose—such as pipeline steps, type mappings, review state filters, and more.
 
 - **Sections**: Each section defines a logical part of the migration process, like pipeline steps, principals, default pages, review state, paths, images, sanitization, and type conversions.
 - **Arrays and Tables**: Lists of values (arrays) are written in square brackets, while more complex mappings (tables) use nested headers or double brackets for repeated entries.
@@ -83,16 +83,16 @@ This command will, first remove the results of previous migrations (`--clean-up`
 
 This file contains the report, as CSV, of the last transmute process. The file has the following columns:
 
-* filename: Original file name of the processed item
-* src_path: Item Path in the source {term}`Plone` portal
-* src_uid: Original UID for the item
-* src_type: Original portal type for the item
-* src_state: Original review state
-* dst_path: Item path in the destination portal
-* dst_uid: Item UID in the destination portal
-* dst_type: Item portal type at destination
-* dst_state: Item review state
-* last_step: If present, shows the step of the pipeline where the item was dropped
+* `filename`: Original file name of the processed item
+* `src_path`: Item Path in the source {term}`Plone` portal
+* `src_uid`: Original UID for the item
+* `src_type`: Original portal type for the item
+* `src_state`: Original review state
+* `dst_path`: Item path in the destination portal
+* `dst_uid`: Item UID in the destination portal
+* `dst_type`: Item portal type at destination
+* `dst_state`: Item review state
+* `last_step`: If present, shows the step of the pipeline where the item was dropped
 
 Example of an item that was dropped (in this case, replaced) because there was another item as default page applied to it:
 
