@@ -41,7 +41,8 @@ async def process_image_to_preview_image_link(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Convert ``image`` field to ``preview_image_link`` and manage image relations for an item.
+    Convert ``image`` field to ``preview_image_link`` and manage image relations for
+    an item.
 
     Parameters
     ----------
@@ -61,8 +62,8 @@ async def process_image_to_preview_image_link(
     -------
     .. code-block:: pycon
 
-        >>> async for result in process_image_to_preview_image_link(item, state, settings):
-        ...     print(result)
+        >>> async for res in process_image_to_preview_image_link(item, state, settings):
+        ...     print(res)
     """
     type_ = item["@type"]
     metadata = state.metadata

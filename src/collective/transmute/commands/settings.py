@@ -1,5 +1,6 @@
 from collective.transmute import _types as t
 from collective.transmute.settings.parse import get_default_settings
+from collective.transmute.utils import settings as utils
 from pathlib import Path
 
 import tomlkit
@@ -12,15 +13,16 @@ app = typer.Typer()
 def dump_settings(settings: t.TransmuteSettings) -> str:
     """Dump settings as TOML string."""
     data = settings._raw_data
-    response = tomlkit.dumps(data)
-    return response
+    document = utils.settings_to_toml(data)
+    return tomlkit.dumps(document)
 
 
 @app.callback(invoke_without_command=True)
 def settings(ctx: typer.Context) -> None:
     """Report settings to be used by this application."""
-    if not getattr(ctx, "obj", None):
-        if not ctx.invoked_subcommand:
+    if getattr(ctx, "obj", None) is None:
+        # Check if we a have a subcommand (like 'generate')
+        if ctx.invoked_subcommand != "generate":
             typer.echo("Did not find a transmute.toml file")
             typer.echo("You should first run 'uv run transmute generate'")
             raise typer.Exit(1) from None

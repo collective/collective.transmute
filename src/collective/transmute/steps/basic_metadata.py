@@ -51,7 +51,8 @@ async def process_title(
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Ensure the ``title`` field is set for an item, using its ``filename`` or ``id`` if it's missing.
+    Ensure the ``title`` field is set for an item, using its ``filename`` or ``id`` if
+    it's missing.
 
     Parameters
     ----------

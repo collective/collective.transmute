@@ -166,7 +166,8 @@ def _sort_content_files(content: list[Path]) -> list[Path]:
 
 def get_src_files(src: Path) -> t.SourceFiles:
     """
-    Return a ``SourceFiles`` object containing metadata and content files from a directory.
+    Return a ``SourceFiles`` object containing metadata and content files
+    from a directory.
 
     Parameters
     ----------

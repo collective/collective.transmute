@@ -9,7 +9,10 @@ support custom data types in configuration files.
 from tomlkit.exceptions import ConvertError
 from tomlkit.items import Array
 from tomlkit.items import Item
+from tomlkit.items import Table
 from tomlkit.items import Trivia
+from tomlkit.items import item
+from tomlkit.toml_document import TOMLDocument
 
 import tomlkit
 
@@ -57,7 +60,7 @@ def set_encoder(obj: set) -> Item:
     """
     if isinstance(obj, set):
         trivia = Trivia()
-        return SetItem(value=list(obj), trivia=trivia)
+        return SetItem(value=list(obj), trivia=trivia, multiline=True)
     else:
         # we cannot convert this, but give other custom converters a
         # chance to run
@@ -75,3 +78,40 @@ def register_encoders():
         >>> register_encoders()
     """
     tomlkit.register_encoder(set_encoder)
+
+
+def _fix_arrays(table: Table) -> Table:
+    """
+    Ensure all arrays in the table are multiline.
+    """
+    for key, value in table.items():
+        if isinstance(value, Table):
+            table[key] = _fix_arrays(value)
+        elif isinstance(value, Array):
+            value._multiline = True
+            table[key] = value
+    return table
+
+
+def settings_to_toml(data: dict) -> TOMLDocument:
+    """
+    Convert a dictionary containing the settings to a TOMLDocument.
+
+    Parameters
+    ----------
+    data : dict
+        The dictionary to convert.
+
+    Returns
+    -------
+    TOMLDocument
+        The resulting TOMLDocument.
+    """
+    document = TOMLDocument()
+    for key, raw_value in data.items():
+        document[key] = item(raw_value)
+
+    for key, value in document.items():
+        if isinstance(value, Table):
+            document[key] = _fix_arrays(value)
+    return document

@@ -49,8 +49,8 @@ async def process_cleanup(
     """
     Pipeline step to sanitize a Plone item by dropping unwanted keys.
 
-    Removes keys specified in ``settings.sanitize['drop_keys']`` and, if blocks are present,
-    also removes ``settings.sanitize['block_keys']``.
+    Removes keys specified in ``settings.sanitize['drop_keys']`` and, if blocks are
+    present,also removes ``settings.sanitize['block_keys']``.
 
     Args:
         item (PloneItem): The Plone item to sanitize.

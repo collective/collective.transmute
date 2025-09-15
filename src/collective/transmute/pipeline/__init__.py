@@ -6,9 +6,11 @@ pipeline steps for Plone item transformation. Used in the ``collective.transmute
 pipeline.
 
 Example:
-    .. code-block:: pycon
+    .. code-block:: python
 
-        >>> metadata_file = await pipeline(src_files, dst, state, True, consoles, settings)
+        >>> metadata_file = await pipeline(
+        ...        src_files, dst, state, True, consoles, settings
+        ... )
 """
 
 from collections.abc import Callable
