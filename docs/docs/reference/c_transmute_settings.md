@@ -12,6 +12,7 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.settings
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.settings.parse`
@@ -19,4 +20,5 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.settings.parse
     :members:
+    :private-members:
 ```

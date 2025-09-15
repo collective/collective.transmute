@@ -12,4 +12,5 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.layout
     :members:
+    :private-members:
 ```

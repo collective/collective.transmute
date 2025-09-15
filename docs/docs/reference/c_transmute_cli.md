@@ -12,6 +12,7 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.cli
     :members:
+    :private-members:
 
 .. autofunction:: collective.transmute.cli.main
 ```

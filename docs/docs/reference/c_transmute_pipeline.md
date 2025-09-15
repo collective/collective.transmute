@@ -12,6 +12,7 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.pipeline
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.pipeline.pipeline`
@@ -19,6 +20,7 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.pipeline.pipeline
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.pipeline.report`
@@ -26,4 +28,5 @@ myst:
 ```{eval-rst}
 .. automodule:: collective.transmute.pipeline.report
     :members:
+    :private-members:
 ```

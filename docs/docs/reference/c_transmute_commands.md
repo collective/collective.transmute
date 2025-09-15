@@ -16,6 +16,7 @@ The `collective.transmute.commands` module provides the following interfaces.
 ```{eval-rst}
 .. automodule:: collective.transmute.commands.info
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.commands.report`
@@ -23,6 +24,7 @@ The `collective.transmute.commands` module provides the following interfaces.
 ```{eval-rst}
 .. automodule:: collective.transmute.commands.report
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.commands.sanity`
@@ -30,6 +32,7 @@ The `collective.transmute.commands` module provides the following interfaces.
 ```{eval-rst}
 .. automodule:: collective.transmute.commands.sanity
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.commands.settings`
@@ -37,6 +40,7 @@ The `collective.transmute.commands` module provides the following interfaces.
 ```{eval-rst}
 .. automodule:: collective.transmute.commands.settings
     :members:
+    :private-members:
 ```
 
 ## `collective.transmute.commands.transmute`
@@ -44,4 +48,5 @@ The `collective.transmute.commands` module provides the following interfaces.
 ```{eval-rst}
 .. automodule:: collective.transmute.commands.transmute
     :members:
+    :private-members:
 ```
