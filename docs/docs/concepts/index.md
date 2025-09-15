@@ -29,7 +29,7 @@ However, in-place migrations can become complex when dealing with major changes,
 
 ## ETL add-ons and packages for Plone
 
-The Plone community has developed robust tools for handling migrations using the {term}`extract`, {term}`transform`, {term}`load` ({term}`ETL`) process.
+The Plone community has developed robust tools for handling migrations using the extract, transform, and load (ETL) process.
 Notable solutions include, in the order of their creation, Transmogrifier, `collective.exportimport`, and `plone.exportimport`.
 
 ### Transmogrifier
