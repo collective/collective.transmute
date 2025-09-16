@@ -169,7 +169,7 @@ async def process_blocks(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_blocks(item, state, settings):
         ...     print(result['blocks'])

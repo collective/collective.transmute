@@ -32,7 +32,7 @@ def parse_path_value(value: str) -> str:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> parse_path_value('12345678901234567890123456789012')
         'UID##12345678901234567890123456789012##'

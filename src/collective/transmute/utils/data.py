@@ -27,7 +27,7 @@ def sort_data_by_value(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> data = {'a': 2, 'b': 5, 'c': 1}
         >>> sort_data_by_value(data)

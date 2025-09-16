@@ -6,7 +6,7 @@ state and to rewrite workflow history as needed. Used in the ``collective.transm
 pipeline.
 
 Example:
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_review_state(item, state, settings):
         ...     print(result)
@@ -28,7 +28,7 @@ def _is_valid_state(state_filter: tuple[str, ...], review_state: str) -> bool:
         bool: True if review_state is allowed, False otherwise.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> _is_valid_state(("published", "private"), "published")
             True
@@ -59,7 +59,7 @@ async def process_review_state(
         PloneItem | None: The processed item or None if filtered out.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> async for result in process_review_state(item, state, settings):
             ...     print(result)

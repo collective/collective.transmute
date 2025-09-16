@@ -35,7 +35,7 @@ async def process_querystring(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_querystring(item, state, settings):
         ...     print(result['query'])

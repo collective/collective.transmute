@@ -5,7 +5,7 @@ This module provides functions to remove specified keys from Plone items,
 including block-related keys if present. Used in the ``collective.transmute`` pipeline.
 
 Example:
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_cleanup(item, state, settings):
         ...     print(result)
@@ -29,7 +29,7 @@ def get_drop_keys(has_blocks: bool, settings: t.TransmuteSettings) -> set[str]:
         set[str]: The set of keys to drop.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> get_drop_keys(True, settings)
             {'title', 'description', 'blocks'}
@@ -61,7 +61,7 @@ async def process_cleanup(
         PloneItem: The sanitized item.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> async for result in process_cleanup(item, state, settings):
             ...     print(result)

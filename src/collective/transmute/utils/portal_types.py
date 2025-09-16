@@ -27,7 +27,7 @@ def fix_portal_type(type_: str) -> str:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> fix_portal_type('Document')
         'Document'  # or mapped value from settings

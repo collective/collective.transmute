@@ -27,7 +27,7 @@ def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> get_conversion_types(settings)
         ('News Item', 'Document')
@@ -60,7 +60,7 @@ async def process_image_to_preview_image_link(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for res in process_image_to_preview_image_link(item, state, settings):
         ...     print(res)

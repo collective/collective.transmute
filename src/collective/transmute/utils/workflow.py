@@ -23,7 +23,7 @@ def rewrite_settings() -> dict:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> settings = rewrite_settings()
         >>> settings['states']
@@ -62,7 +62,7 @@ def rewrite_workflow_history(item: PloneItem) -> PloneItem:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> item = {'review_state': 'visible', 'workflow_history': {...}}
         >>> rewrite_workflow_history(item)

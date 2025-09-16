@@ -34,7 +34,7 @@ async def process_constraints(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_constraints(item, state, settings):
         ...     print(result['exportimport.constrains'])

@@ -4,7 +4,7 @@ Default type processor used by the ``portal_type`` pipeline step.
 This processor yields the item unchanged as the default behavior.
 
 Example:
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in processor(item, state):
         ...     print(result)
@@ -25,7 +25,7 @@ async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGen
         PloneItem: The unchanged item.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> async for result in processor(item, state):
             ...     print(result)

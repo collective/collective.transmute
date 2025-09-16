@@ -25,7 +25,7 @@ def _as_set(value: list) -> set:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> _as_set([1, 2, 2])
         {1, 2}
@@ -50,7 +50,7 @@ def _as_tuple(value: list) -> tuple:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> _as_tuple([1, 2, 3])
         (1, 2, 3)
@@ -109,7 +109,7 @@ def settings_validators() -> tuple[Validator, ...]:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> validators = settings_validators()
         >>> isinstance(validators[0], Validator)
@@ -296,7 +296,7 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> from pathlib import Path
         >>> settings = get_settings(Path("/project"))
@@ -321,7 +321,7 @@ def get_default_settings() -> t.TransmuteSettings:
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> settings = get_default_settings()
         >>> print(settings.config)

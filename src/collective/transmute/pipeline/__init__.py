@@ -38,7 +38,7 @@ def pipeline_debugger(
         state (PipelineState): The pipeline state object.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> with pipeline_debugger(consoles, state) as dbg:
             ...     dbg("Debug message")
@@ -59,7 +59,7 @@ def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
         tuple[PipelineStep, ...]: All pipeline steps.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> steps = all_steps(settings)
     """
@@ -83,7 +83,7 @@ def _prepare_report_items(
         tuple[dict, dict]: Source and destination report items.
 
     Example:
-        .. code-block:: pycon
+        .. code-block:: python
 
             >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
     """

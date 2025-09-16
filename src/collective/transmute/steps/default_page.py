@@ -35,7 +35,7 @@ async def process_default_page(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_default_page(item, state, settings):
         ...     print(result)

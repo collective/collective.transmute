@@ -33,7 +33,7 @@ async def process_title_description(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_title_description(item, state, settings):
         ...     print(result['title'])
@@ -70,7 +70,7 @@ async def process_title(
 
     Example
     -------
-    .. code-block:: pycon
+    .. code-block:: python
 
         >>> async for result in process_title(item, state, settings):
         ...     print(result['title'])
