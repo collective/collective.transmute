@@ -7,9 +7,11 @@ for reading, processing, and writing metadata and relations files, according to 
 format expected by ``plone.exportimport``.
 """
 
+from .redirects import initialize_redirects
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
 from collective.transmute.utils import files
+from collective.transmute.utils import redirects as redirect_utils
 from dataclasses import asdict
 from pathlib import Path
 
@@ -51,6 +53,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         item["uuid"]: item["order"] for item in data.get("ordering", [])
     }
     relations: list[dict] = data.get("relations", [])
+    redirects: dict[str, str] = initialize_redirects(data.get("redirects", {}))
 
     return t.MetadataInfo(
         path=path,
@@ -59,6 +62,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         local_roles=local_roles,
         ordering=ordering,
         relations=relations,
+        redirects=redirects,
     )
 
 
@@ -86,10 +90,18 @@ async def prepare_metadata_file(
     path: Path = data.pop("path")
     fix_relations: dict[str, str] = data.pop("__fix_relations__", {})
     # Handle relations data
+    relations = data.pop("relations", [])
     async for rel_data, rel_path in prepare_relations_data(
-        data["relations"], fix_relations, path, state
+        relations, fix_relations, path, state
     ):
         yield rel_data, rel_path
+    # Handle redirects data
+    redirects: dict[str, str] = data.pop("redirects", {})
+    async for red_data, red_path in prepare_redirects_data(
+        redirects, path, state.paths, settings.site_root["dest"]
+    ):
+        yield red_data, red_path
+
     if settings.is_debug:
         data["__seen__"] = list(state.seen)
         debug_path = path.parent / "__debug_metadata__.json"
@@ -151,4 +163,43 @@ async def prepare_relations_data(
                 "to_uuid": to_uuid,
             })
     path = (metadata_path.parent.parent / "relations.json").resolve()
+    yield data, path
+
+
+async def prepare_redirects_data(
+    redirects: dict[str, str],
+    metadata_path: Path,
+    state_paths: list[tuple[str, str, str]],
+    site_root: str,
+) -> AsyncGenerator[tuple[dict[str, str], Path], None]:
+    """
+    Prepare and yield redirects data for export as a JSON file.
+
+    This function takes a mapping of redirects and yields it with the output file
+    path. The output file is named 'redirects.json' and is used by plone.exportimport.
+
+    Args:
+        redirects (dict[str, str]):
+            Mapping of source paths to destination paths.
+        metadata_path (Path):
+            Path to the metadata file. Used to determine output location.
+        state_paths (list[tuple[str, str, str]]):
+            List of valid paths from the pipeline state.
+        site_root (str):
+            The root path for the destination site.
+
+    Yields:
+        tuple[dict[str, str], Path]:
+            The filtered redirects mapping and the output file path.
+
+    Example:
+        >>> async for result in prepare_redirects_data(
+        ...     redirects, metadata_path, state_paths, site_root
+        ... ):
+        ...     data, path = result
+        ...     print(path)
+    """
+    valid_paths = {f"{site_root}{p[0]}" for p in state_paths}
+    data = redirect_utils.filter_redirects(redirects, valid_paths)
+    path = (metadata_path.parent.parent / "redirects.json").resolve()
     yield data, path

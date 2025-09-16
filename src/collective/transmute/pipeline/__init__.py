@@ -21,8 +21,12 @@ from collective.transmute.settings import get_settings
 from collective.transmute.utils import exportimport as ei_utils
 from collective.transmute.utils import files as file_utils
 from collective.transmute.utils import load_all_steps
+from collective.transmute.utils import redirects as redirect_utils
 from contextlib import contextmanager
 from pathlib import Path
+
+
+ITEM_PLACEHOLDER = "--"
 
 
 @contextmanager
@@ -87,25 +91,41 @@ def _prepare_report_items(
 
             >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
     """
+    _no_data_ = ITEM_PLACEHOLDER
     if not item:
         return src_item, {
-            "dst_path": "--",
-            "dst_type": "--",
-            "dst_uid": "--",
-            "dst_state": "--",
+            "dst_path": _no_data_,
+            "dst_type": _no_data_,
+            "dst_uid": _no_data_,
+            "dst_state": _no_data_,
             "last_step": last_step,
         }
     dst_item = {
         "dst_path": item.get("@id", "") or "",
         "dst_type": item.get("@type", "") or "",
         "dst_uid": item.get("UID", "") or "",
-        "dst_state": item.get("review_state", "--") or "--",
+        "dst_state": item.get("review_state", _no_data_) or _no_data_,
     }
     if is_new:
-        src_item["src_type"] = "--"
-        src_item["src_uid"] = "--"
-        src_item["src_state"] = "--"
+        src_item["src_type"] = _no_data_
+        src_item["src_uid"] = _no_data_
+        src_item["src_state"] = _no_data_
     return src_item, dst_item
+
+
+def _handle_redirects(src_item, dst_item, redirects: dict[str, str], site_root: str):
+    """Handle redirects for the given source and destination items."""
+    src_path: str = src_item.get("src_path")
+    dst_path: str = dst_item.get("dst_path")
+    should_process = (
+        (src_path != ITEM_PLACEHOLDER)
+        and (dst_path != ITEM_PLACEHOLDER)
+        and (src_path != dst_path)
+    )
+    if not should_process:
+        return
+    # Add new redirection
+    redirect_utils.add_redirect(redirects, src_path, dst_path, site_root)
 
 
 async def _write_metadata(
@@ -184,9 +204,11 @@ async def pipeline(
     if not settings:
         settings = get_settings()
     content_folder = dst / "content"
+    consoles.debug("Metadata: Loading")
     metadata: t.MetadataInfo = await ei_utils.initialize_metadata(
         src_files, content_folder
     )
+    consoles.debug("Metadata: Loaded")
     # Add metadata to the state
     state.metadata = metadata
     steps: tuple[t.PipelineStep, ...] = all_steps(settings)
@@ -203,6 +225,10 @@ async def pipeline(
     path_transforms = state.path_transforms
     paths = state.paths
     consoles.debug(f"Starting pipeline processing of {state.total} items")
+
+    site_root = settings.site_root["dest"]
+    redirects = metadata.redirects
+
     with pipeline_debugger(consoles, state) as debugger:
         async for filename, raw_item in file_utils.json_reader(content_files):
             src_item = {
@@ -225,6 +251,9 @@ async def pipeline(
                 src_item, dst_item = _prepare_report_items(
                     item, last_step, is_new, src_item
                 )
+                # Add a redirect if needed
+                _handle_redirects(src_item, dst_item, redirects, site_root)
+
                 if not item:
                     # Dropped file
                     progress.advance("dropped")

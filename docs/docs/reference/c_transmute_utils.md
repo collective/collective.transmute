@@ -76,6 +76,14 @@ myst:
     :private-members:
 ```
 
+## `collective.transmute.utils.redirects`
+
+```{eval-rst}
+.. automodule:: collective.transmute.utils.redirects
+    :members:
+    :private-members:
+```
+
 ## `collective.transmute.utils.querystring`
 
 ```{eval-rst}

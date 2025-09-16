@@ -20,15 +20,16 @@ __all__ = [
 class MetadataInfo:
     path: Path
     __version__: str = "1.0.0"
-    __processing_default_page__: dict = field(default_factory=dict)
-    __fix_relations__: dict = field(default_factory=dict)
-    _blob_files_: list = field(default_factory=list)
-    _data_files_: list = field(default_factory=list)
-    default_page: dict = field(default_factory=dict)
-    local_permissions: dict = field(default_factory=dict)
-    local_roles: dict = field(default_factory=dict)
-    ordering: dict = field(default_factory=dict)
-    relations: list = field(default_factory=list)
+    __processing_default_page__: dict = field(default_factory=dict, repr=False)
+    __fix_relations__: dict = field(default_factory=dict, repr=False)
+    _blob_files_: list = field(default_factory=list, repr=False)
+    _data_files_: list = field(default_factory=list, repr=False)
+    default_page: dict = field(default_factory=dict, repr=False)
+    local_permissions: dict = field(default_factory=dict, repr=False)
+    local_roles: dict = field(default_factory=dict, repr=False)
+    ordering: dict = field(default_factory=dict, repr=False)
+    relations: list = field(default_factory=list, repr=False)
+    redirects: dict = field(default_factory=dict, repr=False)
 
 
 PloneItem = TypedDict(

@@ -24,6 +24,10 @@ steps = [
 ]
 do_not_add_drop = ["process_paths", "process_default_page"]
 
+[site_root]
+src = "/Plone"
+dest = "/Plone"
+
 [principals]
 default = 'Plone'
 remove = ['admin']
