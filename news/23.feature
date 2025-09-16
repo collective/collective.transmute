@@ -1,1 +1,1 @@
-Generate a redirects.json file. @ericof
+Generate a redirects.json file. @ericof, @jnptk
