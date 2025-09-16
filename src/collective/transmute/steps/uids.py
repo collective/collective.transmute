@@ -25,7 +25,7 @@ async def drop_item_by_uid(
     Yields
     ------
     PloneItem or None
-        The item if not dropped, or None if dropped.
+        The item if not dropped, or ``None`` if dropped.
 
     Example
     -------
