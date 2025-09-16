@@ -39,7 +39,7 @@ async def process_blobs(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_blobs(item, state, settings):
         ...     print(result['_blob_files_'])

@@ -25,7 +25,7 @@ def report_time(title: str, consoles: t.ConsoleArea):
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> with report_time('Step 1', consoles):
         ...     # code to time

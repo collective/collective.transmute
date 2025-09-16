@@ -29,7 +29,7 @@ async def drop_item_by_uid(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in drop_item_by_uid(item, state, settings):
         ...     print(result) if result else print("Dropped")

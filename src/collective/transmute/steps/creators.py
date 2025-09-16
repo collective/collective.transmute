@@ -41,7 +41,7 @@ async def process_creators(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_creators(item, state, settings):
         ...     print(result['creators'])

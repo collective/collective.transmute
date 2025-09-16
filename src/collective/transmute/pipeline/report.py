@@ -6,7 +6,7 @@ pipeline's final state and path transformations. Used for logging and CSV
 export in the ``collective.transmute`` pipeline.
 
 Example:
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> await final_reports(consoles, state, write_report=True, is_debug=True)
 """
@@ -29,7 +29,7 @@ async def report_final_state(consoles: t.ConsoleArea, state: t.PipelineState) ->
         None
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> await report_final_state(consoles, state)
     """
@@ -57,7 +57,7 @@ async def write_paths_report(
         None
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> await write_paths_report(consoles, state)
     """
@@ -96,7 +96,7 @@ async def final_reports(
         None
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> await final_reports(consoles, state, write_report=True, is_debug=True)
     """

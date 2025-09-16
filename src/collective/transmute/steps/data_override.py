@@ -41,7 +41,7 @@ async def process_data_override(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_data_override(item, state, settings):
         ...     print(result['title'])

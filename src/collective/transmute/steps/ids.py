@@ -31,7 +31,7 @@ def get_paths_cleanup(settings: t.TransmuteSettings) -> tuple[tuple[str, str], .
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> cleanup = get_paths_cleanup(settings)
     """
@@ -62,7 +62,7 @@ def fix_short_id(id_: str) -> str:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> fix_short_id(' my id ')
         'my_id'
@@ -99,7 +99,7 @@ async def process_export_prefix(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_export_prefix(item, state, settings):
         ...     print(result['@id'])
@@ -138,7 +138,7 @@ async def process_ids(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_ids(item, state, settings):
         ...     print(result['@id'], result['id'])

@@ -22,7 +22,7 @@ def generate_uid() -> str:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> uid = generate_uid()
         >>> len(uid) == 32
@@ -48,7 +48,7 @@ def all_parents_for(id_: str) -> set[str]:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> all_parents_for('a/b/c')
         {'a', 'a/b'}
@@ -79,7 +79,7 @@ def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> parent = {'@id': 'folder', 'image': {'filename': 'img.png'}}
         >>> img_item = create_image_from_item(parent)

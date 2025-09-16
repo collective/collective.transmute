@@ -73,7 +73,7 @@ def register_encoders():
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> register_encoders()
     """

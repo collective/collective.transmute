@@ -29,7 +29,7 @@ def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> _is_valid_path('/foo/bar', {'/foo'}, {'/foo/bar'})
         False
@@ -70,7 +70,7 @@ async def process_paths(
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_paths(item, state, settings):
         ...     print(result)

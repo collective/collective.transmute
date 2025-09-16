@@ -34,7 +34,7 @@ def load_step(name: str) -> t.PipelineStep:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> step = load_step('my_module.my_step')
     """

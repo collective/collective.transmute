@@ -6,7 +6,7 @@ pipeline steps for Plone item transformation. Used in the ``collective.transmute
 pipeline.
 
 Example:
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result, step_name, is_new in run_pipeline(
         ...     steps, item, state, consoles, settings):
@@ -33,7 +33,7 @@ def step_debugger(
         step_name (str): Name of the pipeline step.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> with step_debugger(consoles, src_uid, item, step_name):
             ...     # step logic
@@ -55,7 +55,7 @@ def _add_to_drop(path: str, settings: t.TransmuteSettings) -> None:
         None
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> _add_to_drop('/news/item', settings)
     """
@@ -91,7 +91,7 @@ async def _sub_item_pipeline(
         flag.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for sub_item, last_step, is_new in _sub_item_pipeline(...):
             ...     print(sub_item, last_step, is_new)
@@ -131,7 +131,7 @@ async def run_step(
         ``is_new`` flag.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for result, step_name, is_new in run_step(...):
             ...     print(result, step_name, is_new)
@@ -175,7 +175,7 @@ async def run_pipeline(
         and ``is_new`` flag.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for result, step_name, is_new in run_pipeline(
             ...     steps, item, state, consoles, settings):

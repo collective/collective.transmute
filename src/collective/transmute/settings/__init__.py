@@ -23,7 +23,7 @@ def logger_settings(cwd: Path) -> tuple[bool, Path]:
 
     Example
     -------
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> from pathlib import Path
         >>> is_debug, log_path = logger_settings(Path("/project"))

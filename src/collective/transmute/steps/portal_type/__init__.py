@@ -5,7 +5,7 @@ This module provides functions to pre-process items and map their portal types
 according to pipeline settings. Used in the ``collective.transmute`` pipeline.
 
 Example:
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> async for result in process_type(item, state, settings):
         ...     print(result)
@@ -33,7 +33,7 @@ async def _pre_process(
         PloneItem: The processed item.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for processed in _pre_process(item, settings, state):
             ...     print(processed)
@@ -66,7 +66,7 @@ async def process_type(
         PloneItem | None: The processed item or None if dropped.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for result in process_type(item, state, settings):
             ...     print(result)

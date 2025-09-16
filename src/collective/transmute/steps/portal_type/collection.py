@@ -31,7 +31,7 @@ async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGen
         PloneItem: The processed ``Collection`` item.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> async for result in processor(item, state):
             ...     print(result)

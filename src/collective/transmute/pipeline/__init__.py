@@ -6,7 +6,7 @@ pipeline steps for Plone item transformation. Used in the ``collective.transmute
 pipeline.
 
 Example:
-    .. code-block:: python
+    .. code-block:: pycon
 
         >>> metadata_file = await pipeline(
         ...        src_files, dst, state, True, consoles, settings
@@ -38,7 +38,7 @@ def pipeline_debugger(
         state (PipelineState): The pipeline state object.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> with pipeline_debugger(consoles, state) as dbg:
             ...     dbg("Debug message")
@@ -59,7 +59,7 @@ def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
         tuple[PipelineStep, ...]: All pipeline steps.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> steps = all_steps(settings)
     """
@@ -83,7 +83,7 @@ def _prepare_report_items(
         tuple[dict, dict]: Source and destination report items.
 
     Example:
-        .. code-block:: python
+        .. code-block:: pycon
 
             >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
     """
