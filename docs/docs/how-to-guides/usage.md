@@ -78,43 +78,71 @@ uv run transmute
 Take a look at all the available options in the {doc}`cli` documentation.
 
 
-## Preparing the migration
+## Prepare the migration
 
-We always recommend you to run `uv run transmute report /exported-data/ report-raw-data.json` to generate a report of the data you are going to migrate.
+It's strongly recommended to always generate a report of the data you're going to migrate before you do an actual migration.
+Use the following command to generate a report.
 
-The report will contain:
-* A breakdown of number of content items by content types, creators and review states;
-* Number of contents using a given layout view, per content type;
-* Number of contents with a given tag (subjects);
+```shell
+uv run transmute report /exported-data/ report-raw-data.json
+```
 
-These information is important when planning a new migration, as you can adapt the settings present on {file}`transmute.toml` to adjust the migration to your needs.
+The report will contain the following information.
 
-## Running a migration
+-   a breakdown of the number of content items, listed by content types, creators, and review states
+-   the number of content items using a given layout view, per content type
+-   the number of content items with a given tag (subjects)
 
-After reviewing the {file}`transmute.toml` settings, and making sure the exported data (exported using {term}`collective.exportimport`) is reachable, run the transmute process with the command:
+This information is important when planning a new migration, as you can adapt the settings present in {file}`transmute.toml` to adjust the migration to your needs.
+
+
+## Run a migration
+
+After reviewing the {file}`transmute.toml` settings, and making sure the exported data (exported using {term}`collective.exportimport`) is reachable, run the transmute process with the following command.
 
 ```shell
 uv run transmute run --clean-up --write-report /exported-data/ /transmuted-data/
 ```
 
-This command will, first remove the results of previous migrations (`--clean-up`) and will generate a `report_transmute.csv` file with the result of the transmute.
+This command will first remove the results of previous migrations (`--clean-up`), then will generate a {file}`report_transmute.csv` file with the result of the transmute.
 
-### Understanding `report_transmute.csv`
 
-This file contains the report, as CSV, of the last transmute process. The file has the following columns:
+### Understanding {file}`report_transmute.csv`
 
-* `filename`: Original file name of the processed item
-* `src_path`: Item Path in the source {term}`Plone` portal
-* `src_uid`: Original UID for the item
-* `src_type`: Original portal type for the item
-* `src_state`: Original review state
-* `dst_path`: Item path in the destination portal
-* `dst_uid`: Item UID in the destination portal
-* `dst_type`: Item portal type at destination
-* `dst_state`: Item review state
-* `last_step`: If present, shows the step of the pipeline where the item was dropped
+This file contains the report, as CSV, of the last transmute process.
+The file has the following columns.
 
-Example of an item that was dropped (in this case, replaced) because there was another item as default page applied to it:
+`filename`
+:   Original file name of the processed item.
+
+`src_path`
+:   Item Path in the source {term}`Plone` portal.
+
+`src_uid`
+:   Original UID for the item.
+
+`src_type`
+:   Original portal type for the item.
+
+`src_state`
+:   Original review state.
+
+`dst_path`
+:   Item path in the destination portal.
+
+`dst_uid`
+:   Item UID in the destination portal.
+
+`dst_type`
+:   Item portal type at destination.
+
+`dst_state`
+:   Item review state.
+
+`last_step`
+:   If present, shows the step of the pipeline where the item was dropped.
+
+The following is an example of an item that was dropped (in this case, replaced) because there was another item as the default page which was applied to it.
 
 ```csv
 53642.json,/joaopessoa/editais,0a509104d4124a548e2a18b15c100cf2,Folder,published,--,--,--,--,process_default_page
@@ -124,21 +152,29 @@ Example of an item that was dropped (in this case, replaced) because there was a
 When an item is dropped, all columns starting with `dst_` will display the value `--`
 ```
 
-Example of an item that was moved and had its original portal type changed:
+The following is an example of an item that was moved and had its original portal type changed.
+
 ```csv
 53643.json,/joaopessoa/editais/assistencia-estudantil,d11db7bccae94ec48f0e1a9b669bf67a,Folder,published,/campus/joaopessoa/editais/assistencia-estudantil,d11db7bccae94ec48f0e1a9b669bf67a,Document,published,
 ```
 
 ## Common issues
 
-### Running `transmute run` seems to be stuck
+The following are some common issues you might encounter when running a migration.
 
-This could happen because of an unhandled exception, so we suggest you run the same command again, but passing the `--no-ui` option to see the full traceback.
+### `transmute` command not found
+
+Make sure you've installed `collective.transmute` in your project or local Python virtual environment.
+
+### `transmute run` seems to be stuck
+
+This could happen because of an unhandled exception.
+Try to run the same command again, but passing the `--no-ui` option to see the full traceback.
 
 ```shell
 uv run transmute run --no-ui --clean-up --write-report /exported-data/ /transmuted-data/
 ```
 
-### Adding a `breakpoint` to my own step or type processor
+### Debug a migration
 
-If you want to debug your code and add a breakpoint to it, you need to use the `--no-ui` option.
+If you want to debug your code and add a breakpoint to it, use the `--no-ui` option.
