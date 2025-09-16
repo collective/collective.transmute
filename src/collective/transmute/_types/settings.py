@@ -84,7 +84,6 @@ class TransmuteSettings:
     steps: dict[str, Any] = field(default_factory=dict)
     _raw_data: dict[str, Any] = field(repr=False, default_factory=dict)
 
-
     @property
     def is_debug(self) -> bool:
         """Check if debug mode is enabled."""
