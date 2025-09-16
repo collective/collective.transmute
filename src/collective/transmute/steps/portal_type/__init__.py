@@ -76,7 +76,8 @@ async def process_type(
     async for processed in _pre_process(item, settings, state):
         if processed:
             id_ = processed["@id"]
-            type_ = processed["@type"]
+            # We preserve the original type if set by a processor
+            type_ = processed.get("_orig_type", processed["@type"])
             # Get the new type mapping
             new_type = types.get(type_, {}).get("portal_type")
             # Check if we have a specific mapping via type

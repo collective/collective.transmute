@@ -112,3 +112,13 @@ processor = 'collective.transmute.steps.portal_type.collection.processor'
 [types.Topic]
 portal_type = 'Document'
 processor = 'collective.transmute.steps.portal_type.collection.processor'
+
+[steps.blocks.variations]
+listing_view = "listing"
+summary_view = "summary"
+tabular_view = "listing"
+full_view = "summary"
+album_view = "imageGallery"
+grid_view = "grid"
+galeria_de_fotos = "imageGallery"
+galeria_de_albuns = "imageGallery"

@@ -9,6 +9,23 @@ variation and customization.
 
 from collective.html2blocks.converter import volto_blocks
 from collective.transmute import _types as t
+from collective.transmute.settings import get_settings
+from functools import cache
+
+
+@cache
+def _possible_variations() -> dict[str, str]:
+    """
+    Return a dictionary of possible variations for block layouts.
+
+    Returns
+    -------
+    dict[str, str]
+        A dictionary mapping variation names to their corresponding layout types.
+    """
+    settings = get_settings()
+    variations = settings.steps.get("blocks", {}).get("variations", {})
+    return variations
 
 
 def _blocks_collection(
@@ -30,7 +47,10 @@ def _blocks_collection(
         The updated list of blocks.
     """
     # TODO: Process query to remove old types
+    variations = _possible_variations()
     query = item.get("query")
+    if variation := item.get("layout"):
+        variation = variations.get(variation)
     if query:
         querystring = {
             "query": query,
@@ -56,7 +76,7 @@ def _blocks_collection(
             "b_size": item.get("item_count", 10),
             "limit": item.get("limit", 1000),
             "styles": {},
-            "variation": "summary",
+            "variation": variation,
         }
         blocks.append(block)
     return blocks
@@ -78,17 +98,9 @@ def _blocks_folder(item: t.PloneItem, blocks: list[t.VoltoBlock]) -> list[t.Volt
     list[VoltoBlock]
         The updated list of blocks.
     """
-    possible_variations = {
-        "listing_view": "listing",
-        "summary_view": "summary",
-        "tabular_view": "listing",
-        "full_view": "summary",
-        "album_view": "imageGallery",
-        "galeria_de_fotos": "imageGallery",
-        "galeria_de_albuns": "imageGallery",
-    }
     if variation := item.get("layout"):
-        variation = possible_variations.get(variation)
+        variations = _possible_variations()
+        variation = variations.get(variation)
 
     if not variation:
         variation = "listing"
