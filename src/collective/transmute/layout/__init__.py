@@ -1,5 +1,5 @@
 from collective.transmute import _types as t
-from collective.transmute.utils import sort_data
+from collective.transmute.utils import sort_data_by_value
 from rich.layout import Layout
 from rich.live import Live
 from rich.panel import Panel
@@ -11,12 +11,34 @@ from rich.table import Table
 
 
 class Header:
-    """Display header."""
+    """
+    Display a header panel for the application.
+
+    Parameters
+    ----------
+    title : str
+        The title to display in the header.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> header = Header("My Title")
+        >>> panel = header.__rich__()
+    """
 
     def __init__(self, title: str):
         self.title = title
 
     def __rich__(self) -> Panel:
+        """
+        Render the header as a Rich Panel.
+
+        Returns
+        -------
+        Panel
+            A Rich Panel object displaying the header.
+        """
         grid = Table.grid(expand=True)
         grid.add_column(justify="center", ratio=1)
         grid.add_row("[b]collective.transmute[/b]")
@@ -25,7 +47,25 @@ class Header:
 
 
 class TransmuteReport:
-    """Report Metadata info."""
+    """
+    Display a report panel with metadata information.
+
+    Parameters
+    ----------
+    data : dict[str, int]
+        The data to display in the report.
+    title : str
+        The title of the report panel.
+    limit : int, optional
+        Maximum length for item names (default: 30).
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> report = TransmuteReport({'TypeA': 10, 'TypeB': 5}, 'Exported')
+        >>> panel = report.__rich__()
+    """
 
     limit: int
 
@@ -35,10 +75,18 @@ class TransmuteReport:
         self.limit = limit
 
     def __rich__(self) -> Panel:
+        """
+        Render the report as a Rich Panel.
+
+        Returns
+        -------
+        Panel
+            A Rich Panel object displaying the report.
+        """
         grid = Table.grid(expand=True)
         grid.add_column(justify="left", ratio=2)
         grid.add_column(justify="right", ratio=1)
-        for name, total in sort_data(self.data):
+        for name, total in sort_data_by_value(self.data):
             if len(name) > self.limit:
                 idx = self.limit - 3
                 name = name[:idx] + "..."
@@ -47,6 +95,19 @@ class TransmuteReport:
 
 
 def progress_panel(progress: t.PipelineProgress | t.ReportProgress) -> Panel:
+    """
+    Create a progress panel for the current pipeline or report progress.
+
+    Parameters
+    ----------
+    progress : PipelineProgress or ReportProgress
+        The progress object to display.
+
+    Returns
+    -------
+    Panel
+        A Rich Panel object showing progress.
+    """
     progress_table = Table.grid(expand=True)
     progress_table.add_row(progress.processed)
     if isinstance(progress, t.PipelineProgress):
@@ -59,13 +120,52 @@ def progress_panel(progress: t.PipelineProgress | t.ReportProgress) -> Panel:
 
 
 def create_consoles() -> t.ConsoleArea:
-    """Return a t.ConsoleArea object with two console objects."""
+    """
+    Create a ``ConsoleArea`` object with two console panels.
+
+    Returns
+    -------
+    ConsoleArea
+        An object containing main and side consoles.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> consoles = create_consoles()
+    """
     main_console = t.ConsolePanel()
     side_console = t.ConsolePanel()
     return t.ConsoleArea(main_console, side_console)
 
 
 class ApplicationLayout:
+    """
+    Base layout for the application.
+
+    Parameters
+    ----------
+    title : str
+        The title for the layout.
+
+    Attributes
+    ----------
+    title : str
+        The layout title.
+    layout : Layout
+        The Rich Layout object.
+    consoles : ConsoleArea
+        The console area for logs and side info.
+    progress : ReportProgress or PipelineProgress
+        The progress bar object.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> layout = ApplicationLayout('My App')
+    """
+
     title: str
     layout: Layout
     consoles: t.ConsoleArea
@@ -77,17 +177,69 @@ class ApplicationLayout:
         self.title = title
 
     def _create_layout(self, title: str) -> Layout:
+        """
+        Create the Rich Layout for the application.
+
+        Parameters
+        ----------
+        title : str
+            The title for the layout.
+
+        Returns
+        -------
+        Layout
+            The Rich Layout object.
+        """
         return Layout(name="root")
 
-    def update_layout(self, state: t.PipelineState | t.ReportState):
+    def update_layout(self, state: t.PipelineState | t.ReportState) -> None:
+        """
+        Update the layout with the current state.
+
+        Parameters
+        ----------
+        state : PipelineState or ReportState
+            The state object containing progress and report data.
+        """
         pass
 
-    def initialize_progress(self, total: int):
+    def initialize_progress(self, total: int) -> None:
+        """
+        Initialize the progress bar.
+
+        Parameters
+        ----------
+        total : int
+            The total number of items to process.
+        """
         pass
 
 
 class TransmuteLayout(ApplicationLayout):
+    """
+    Layout for the transmute pipeline application.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> layout = TransmuteLayout('Transmute')
+    """
+
     def _create_layout(self, title: str) -> Layout:
+        """
+        Create the layout for the transmute pipeline.
+
+        Parameters
+        ----------
+        title : str
+            The title for the layout.
+
+        Returns
+        -------
+        Layout
+            The Rich Layout object.
+        """
         consoles = self.consoles
         layout = Layout(name="root")
         layout.split(
@@ -111,8 +263,15 @@ class TransmuteLayout(ApplicationLayout):
         )
         return layout
 
-    def update_layout(self, state: t.PipelineState):
-        """Update layout."""
+    def update_layout(self, state: t.PipelineState) -> None:
+        """
+        Update the layout with the pipeline state.
+
+        Parameters
+        ----------
+        state : PipelineState
+            The pipeline state object.
+        """
         layout = self.layout
         layout["footer"].update(progress_panel(state.progress))
         grid = Table.grid(expand=True)
@@ -127,7 +286,15 @@ class TransmuteLayout(ApplicationLayout):
             ),
         )
 
-    def initialize_progress(self, total: int):
+    def initialize_progress(self, total: int) -> None:
+        """
+        Initialize the progress bar for the pipeline.
+
+        Parameters
+        ----------
+        total : int
+            The total number of items to process.
+        """
         processed = Progress(
             "{task.description}",
             SpinnerColumn(),
@@ -149,7 +316,30 @@ class TransmuteLayout(ApplicationLayout):
 
 
 class ReportLayout(ApplicationLayout):
+    """
+    Layout for displaying report information.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> layout = ReportLayout('Report')
+    """
+
     def _create_layout(self, title: str) -> Layout:
+        """
+        Create the layout for the report.
+
+        Parameters
+        ----------
+        title : str
+            The title for the layout.
+
+        Returns
+        -------
+        Layout
+            The Rich Layout object.
+        """
         consoles = self.consoles
         layout = Layout(name="root")
         layout.split(
@@ -170,8 +360,15 @@ class ReportLayout(ApplicationLayout):
         )
         return layout
 
-    def update_layout(self, state: t.ReportState):
-        """Update layout."""
+    def update_layout(self, state: t.ReportState) -> None:
+        """
+        Update the layout with the report state.
+
+        Parameters
+        ----------
+        state : ReportState
+            The report state object.
+        """
         layout = self.layout
         layout["footer"].update(progress_panel(state.progress))
         grid = Table.grid(expand=True)
@@ -192,7 +389,15 @@ class ReportLayout(ApplicationLayout):
             ),
         )
 
-    def initialize_progress(self, total: int):
+    def initialize_progress(self, total: int) -> None:
+        """
+        Initialize the progress bar for the report.
+
+        Parameters
+        ----------
+        total : int
+            The total number of items to process.
+        """
         processed = Progress(
             "{task.description}",
             SpinnerColumn(),
@@ -208,7 +413,27 @@ class ReportLayout(ApplicationLayout):
 
 
 def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> Live:
-    """Return a rich.live.Live instance for a given layout."""
+    """
+    Create a Rich Live instance for the given application layout.
+
+    Parameters
+    ----------
+    app_layout : ApplicationLayout
+        The application layout to display.
+    redirect_stderr : bool, optional
+        Whether to redirect stderr to the live display (default: ``True``).
+
+    Returns
+    -------
+    Live
+        A Rich Live instance for the layout.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> live_display = live(layout)
+    """
     return Live(
         app_layout.layout,
         refresh_per_second=10,

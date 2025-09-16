@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 from typing import Any
 from typing import TypedDict
@@ -80,7 +81,8 @@ class TransmuteSettings:
     sanitize: TransmuteSettingsSanitize
     data_override: dict[str, dict[str, Any]]
     types: dict[str, Any]
-    _raw_data: dict[str, Any]
+    steps: dict[str, Any] = field(default_factory=dict)
+    _raw_data: dict[str, Any] = field(repr=False, default_factory=dict)
 
     @property
     def is_debug(self) -> bool:

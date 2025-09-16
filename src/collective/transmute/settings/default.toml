@@ -6,6 +6,7 @@ report = 1000
 [pipeline]
 steps = [
     'collective.transmute.steps.ids.process_export_prefix',
+    'collective.transmute.steps.uids.drop_item_by_uid',
     'collective.transmute.steps.ids.process_ids',
     'collective.transmute.steps.paths.process_paths',
     'collective.transmute.steps.portal_type.process_type',
@@ -111,3 +112,13 @@ processor = 'collective.transmute.steps.portal_type.collection.processor'
 [types.Topic]
 portal_type = 'Document'
 processor = 'collective.transmute.steps.portal_type.collection.processor'
+
+[steps.blocks.variations]
+listing_view = "listing"
+summary_view = "summary"
+tabular_view = "listing"
+full_view = "summary"
+album_view = "imageGallery"
+grid_view = "grid"
+galeria_de_fotos = "imageGallery"
+galeria_de_albuns = "imageGallery"

@@ -16,5 +16,7 @@ report.json
 # Configuration
 transmute.toml
 
+# Logs
+transmute.log
 # Virtual environments
 .venv

@@ -92,11 +92,11 @@ def report(
         str,
         typer.Option(
             "--report-types",
-            help="Portal types to report on. Please provide as comma-separeted values.",
+            help="Portal types to report on. Please provide as comma-separated values.",
         ),
     ] = "",
 ):
-    """Generates a json file with a report of export data in src directory."""
+    """Generates a JSON file with a report of export data in src directory."""
     if not file_utils.check_path(src):
         raise RuntimeError(f"{src} does not exist")
     if not dst or not file_utils.check_path(dst):

@@ -22,7 +22,7 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=24.1.0",
-    "collective-html2blocks",
+    "collective.html2blocks>=1.0.0a2",
     "dynaconf>=3.2.7",
     "tomlkit>=0.13.2",
     "orjson>=3.10.15",
@@ -42,15 +42,18 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.version]
-path = "src/collective/transmute/about.py"
+path = "src/collective/transmute/__init__.py"
 
 [tool.hatch.build]
-strict-naming = false
-packages = ["src/collective"]
+strict-naming = true
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+]
 
 [tool.hatch.build.targets.wheel]
-sources = ["src"]
-only-include = ["src/collective/transmute"]
+packages = ["src/collective"]
 
 [dependency-groups]
 test = [
@@ -65,9 +68,6 @@ test = [
 
 [tool.uv]
 default-groups = ["test"]
-
-[tool.uv.sources]
-collective-html2blocks = { git = "https://github.com/collective/collective.html2blocks" }
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

@@ -1,3 +1,12 @@
+"""
+Export/import utilities for ``collective.transmute``.
+
+This module provides asynchronous helper functions for preparing and handling
+metadata and relations during the transformation pipeline. Functions here are used
+for reading, processing, and writing metadata and relations files, according to the
+format expected by ``plone.exportimport``.
+"""
+
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
 from collective.transmute.utils import files
@@ -6,6 +15,21 @@ from pathlib import Path
 
 
 async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.MetadataInfo:
+    """
+    Initialize and load metadata from source files into a ``MetadataInfo`` object.
+
+    Parameters
+    ----------
+    src_files : SourceFiles
+        The source files containing metadata.
+    dst : Path
+        The destination path for metadata.
+
+    Returns
+    -------
+    MetadataInfo
+        The loaded metadata information object.
+    """
     path = dst / "__metadata__.json"
     metadata_files = src_files.metadata
     data = {}
@@ -40,7 +64,24 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
 
 async def prepare_metadata_file(
     metadata: t.MetadataInfo, state: t.PipelineState, settings: t.TransmuteSettings
-) -> AsyncGenerator[tuple[dict | list, Path]]:
+) -> AsyncGenerator[tuple[dict | list, Path], None]:
+    """
+    Prepare and yield metadata files for export, including debug and relations data.
+
+    Parameters
+    ----------
+    metadata : MetadataInfo
+        The metadata information object.
+    state : PipelineState
+        The pipeline state object.
+    settings : TransmuteSettings
+        The transmute settings object.
+
+    Yields
+    ------
+    tuple[dict | list, Path]
+        Tuples of data and their corresponding file paths.
+    """
     data: dict = asdict(metadata)
     path: Path = data.pop("path")
     fix_relations: dict[str, str] = data.pop("__fix_relations__", {})
@@ -70,13 +111,25 @@ async def prepare_relations_data(
     to_fix: dict[str, str],
     metadata_path: Path,
     state: t.PipelineState,
-) -> AsyncGenerator[tuple[list[dict], Path]]:
+) -> AsyncGenerator[tuple[list[dict], Path], None]:
     """
-    {
-    "from_uuid": "1afdd8784e734695be956a17d535f2bc",
-    "relationship": "relatedItems",
-    "to_uuid": "fb6afaac3f7941c39870ad71259d3e72"
-    },
+    Prepare and yield relations data for export.
+
+    Parameters
+    ----------
+    relations : list[dict[str, str]]
+        List of relations dictionaries.
+    to_fix : dict[str, str]
+        Mapping of UUIDs to fix.
+    metadata_path : Path
+        Path to the metadata file.
+    state : PipelineState
+        The pipeline state object.
+
+    Yields
+    ------
+    tuple[list[dict], Path]
+        Tuples of relations data and their corresponding file paths.
     """
 
     def final_uid(item: dict, attr: str) -> str | None:

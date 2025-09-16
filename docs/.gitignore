@@ -1,0 +1,8 @@
+# Python related
+*.egg-info
+.venv
+
+# Documentation builds
+_build
+docs/CHANGELOG.md
+styles/Microsoft

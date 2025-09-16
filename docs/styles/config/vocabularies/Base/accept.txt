@@ -1,0 +1,5 @@
+JSON
+sanitization
+setuptools
+subclassing
+Transmogrifier

@@ -1,8 +1,9 @@
-from .about import __version__  # noQA: F401
 from pathlib import Path
 
 import logging
 
+
+__version__ = "1.0.0a0"
 
 PACKAGE_NAME = "collective.transmute"
 
@@ -23,3 +24,12 @@ def get_logger():
     logger.addHandler(file_handler)
 
     return logger
+
+
+def main():
+    from collective.transmute.utils import settings
+
+    settings.register_encoders()
+
+
+main()

@@ -1,3 +1,18 @@
+"""
+Pipeline execution steps for ``collective.transmute``.
+
+This module provides functions and context managers to run, debug, and manage
+pipeline steps for Plone item transformation. Used in the ``collective.transmute``
+pipeline.
+
+Example:
+    .. code-block:: pycon
+
+        >>> async for result, step_name, is_new in run_pipeline(
+        ...     steps, item, state, consoles, settings):
+        ...     print(result, step_name, is_new)
+"""
+
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
 from collective.transmute.utils import item as item_utils
@@ -8,13 +23,42 @@ from contextlib import contextmanager
 def step_debugger(
     consoles: t.ConsoleArea, src_uid: str, item: t.PloneItem, step_name: str
 ):
-    """Context manager to debug a step run."""
+    """
+    Context manager to debug a pipeline step run.
+
+    Args:
+        consoles (ConsoleArea): Console logging utility.
+        src_uid (str): Source UID of the item.
+        item (PloneItem): The Plone item being processed.
+        step_name (str): Name of the pipeline step.
+
+    Example:
+        .. code-block:: pycon
+
+            >>> with step_debugger(consoles, src_uid, item, step_name):
+            ...     # step logic
+    """
     consoles.debug(f"({src_uid}) - Step {step_name} - started")
     yield
     consoles.debug(f"({src_uid}) - Step {step_name} - finished")
 
 
 def _add_to_drop(path: str, settings: t.TransmuteSettings) -> None:
+    """
+    Add a path to the drop filter if it meets criteria.
+
+    Args:
+        path (str): The path to check and potentially drop.
+        settings (TransmuteSettings): The transmute settings object.
+
+    Returns:
+        None
+
+    Example:
+        .. code-block:: pycon
+
+            >>> _add_to_drop('/news/item', settings)
+    """
     parents = item_utils.all_parents_for(path)
     valid_path = parents & settings.paths_filter_allowed
     if valid_path and not (parents & settings.paths["filter"]["drop"]):
@@ -30,6 +74,28 @@ async def _sub_item_pipeline(
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
+    """
+    Run a sub-pipeline for a newly produced item.
+
+    Args:
+        steps (tuple[PipelineStep, ...]): Pipeline steps to run.
+        item (PloneItem): The new Plone item.
+        src_uid (str): Source UID of the parent item.
+        step_name (str): Name of the producing step.
+        state (PipelineState): The pipeline state object.
+        consoles (ConsoleArea): Console logging utility.
+        settings (TransmuteSettings): The transmute settings object.
+
+    Yields:
+        tuple[PloneItem | None, str, bool]: The sub-item, last step name, and is_new
+        flag.
+
+    Example:
+        .. code-block:: pycon
+
+            >>> async for sub_item, last_step, is_new in _sub_item_pipeline(...):
+            ...     print(sub_item, last_step, is_new)
+    """
     msg = f" - New: {item.get('UID')} (from {src_uid}/{step_name})"
     consoles.print(msg)
     consoles.debug(f"({src_uid}) - Step {step_name} - Produced {item.get('UID')}")
@@ -48,7 +114,28 @@ async def run_step(
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
-    """Run a single step in the pipeline."""
+    """
+    Run a single step in the pipeline.
+
+    Args:
+        steps (tuple[PipelineStep, ...]): All pipeline steps.
+        step (PipelineStep): The step to run.
+        item (PloneItem): The item to process.
+        src_uid (str): Source UID of the item.
+        state (PipelineState): The pipeline state object.
+        consoles (ConsoleArea): Console logging utility.
+        settings (TransmuteSettings): The transmute settings object.
+
+    Yields:
+        tuple[PloneItem | None, str, bool]: The processed item, step name, and
+        ``is_new`` flag.
+
+    Example:
+        .. code-block:: pycon
+
+            >>> async for result, step_name, is_new in run_step(...):
+            ...     print(result, step_name, is_new)
+    """
     result_item: t.PloneItem | None = None
     step_name = step.__name__
     item_id, is_folderish = item["@id"], item.get("is_folderish", False)
@@ -73,6 +160,27 @@ async def run_pipeline(
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings,
 ) -> AsyncGenerator[tuple[t.PloneItem | None, str, bool]]:
+    """
+    Run the pipeline for a Plone item through all steps.
+
+    Args:
+        steps (tuple[PipelineStep, ...]): Pipeline steps to run.
+        item (PloneItem | None): The item to process.
+        state (PipelineState): The pipeline state object.
+        consoles (ConsoleArea): Console logging utility.
+        settings (TransmuteSettings): The transmute settings object.
+
+    Yields:
+        tuple[PloneItem | None, str, bool]: The processed item, last step name,
+        and ``is_new`` flag.
+
+    Example:
+        .. code-block:: pycon
+
+            >>> async for result, step_name, is_new in run_pipeline(
+            ...     steps, item, state, consoles, settings):
+            ...     print(result, step_name, is_new)
+    """
     src_uid = item["UID"] if item else ""
     last_step_name = ""
     result_item: t.PloneItem | None = item

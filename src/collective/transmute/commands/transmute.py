@@ -65,7 +65,7 @@ def run(
     write_report: Annotated[
         bool,
         typer.Option(
-            help="Should we write a csv report with all path transformations?"
+            help="Should we write a CSV report with all path transformations?"
         ),
     ] = False,
     clean_up: Annotated[
@@ -77,8 +77,8 @@ def run(
         typer.Option(help="Use rich UI"),
     ] = True,
 ):
-    """Transmutes data from src folder (in collective.exportimport format)
-    to plone.exportimport format in the dst folder.
+    """Transmutes data from ``src`` folder (in ``collective.exportimport`` format)
+    to ``plone.exportimport`` format in the ``dst`` folder.
     """
     settings: t.TransmuteSettings = ctx.obj.settings
     # Check if paths exist
