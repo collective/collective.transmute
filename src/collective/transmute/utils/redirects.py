@@ -93,7 +93,9 @@ def filter_redirects(
         >>> filtered = filter_redirects(raw_redirects, valid_paths)
     """
     redirects = {}
-    for src, dst in raw_redirects.items():
+    # Sort paths first
+    to_process = sorted(raw_redirects.items())
+    for src, dst in to_process:
         is_internal = dst.startswith("/")
         if is_internal and dst not in valid_paths:
             continue
