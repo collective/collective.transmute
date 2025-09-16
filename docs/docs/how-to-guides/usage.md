@@ -4,25 +4,29 @@ myst:
     "description": "Comprehensive guide to configuring and running content migrations with collective.transmute, including project setup, pipeline configuration, reporting, and troubleshooting."
     "property=og:description": "How to set up, configure, and run content migrations using collective.transmute. Includes pipeline steps, TOML configuration, CLI usage, and migration reporting."
     "property=og:title": "Migration Usage Guide | collective.transmute"
-    "keywords": "Plone, collective.transmute, CLI, Python, migration, pipeline, TOML, report, glossary, content types, blocks, Volto, exportimport, transmogrifier"
+    "keywords": "Plone, collective.transmute, CLI, Python, migration, pipeline, TOML, report, content types, blocks, Volto, exportimport, transmogrifier"
 
 ---
 
 # Usage
 
-This guide provides step-by-step instructions for running {term}`collective.transmute` with your own configuration.
+This guide provides step-by-step instructions for using {term}`collective.transmute` with your own project, and managing its configuration files, pipeline steps, and type converters.
+It uses {term}`uv`.
 
-## Creating a new project
+```{seealso}
+[Installing uv](https://docs.astral.sh/uv/getting-started/installation/)
+```
 
-First, you probably want to create a new Python project to host your {term}`transmute` configuration files, pipeline steps and type converters.
 
-Our suggestion is to use {term}`uv` to create a new codebase (in our case, to be named **`plone-migration`**) by running the following command:
+## Create a new project
+
+Use uv to create a new project named `plone-migration` by running the following command.
 
 ```shell
 uv init --app --package plone-migration
 ```
 
-Then edit the generated {file}`pyproject.toml`, add {term}`collective.transmute` as a dependency:
+Then edit the generated {file}`pyproject.toml`, adding `collective.transmute` as a dependency.
 
 ```toml
 dependencies = [
@@ -30,33 +34,49 @@ dependencies = [
 ]
 ```
 
-And generate an initial {file}`transmute.toml` file at the top-level of your package by running:
+Next, generate an initial {file}`transmute.toml` file at the top-level of your project by running the following command.
 
 ```shell
 uv run transmute settings generate
 ```
 
-## Configuring your migration: The {file}`transmute.toml` file
 
-The {file}`transmute.toml` file is a configuration file written in [TOML](https://toml.io/en/) format. It organizes all the settings needed to control how the migration pipeline runs. Each section is marked by a header in square brackets (for example, `[pipeline]`, `[types]`), and settings are grouped by their purpose—such as pipeline steps, type mappings, review state filters, and more.
+## Configure your migration in {file}`transmute.toml`
 
-- **Sections**: Each section defines a logical part of the migration process, like pipeline steps, principals, default pages, review state, paths, images, sanitization, and type conversions.
-- **Arrays and Tables**: Lists of values (arrays) are written in square brackets, while more complex mappings (tables) use nested headers or double brackets for repeated entries.
-- **Extensibility**: You can add or modify sections to customize your migration, such as adding new pipeline steps or defining how specific {term}`Plone` types are handled.
-- **Comments**: Lines starting with `#` are comments and are ignored by the parser.
+The {file}`transmute.toml` file is a configuration file written in {term}`TOML` format.
+It organizes all the settings needed to control how the migration pipeline runs.
+Each section is marked by a header in square brackets, such as `[pipeline]` or `[types]`.
+Settings are grouped by their purpose, such as pipeline steps, type mappings, review state filters, and more.
 
-This file should be placed at the root of your migration project and edited to match your migration needs. For more details on TOML syntax, see [the TOML documentation](https://toml.io/en/).
+Sections
+:   Each section defines a logical part of the migration process, such as pipeline steps, principals, default pages, review state, paths, images, sanitization, and type conversions.
+
+Arrays and Tables
+:   Lists of values (arrays) are written in square brackets, while more complex mappings (tables) use nested headers or double brackets for repeated entries.
+
+Extensibility
+:   You can add or modify sections to customize your migration, such as adding new pipeline steps or defining how specific {term}`Plone` types are handled.
+
+Comments
+:   Lines starting with `#` are comments and are ignored by the parser.
+
+This file should be placed at the root of your migration project and edited to match your migration needs.
+
+```{seealso}
+For more details on TOML syntax, see [the TOML documentation](https://toml.io/en/).
+```
 
 
 ## `transmute` command line
 
-If you have installed {term}`collective.transmute` in your project or local Python virtual environment, you should have the `transmute` command line application available.
+If you have installed `collective.transmute` in your project or local Python virtual environment, you should have the `transmute` command line application available.
 
 ```shell
 uv run transmute
 ```
 
-Take a look at all the available options in the [CLI](cli.md) documentation.
+Take a look at all the available options in the {doc}`cli` documentation.
+
 
 ## Preparing the migration
 
