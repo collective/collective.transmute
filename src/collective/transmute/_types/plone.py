@@ -29,6 +29,7 @@ class MetadataInfo:
     local_roles: dict = field(default_factory=dict)
     ordering: dict = field(default_factory=dict)
     relations: list = field(default_factory=list)
+    redirects: dict = field(default_factory=dict)
 
 
 PloneItem = TypedDict(

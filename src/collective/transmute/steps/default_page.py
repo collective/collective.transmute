@@ -44,6 +44,7 @@ async def process_default_page(
     item_uid = item["UID"]
     if metadata:
         if parent_item := metadata.__processing_default_page__.pop(item_uid, None):
+            metadata.redirects[parent_item["@id"]] = item["@id"]
             parent_uid = parent_item["UID"]
             keys_from_parent = settings.default_pages["keys_from_parent"]
             item = handle_default_page(parent_item, item, keys_from_parent)

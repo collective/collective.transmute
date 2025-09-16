@@ -51,6 +51,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         item["uuid"]: item["order"] for item in data.get("ordering", [])
     }
     relations: list[dict] = data.get("relations", [])
+    redirects: dict[str, str] = data.get("redirects", {})
 
     return t.MetadataInfo(
         path=path,
@@ -59,6 +60,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         local_roles=local_roles,
         ordering=ordering,
         relations=relations,
+        redirects=redirects,
     )
 
 
@@ -90,6 +92,9 @@ async def prepare_metadata_file(
         data["relations"], fix_relations, path, state
     ):
         yield rel_data, rel_path
+    if bool(data["redirects"]):
+        red_path = (path.parent.parent / "redirects.json").resolve()
+        yield data["redirects"], red_path
     if settings.is_debug:
         data["__seen__"] = list(state.seen)
         debug_path = path.parent / "__debug_metadata__.json"
@@ -101,6 +106,7 @@ async def prepare_metadata_file(
     for key in ["default_page", "ordering", "local_roles"]:
         data[key] = {k: v for k, v in data[key].items() if k in state.uids}
     data["relations"] = []
+    data["redirects"] = {}
     for item in remove:
         data.pop(item)
     yield data, path
