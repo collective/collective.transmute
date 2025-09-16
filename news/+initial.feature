@@ -1,1 +1,0 @@
-Initial implementation of collective.transmute [@ericof]
