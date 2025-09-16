@@ -18,11 +18,11 @@ def source_redirects(load_json_resource) -> dict[str, str]:
     return load_json_resource("export_redirects.json")
 
 
-
 @pytest.fixture
 def redirects(patched_settings, source_redirects) -> dict[str, str]:
     func = utils.initialize_redirects
     return func(source_redirects, settings=patched_settings)
+
 
 def test_initialize_redirects(patched_settings, source_redirects):
     func = utils.initialize_redirects
@@ -40,7 +40,7 @@ def test_initialize_redirects(patched_settings, source_redirects):
         ("/foo/bar", "/bar/foo", "/Plone/foo/bar", "/Plone/bar/foo"),
         ("/Plone/foo/bar", "/bar/foo", "/Plone/foo/bar", "/Plone/bar/foo"),
         ("/Plone/foo/bar", "/Plone/bar/foo", "/Plone/foo/bar", "/Plone/bar/foo"),
-    ]
+    ],
 )
 def test_add_redirect(
     patched_settings, redirects, src, dest, expected_src, expected_dest
@@ -56,15 +56,15 @@ def test_add_redirect(
     values = [k for k in list(redirects.values()) if k.startswith("/Plone/")]
     assert len(values) == 4
     assert expected_dest in values
+
+
 @pytest.mark.parametrize(
     "valid_paths,expected_count",
     [
         ({"/Plone/foo/bar", "/Plone/assuntos/concurso-publico"}, 1),
-    ]
+    ],
 )
-def test_filter_redirects(
-    redirects, valid_paths, expected_count
-):
+def test_filter_redirects(redirects, valid_paths, expected_count):
     func = utils.filter_redirects
     result = func(redirects, valid_paths)
 
