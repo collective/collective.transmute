@@ -142,3 +142,10 @@ myst:
     :members:
     :private-members:
 ```
+
+## `collective.transmute.steps.uids`
+
+```{eval-rst}
+.. automodule:: collective.transmute.steps.uids
+    :members:
+```
