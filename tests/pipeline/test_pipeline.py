@@ -30,6 +30,7 @@ def pipeline_result(pipeline_runner, test_dir) -> Path:
 @pytest.mark.parametrize(
     "filename,expected",
     [
+        ("import/redirects.json", True),
         ("import/relations.json", True),
         ("import/content/__metadata__.json", True),
         ("import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json", True),

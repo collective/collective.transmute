@@ -22,6 +22,11 @@ class TransmuteSettingsPipeline(TypedDict):
     do_not_add_drop: tuple[str, ...]
 
 
+class TransmuteSettingsSiteRoot(TypedDict):
+    src: str
+    dest: str
+
+
 class TransmuteSettingsPrincipals(TypedDict):
     default: str
     remove: tuple[str, ...]
@@ -73,6 +78,7 @@ class TransmuteSettings:
 
     config: TransmuteSettingsConfig
     pipeline: TransmuteSettingsPipeline
+    site_root: TransmuteSettingsSiteRoot
     principals: TransmuteSettingsPrincipals
     default_pages: TransmuteSettingsDefaultPages
     review_state: TransmuteSettingsReviewState
