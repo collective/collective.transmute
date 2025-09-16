@@ -17,13 +17,16 @@ from collective.transmute.utils import sort_data_by_value
 from pathlib import Path
 
 
-async def report_final_state(consoles: t.ConsoleArea, state: t.PipelineState) -> None:
+async def report_final_state(
+    consoles: t.ConsoleArea, state: t.PipelineState, is_debug: bool = False
+) -> None:
     """
     Print a summary of the pipeline's final state to the console.
 
     Args:
         consoles (ConsoleArea): Console logging utility.
         state (PipelineState): The pipeline state object.
+        is_debug (bool): Whether to print the debug summary.
 
     Returns:
         None
@@ -33,13 +36,21 @@ async def report_final_state(consoles: t.ConsoleArea, state: t.PipelineState) ->
 
             >>> await report_final_state(consoles, state)
     """
+    transmuted = len(state.seen)
+    percent = (transmuted / state.total * 100) if state.total else 0
+    consoles.print_log("Source")
+    consoles.print_log(f"  - Processed items: {state.total}")
     consoles.print_log("Converted")
-    consoles.print_log(f"  - Total: {len(state.seen)}")
+    consoles.print_log(f"  - Transmuted items: {transmuted} ({percent:.2f}%)")
     for name, total in sort_data_by_value(state.exported):
-        consoles.print_log(f"   - {name}: {total}")
-    consoles.print_log("Dropped by step")
-    for name, total in sort_data_by_value(state.dropped):
-        consoles.print_log(f"  - {name}: {total}")
+        percent = (total / transmuted * 100) if transmuted else 0
+        consoles.print_log(f"   - {name}: {total} ({percent:.2f}%)")
+    if is_debug:
+        consoles.print_log("Dropped by step")
+        total_dropped = len(state.dropped)
+        for name, total in sort_data_by_value(state.dropped):
+            percent = (total / total_dropped * 100) if total_dropped else 0
+            consoles.print_log(f"  - {name}: {total} ({percent:.2f}%)")
 
 
 async def write_paths_report(
@@ -102,5 +113,6 @@ async def final_reports(
     """
     if write_report:
         await write_paths_report(consoles, state)
-    if is_debug:
-        await report_final_state(consoles, state)
+
+    # Final state report to console
+    await report_final_state(consoles, state, is_debug=is_debug)
