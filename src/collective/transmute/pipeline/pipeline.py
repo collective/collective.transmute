@@ -60,7 +60,9 @@ def _add_to_drop(path: str, settings: t.TransmuteSettings) -> None:
             >>> _add_to_drop('/news/item', settings)
     """
     parents = item_utils.all_parents_for(path)
-    valid_path = parents & settings.paths_filter_allowed
+    valid_path = True
+    if len(settings.paths_filter_allowed):
+        valid_path = parents & settings.paths_filter_allowed
     if valid_path and not (parents & settings.paths["filter"]["drop"]):
         settings.paths["filter"]["drop"].add(path)
 
