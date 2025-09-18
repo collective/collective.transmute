@@ -83,6 +83,9 @@ async def write_paths_report(
         "dst_type",
         "dst_state",
         "last_step",
+        "status",
+        "src_level",
+        "dst_level",
     ]
     report_path = Path().cwd() / "report_transmute.csv"
     paths_data = state.path_transforms
