@@ -146,10 +146,10 @@ The file has the following columns.
 :   If the item was processed or dropped.
 
 `src_level`
-:   Navigation level, from Portal root, of the source item. It will return -1 if source item did not exist.
+:   Navigation level, from Portal root, of the source item. It will return `—1` if source item did not exist.
 
 `dst_level`
-:   Navigation level, from Portal root, of the item. It will return -1 if item was dropped.
+:   Navigation level, from Portal root, of the item. It will return `—1` if item was dropped.
 
 The following is an example of an item that was dropped (in this case, replaced) because there was another item as the default page which was applied to it.
 
