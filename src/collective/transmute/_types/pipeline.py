@@ -1,14 +1,17 @@
+from .console import ConsoleArea
 from .plone import MetadataInfo
 from .plone import PloneItem
 from .plone import PloneItemGenerator
 from .settings import TransmuteSettings
 from collections import defaultdict
-from collections.abc import Callable
+from collections.abc import AsyncGenerator
 from collections.abc import Iterator
 from dataclasses import dataclass
 from dataclasses import field
+from pathlib import Path
 from rich.progress import Progress
 from typing import Any
+from typing import Protocol
 from typing import TypedDict
 
 
@@ -20,6 +23,7 @@ __all__ = [
     "PipelineStep",
     "ReportProgress",
     "ReportState",
+    "ReportStep",
 ]
 
 
@@ -149,6 +153,8 @@ class PipelineState:
     """Additional annotations for items."""
     metadata: MetadataInfo | None = field(default=None, repr=False)
     """Metadata for the pipeline run."""
+    write_report: bool = field(default=True, repr=True)
+    """Flag to control if we should write the paths report."""
 
 
 @dataclass
@@ -185,27 +191,61 @@ class ReportState:
         return data
 
 
-PipelineStep = Callable[
-    [PloneItem, PipelineState, TransmuteSettings], PloneItemGenerator
-]
-"""
-Type alias for a pipeline step function.
+class PipelineStep(Protocol):
+    """
+    Protocol for a pipeline step function.
 
-Args:
-    PloneItem: The item to process.
-    PipelineState: The current pipeline state.
-    TransmuteSettings: The pipeline settings.
-Returns:
-    PloneItemGenerator: An async generator yielding processed items.
-"""
+    A pipeline step processes a single item, updating state and yielding results.
+    """
 
-ItemProcessor = Callable[[PloneItem, PipelineState], PloneItem]
-"""
-Type alias for a processor function for a single item.
+    __name__: str
 
-Args:
-    PloneItem: The item to process.
-    PipelineState: The current pipeline state.
-Returns:
-    PloneItem: The processed item.
-"""
+    def __call__(
+        self, item: PloneItem, state: PipelineState, settings: TransmuteSettings
+    ) -> PloneItemGenerator:
+        """
+        Process a single item in the pipeline.
+
+        Args:
+            item (PloneItem): The item to process.
+            state (PipelineState): The current pipeline state.
+            settings (TransmuteSettings): The pipeline settings.
+
+        Returns:
+            PloneItemGenerator: An async generator yielding processed items.
+        """
+        ...
+
+
+class ItemProcessor(Protocol):
+    """
+    Protocol for a processor function for a single item.
+
+    An item processor processes a single item and returns the result.
+    """
+
+    __name__: str
+
+    def __call__(self, item: PloneItem, state: PipelineState) -> PloneItem:
+        """
+        Process a single item.
+
+        Args:
+            item (PloneItem): The item to process.
+            state (PipelineState): The current pipeline state.
+
+        Returns:
+            PloneItem: The processed item.
+        """
+        ...
+
+
+ReportItemGenerator = AsyncGenerator[Path | None]
+
+
+class ReportStep(Protocol):
+    __name__: str
+
+    def __call__(
+        self, state: PipelineState, settings: TransmuteSettings, consoles: ConsoleArea
+    ) -> ReportItemGenerator: ...

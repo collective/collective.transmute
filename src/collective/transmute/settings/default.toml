@@ -23,6 +23,10 @@ steps = [
     'collective.transmute.steps.sanitize.process_cleanup',
 ]
 do_not_add_drop = ["process_paths", "process_default_page"]
+report_steps = [
+    'collective.transmute.reports.paths.write_paths_report',
+    'collective.transmute.reports.final_state.report_final_state',
+]
 
 [site_root]
 src = "/Plone"

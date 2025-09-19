@@ -224,7 +224,6 @@ async def pipeline(
     src_files: t.SourceFiles,
     dst: Path,
     state: t.PipelineState,
-    write_report: bool,
     consoles: t.ConsoleArea,
     settings: t.TransmuteSettings | None = None,
 ):
@@ -315,7 +314,7 @@ async def pipeline(
             await post_process(state, consoles, content_folder, settings, debugger)
 
     # Reports after pipeline execution
-    await report.final_reports(consoles, state, write_report, settings.is_debug)
+    await report.final_reports(state, settings, consoles)
     # Write metadata file
     metadata_file = await _write_metadata(metadata, state, consoles, settings)
     return metadata_file

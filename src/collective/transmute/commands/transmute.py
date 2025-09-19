@@ -18,6 +18,7 @@ def _create_state(
     app_layout: layout.ApplicationLayout,
     total: int,
     metadata: t.MetadataInfo | None = None,
+    write_report: bool = True,
 ) -> t.PipelineState:
     """Initialize a PipelineState object."""
     app_layout.initialize_progress(total)
@@ -28,6 +29,7 @@ def _create_state(
         dropped=defaultdict(int),
         progress=app_layout.progress,
         metadata=metadata,
+        write_report=write_report,
     )
 
 
@@ -51,10 +53,10 @@ def _run_pipeline(
     consoles.print(f"- Found {total} files to be processed")
     if clean_up:
         _remove_existing_data(dst, consoles)
-    state = _create_state(app_layout, total)
+    state = _create_state(app_layout, total, write_report=write_report)
     app_layout.update_layout(state)
     with report_time("Transmute", consoles):
-        asyncio.run(pipeline(src_files, dst, state, write_report, consoles, settings))
+        asyncio.run(pipeline(src_files, dst, state, consoles, settings))
 
 
 @app.command()
