@@ -71,6 +71,28 @@ def all_steps(settings: t.TransmuteSettings) -> tuple[t.PipelineStep, ...]:
     return load_all_steps(config_steps)
 
 
+def _level_from_path(path: str) -> int:
+    """
+    Determine the level of a path based on the number of slashes.
+
+    Args:
+        path (str): The path to evaluate.
+
+    Returns:
+        int: The level of the path.
+
+    Example:
+        .. code-block:: pycon
+
+            >>> level = _level_from_path("/a/b/c")
+            >>> level
+            3
+    """
+    if not path or path == ITEM_PLACEHOLDER:
+        return -1
+    return path.count("/") - 1 if path.startswith("/") else path.count("/")
+
+
 def _prepare_report_items(
     item: t.PloneItem | None, last_step: str, is_new: bool, src_item: dict
 ) -> tuple[dict, dict]:
@@ -98,18 +120,23 @@ def _prepare_report_items(
             "dst_type": _no_data_,
             "dst_uid": _no_data_,
             "dst_state": _no_data_,
+            "dst_level": _no_data_,
             "last_step": last_step,
+            "status": "dropped",
         }
     dst_item = {
         "dst_path": item.get("@id", "") or "",
         "dst_type": item.get("@type", "") or "",
         "dst_uid": item.get("UID", "") or "",
         "dst_state": item.get("review_state", _no_data_) or _no_data_,
+        "dst_level": _level_from_path(item.get("@id", "")) or -1,
+        "status": "processed",
     }
     if is_new:
         src_item["src_type"] = _no_data_
         src_item["src_uid"] = _no_data_
         src_item["src_state"] = _no_data_
+        src_item["src_level"] = _no_data_
     return src_item, dst_item
 
 
@@ -237,6 +264,7 @@ async def pipeline(
                 "src_type": raw_item.get("@type"),
                 "src_uid": raw_item.get("UID"),
                 "src_state": raw_item.get("review_state", "--"),
+                "src_level": _level_from_path(raw_item.get("@id")) or -1,
             }
             debugger(
                 f"({src_item['src_uid']}) - Filename {src_item['filename']} "
