@@ -119,9 +119,8 @@ def pipeline_runner(
         consoles = app_layout.consoles
         consoles.no_ui = True
         app_layout.update_layout(pipeline_state)
-        asyncio.run(
-            pipeline(src_files, test_dst, pipeline_state, write_report, consoles)
-        )
+        pipeline_state.write_report = write_report
+        asyncio.run(pipeline(src_files, test_dst, pipeline_state, consoles))
 
     return func
 

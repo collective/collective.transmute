@@ -19,6 +19,7 @@ class TransmuteSettingsConfig(TypedDict):
 
 class TransmuteSettingsPipeline(TypedDict):
     steps: tuple[str]
+    report_steps: tuple[str]
     do_not_add_drop: tuple[str, ...]
 
 

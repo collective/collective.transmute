@@ -8,8 +8,10 @@ from .pipeline import PipelineItemReport
 from .pipeline import PipelineProgress
 from .pipeline import PipelineState
 from .pipeline import PipelineStep
+from .pipeline import ReportItemGenerator
 from .pipeline import ReportProgress
 from .pipeline import ReportState
+from .pipeline import ReportStep
 from .plone import MetadataInfo
 from .plone import PloneItem
 from .plone import PloneItemGenerator
@@ -31,8 +33,10 @@ __all__ = [
     "PipelineStep",
     "PloneItem",
     "PloneItemGenerator",
+    "ReportItemGenerator",
     "ReportProgress",
     "ReportState",
+    "ReportStep",
     "SourceFiles",
     "TransmuteSettings",
     "VoltoBlock",
