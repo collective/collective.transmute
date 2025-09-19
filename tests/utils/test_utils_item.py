@@ -7,9 +7,15 @@ import pytest
     "id_,expected",
     [
         ["/path", set()],
-        ["/path/subpath", {"/path"}],
-        ["/path/subpath/first_child", {"/path", "/path/subpath"}],
-        ["/path/subpath/second_child", {"/path", "/path/subpath"}],
+        ["/path/subpath", {"/path", "/path/"}],
+        [
+            "/path/subpath/first_child",
+            {"/path", "/path/", "/path/subpath", "/path/subpath/"},
+        ],
+        [
+            "/path/subpath/second_child",
+            {"/path", "/path/", "/path/subpath", "/path/subpath/"},
+        ],
     ],
 )
 def test_all_parents_for(id_: str, expected: set):

@@ -51,7 +51,7 @@ def all_parents_for(id_: str) -> set[str]:
     .. code-block:: pycon
 
         >>> all_parents_for('a/b/c')
-        {'a', 'a/b'}
+        {'a', 'a/', 'a/b', 'a/b/'}
     """
     parents = []
     parts = id_.split("/")
@@ -60,6 +60,8 @@ def all_parents_for(id_: str) -> set[str]:
         if not parent_path.strip():
             continue
         parents.append(parent_path)
+        # Add trailing slash variant
+        parents.append(f"{parent_path}/")
     return set(parents)
 
 
