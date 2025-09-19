@@ -6,39 +6,11 @@ and transforming item IDs and paths in the transformation pipeline. These steps
 support export prefix removal, path cleanup, and short ID normalization.
 """
 
+from .cleanup import path_cleanup
+from .prefixes import path_prefixes
 from collective.transmute import _types as t
-from urllib import parse
 
 import re
-
-
-_CLEANUP: tuple[tuple[str, str], ...] | None = None
-
-
-def get_paths_cleanup(settings: t.TransmuteSettings) -> tuple[tuple[str, str], ...]:
-    """
-    Return cleanup paths from settings.
-
-    Parameters
-    ----------
-    settings : TransmuteSettings
-        The transmute settings object.
-
-    Returns
-    -------
-    tuple[tuple[str, str], ...]
-        Tuple of (source, replacement) path pairs for cleanup.
-
-    Example
-    -------
-    .. code-block:: pycon
-
-        >>> cleanup = get_paths_cleanup(settings)
-    """
-    global _CLEANUP
-    if _CLEANUP is None:
-        _CLEANUP = tuple(settings.paths["cleanup"].items())
-    return _CLEANUP
 
 
 PATTERNS = [
@@ -143,12 +115,9 @@ async def process_ids(
         >>> async for result in process_ids(item, state, settings):
         ...     print(result['@id'], result['id'])
     """
-    path = parse.unquote(item["@id"].replace(" ", "_"))
-    cleanup_paths = get_paths_cleanup(settings)
-    for src, rpl in cleanup_paths:
-        if src in path:
-            path = path.replace(src, rpl)
-
+    path = item["@id"]
+    for func in (path_cleanup, path_prefixes):
+        path = func(state, settings, path)
     parts = path.rsplit("/", maxsplit=-1)
     if parts:
         parts[-1] = fix_short_id(parts[-1])

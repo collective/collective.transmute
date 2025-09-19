@@ -32,6 +32,12 @@ async def test_process_export_prefix(
         [{"@id": "/-foo", "id": "-foo"}, "/foo", "foo"],
         [{"@id": "/_foo", "id": "_foo"}, "/foo", "foo"],
         [
+            {"@id": "/Boletins%20de%20Servico", "id": "Boletins%20de%20Servico"},
+            "/Boletins_de_Servico",
+            "Boletins_de_Servico",
+        ],
+        [{"@id": "/foo/bar foo/foo", "id": "foo"}, "/foo/bar_foo/foo", "foo"],
+        [
             {"@id": "/_foo bar", "id": "_foo bar"},
             "/foo_bar",
             "foo_bar",
