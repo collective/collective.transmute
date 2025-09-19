@@ -1,5 +1,4 @@
 from collective.transmute import _types as t
-from urllib import parse
 
 
 def _prefixes_from_settings(
