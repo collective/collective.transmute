@@ -129,7 +129,7 @@ def _prepare_report_items(
         "dst_type": item.get("@type", "") or "",
         "dst_uid": item.get("UID", "") or "",
         "dst_state": item.get("review_state", _no_data_) or _no_data_,
-        "dst_level": _level_from_path(item.get("@id", "")) or -1,
+        "dst_level": _level_from_path(item.get("@id", "")),
         "status": "processed",
     }
     if is_new:
@@ -263,7 +263,7 @@ async def pipeline(
                 "src_type": raw_item.get("@type"),
                 "src_uid": raw_item.get("UID"),
                 "src_state": raw_item.get("review_state", "--"),
-                "src_level": _level_from_path(raw_item.get("@id")) or -1,
+                "src_level": _level_from_path(raw_item.get("@id")),
             }
             debugger(
                 f"({src_item['src_uid']}) - Filename {src_item['filename']} "
@@ -275,6 +275,7 @@ async def pipeline(
                 processed += 1
                 progress.advance("processed")
                 src_item["src_path"] = raw_item.get("_@id", src_item["src_path"])
+                src_item["src_level"] = _level_from_path(src_item["src_path"])
                 src_item, dst_item = _prepare_report_items(
                     item, last_step, is_new, src_item
                 )
