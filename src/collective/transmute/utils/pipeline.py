@@ -49,7 +49,9 @@ def load_step(name: str) -> t.PipelineStep:
     return func
 
 
-def load_all_steps(names: tuple[str, ...]) -> tuple[t.PipelineStep | t.ReportStep, ...]:
+def load_all_steps(
+    names: tuple[str, ...],
+) -> tuple[t.PipelineStep | t.ReportStep | t.PrepareStep, ...]:
     """
     Load and return all pipeline step functions from a tuple of dotted names.
 
@@ -61,7 +63,8 @@ def load_all_steps(names: tuple[str, ...]) -> tuple[t.PipelineStep | t.ReportSte
         names (tuple[str, ...]): Tuple of dotted function names to load.
 
     Returns:
-        tuple[PipelineStep | ReportStep, ...]: Tuple of loaded pipeline step functions.
+        tuple[PipelineStep | ReportStep | LoaderStep, ...]:
+        Tuple of loaded pipeline step functions.
 
     Raises:
         RuntimeError: If any step cannot be loaded.

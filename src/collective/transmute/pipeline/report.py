@@ -13,6 +13,7 @@ async def final_reports(
 
     Args:
         state (PipelineState): The pipeline state object.
+        settings (TransmuteSettings): The transmute settings object.
         consoles (ConsoleArea): Console logging utility.
 
     Returns:
