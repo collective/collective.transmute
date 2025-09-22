@@ -4,6 +4,7 @@ log_file = "transmute.log"
 report = 1000
 
 [pipeline]
+prepare_steps = []
 steps = [
     'collective.transmute.steps.ids.process_export_prefix',
     'collective.transmute.steps.uids.drop_item_by_uid',

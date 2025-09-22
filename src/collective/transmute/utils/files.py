@@ -95,6 +95,28 @@ async def csv_dump(data: dict | list, header: list[str], path: Path) -> Path:
     return path
 
 
+async def csv_loader(path: Path) -> list[dict]:
+    """
+    Load data from a CSV file.
+
+    Parameters
+    ----------
+    path : Path
+        The file path to read from.
+
+    Returns
+    -------
+    Data
+        The loaded data from the CSV file.
+    """
+    data = []
+    with open(path) as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            data.append(row)
+    return data
+
+
 def check_path(path: Path) -> bool:
     """
     Check if a path exists.

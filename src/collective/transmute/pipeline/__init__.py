@@ -15,6 +15,7 @@ Example:
 
 from collections.abc import Callable
 from collective.transmute import _types as t
+from collective.transmute.pipeline import prepare
 from collective.transmute.pipeline import report
 from collective.transmute.pipeline.pipeline import run_pipeline
 from collective.transmute.settings import get_settings
@@ -256,6 +257,9 @@ async def pipeline(
     redirects = metadata.redirects
 
     with pipeline_debugger(consoles, state) as debugger:
+        # Run the prepare steps of the pipeline
+        await prepare.prepare_pipeline(state, settings, consoles)
+
         async for filename, raw_item in file_utils.json_reader(content_files):
             src_item = {
                 "filename": filename,
@@ -269,6 +273,7 @@ async def pipeline(
                 f"({src_item['src_uid']}) - Filename {src_item['filename']} "
                 f"({processed + 1} / {total})"
             )
+
             async for item, last_step, is_new in run_pipeline(
                 steps, raw_item, state, consoles, settings
             ):

@@ -21,6 +21,8 @@ __all__ = [
     "PipelineProgress",
     "PipelineState",
     "PipelineStep",
+    "PrepareStep",
+    "PrepareStepGenerator",
     "ReportProgress",
     "ReportState",
     "ReportStep",
@@ -238,6 +240,17 @@ class ItemProcessor(Protocol):
             PloneItem: The processed item.
         """
         ...
+
+
+PrepareStepGenerator = AsyncGenerator[bool]
+
+
+class PrepareStep(Protocol):
+    __name__: str
+
+    def __call__(
+        self, state: PipelineState, settings: TransmuteSettings
+    ) -> AsyncGenerator[bool]: ...
 
 
 ReportItemGenerator = AsyncGenerator[Path | None]

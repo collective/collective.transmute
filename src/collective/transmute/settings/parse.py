@@ -65,6 +65,7 @@ _TUPLE_SETTINGS = {"cast": _as_tuple, "default": ()}
 
 _VALIDATORS: dict[str, list[dict]] = {
     "pipeline.steps": [{"len_min": 1}, _TUPLE_SETTINGS],
+    "pipeline.prepare_steps": [{"len_min": 0}, _TUPLE_SETTINGS],
     "pipeline.report_steps": [{"len_min": 1}, _TUPLE_SETTINGS],
     "pipeline.do_not_add_drop": [
         _TUPLE_SETTINGS,

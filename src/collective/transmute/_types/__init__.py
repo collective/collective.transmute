@@ -8,6 +8,8 @@ from .pipeline import PipelineItemReport
 from .pipeline import PipelineProgress
 from .pipeline import PipelineState
 from .pipeline import PipelineStep
+from .pipeline import PrepareStep
+from .pipeline import PrepareStepGenerator
 from .pipeline import ReportItemGenerator
 from .pipeline import ReportProgress
 from .pipeline import ReportState
@@ -33,6 +35,8 @@ __all__ = [
     "PipelineStep",
     "PloneItem",
     "PloneItemGenerator",
+    "PrepareStep",
+    "PrepareStepGenerator",
     "ReportItemGenerator",
     "ReportProgress",
     "ReportState",

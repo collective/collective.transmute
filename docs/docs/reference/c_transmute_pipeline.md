@@ -23,6 +23,14 @@ myst:
     :private-members:
 ```
 
+## `collective.transmute.pipeline.prepare`
+
+```{eval-rst}
+.. automodule:: collective.transmute.pipeline.prepare
+    :members:
+    :private-members:
+```
+
 ## `collective.transmute.pipeline.report`
 
 ```{eval-rst}
