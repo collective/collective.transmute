@@ -1,1 +1,0 @@
-Fix issue with transmute not dropping items because of a bug in _add_to_drop. @ericof
