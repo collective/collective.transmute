@@ -31,13 +31,13 @@ def _path_prefixes(prefixes: tuple[tuple[str, str], ...], path: str) -> str:
     """
     new_path = path
     for prefix, replacement in prefixes:
-        if not path.startswith(prefix):
+        if not new_path.startswith(prefix):
             continue
-        elif path == prefix:
-            new_path = path.replace(prefix, replacement, 1)
+        elif new_path == prefix:
+            new_path = new_path.replace(prefix, replacement, 1)
         else:
             # Only replace if it's a full path segment
-            new_path = path.replace(f"{prefix}/", f"{replacement}/", 1)
+            new_path = new_path.replace(f"{prefix}/", f"{replacement}/", 1)
     return new_path
 
 
