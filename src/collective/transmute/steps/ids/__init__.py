@@ -44,6 +44,12 @@ def fix_short_id(id_: str) -> str:
             id_ = match.groupdict()["path"]
     if " " in id_:
         id_ = id_.replace(" ", "_")
+    # Avoid leading underscores
+    while id_.startswith("_"):
+        id_ = id_.lstrip("_")
+    # Avoid trailing underscores
+    while id_.endswith("_"):
+        id_ = id_.rstrip("_")
     return id_
 
 

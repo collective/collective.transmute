@@ -64,6 +64,11 @@ async def test_process_ids(
         ["_document", "document"],
         ["file with spaces.docx", "file_with_spaces.docx"],
         ["foo-", "foo"],
+        ["foo_", "foo"],
+        ["foo__", "foo"],
+        ["_foo", "foo"],
+        ["__foo", "foo"],
+        ["__foo__", "foo"],
     ],
 )
 def test_fix_short_id(id_: str, expected: str):
