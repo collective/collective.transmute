@@ -47,8 +47,8 @@ def rewrite_workflow_history(item: PloneItem) -> PloneItem:
     .. code-block:: toml
 
         [review_state.rewrite]
-        states = {"visible": "published"}
-        workflows = {"plone_workflow": "simple_publication_workflow"}
+        states = {"visible" = "published"}
+        workflows = {"plone_workflow" = "simple_publication_workflow"}
 
     Parameters
     ----------
