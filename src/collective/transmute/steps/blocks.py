@@ -52,7 +52,7 @@ def _blocks_collection(
     if variation := item.get("layout"):
         variation = variations.get(variation)
     if query:
-        querystring = {
+        querystring: dict[str, list | int | str | None] = {
             "query": query,
         }
 
@@ -68,13 +68,15 @@ def _blocks_collection(
             )
             querystring["sort_order_boolean"] = bool(item.get("sort_reversed"))
 
+        if limit := item.get("limit"):
+            querystring["limit"] = limit
+        if b_size := item.get("item_count", 20):
+            querystring["b_size"] = b_size
         block = {
             "@type": "listing",
             "headline": "",
             "headlineTag": "h2",
             "querystring": querystring,
-            "b_size": item.get("item_count", 10),
-            "limit": item.get("limit", 1000),
             "styles": {},
             "variation": variation,
         }

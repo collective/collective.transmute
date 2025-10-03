@@ -99,10 +99,9 @@ def test_pipeline_results_values(
     [
         ("32a753eb768f1fb942a0b30536011c65", "0/@type", "title"),
         ("32a753eb768f1fb942a0b30536011c65", "1/@type", "listing"),
-        ("32a753eb768f1fb942a0b30536011c65", "1/b_size", 10),
         ("32a753eb768f1fb942a0b30536011c65", "1/headline", ""),
         ("32a753eb768f1fb942a0b30536011c65", "1/headlineTag", "h2"),
-        ("32a753eb768f1fb942a0b30536011c65", "1/limit", 1000),
+        ("32a753eb768f1fb942a0b30536011c65", "1/querystring/b_size", 20),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_on", "modified"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order", "descending"),
         ("32a753eb768f1fb942a0b30536011c65", "1/querystring/sort_order_boolean", True),
