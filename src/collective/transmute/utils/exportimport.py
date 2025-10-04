@@ -110,8 +110,9 @@ async def prepare_metadata_file(
     if not bool(settings.default_pages["keep"]):
         # Remove default_page from list
         data["default_page"] = {}
+
     for key in ["default_page", "ordering", "local_roles"]:
-        data[key] = {k: v for k, v in data[key].items() if k in state.uids}
+        data[key] = {k: v for k, v in data[key].items() if k in state.seen}
     data["relations"] = []
     for item in remove:
         data.pop(item)
