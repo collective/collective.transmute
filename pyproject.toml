@@ -22,7 +22,7 @@ classifiers = [
 requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=24.1.0",
-    "collective.html2blocks>=1.0.0a2",
+    "collective.html2blocks>=1.0.0a3",
     "dynaconf>=3.2.7",
     "tomlkit>=0.13.2",
     "orjson>=3.10.15",
