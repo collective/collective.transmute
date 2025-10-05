@@ -1,1 +1,0 @@
-Filtering of "default_page", "ordering", "local_roles" should be done by inspecting state.seen, not state.uids. @ericof

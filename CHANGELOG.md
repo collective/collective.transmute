@@ -2,6 +2,24 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0a3 (2025-10-04)
+
+
+### Feature
+
+- Upgrade collective.html2blocks to version 1.0.0a3. @ericof 
+
+
+### Bugfix
+
+- Corretly set the b_size for a Listing block from a Collection. @ericof 
+- Filtering of "default_page", "ordering", "local_roles" should be done by inspecting state.seen, not state.uids. @ericof 
+
+
+### Internal
+
+- Update vscode settings. @ericof 
+
 ## 1.0.0a2 (2025-09-25)
 
 
