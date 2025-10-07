@@ -30,6 +30,8 @@ async def write_paths_report(
         "status",
         "src_level",
         "dst_level",
+        "src_workflow",
+        "dst_workflow",
     ]
     if state.write_report:
         report_path = Path().cwd() / "report_transmute.csv"

@@ -110,6 +110,14 @@ class PipelineItemReport(TypedDict):
     A value `0` means the item is at the root of the portal.
     If level is `-1`, the source item did not exist.
     """
+    src_workflow: str
+    """Workflow of the source item."""
+    src_state: str
+    """Review state of the source item."""
+    dst_workflow: str
+    """Workflow of the destination item."""
+    dst_state: str
+    """Review state of the destination item."""
 
 
 @dataclass
