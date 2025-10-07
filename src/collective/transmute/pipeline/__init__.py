@@ -120,6 +120,7 @@ def _prepare_report_items(
             "dst_path": _no_data_,
             "dst_type": _no_data_,
             "dst_uid": _no_data_,
+            "dst_workflow": _no_data_,
             "dst_state": _no_data_,
             "dst_level": _no_data_,
             "last_step": last_step,
@@ -129,6 +130,7 @@ def _prepare_report_items(
         "dst_path": item.get("@id", "") or "",
         "dst_type": item.get("@type", "") or "",
         "dst_uid": item.get("UID", "") or "",
+        "dst_workflow": ",".join(item.get("workflow_history", {})) or _no_data_,
         "dst_state": item.get("review_state", _no_data_) or _no_data_,
         "dst_level": _level_from_path(item.get("@id", "")),
         "status": "processed",
@@ -266,6 +268,7 @@ async def pipeline(
                 "src_path": raw_item.get("@id"),
                 "src_type": raw_item.get("@type"),
                 "src_uid": raw_item.get("UID"),
+                "src_workflow": ",".join(raw_item.get("workflow_history", {})),
                 "src_state": raw_item.get("review_state", "--"),
                 "src_level": _level_from_path(raw_item.get("@id")),
             }
