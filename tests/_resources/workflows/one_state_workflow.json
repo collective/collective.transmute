@@ -1,0 +1,48 @@
+{
+    "@id": "http://localhost:8080/ifpb/joaopessoa/acesso-a-informacao/Boletins%20de%20Servico/2014/fevereiro",
+    "@type": "Link",
+    "UID": "370bb92b251242abadd728f3ff053a53",
+    "allow_discussion": false,
+    "changeNote": "",
+    "contributors": [],
+    "created": "2016-10-25T12:07:33+00:00",
+    "creators": [
+        "1887028",
+        "ericof"
+    ],
+    "description": "",
+    "effective": null,
+    "exclude_from_nav": false,
+    "expires": null,
+    "id": "fevereiro",
+    "is_folderish": false,
+    "language": "pt-br",
+    "layout": "link_redirect_view",
+    "lock": {},
+    "modified": "2016-10-25T12:07:34+00:00",
+    "parent": {
+        "@id": "http://localhost:8080/ifpb/joaopessoa/acesso-a-informacao/Boletins%20de%20Servico/2014",
+        "@type": "Folder",
+        "UID": "fc022d051a2d4b91a7506d085437e6ba",
+        "description": "Boletins de servi\u00e7o do ano de 2014.",
+        "review_state": "published",
+        "title": "2014"
+    },
+    "remoteUrl": "http://joaopessoa.ifpb.edu.br/dgdp/Pages/Documentos/DownloadBoletimServico.aspx?ano=2014&mes=2",
+    "review_state": "published",
+    "rights": null,
+    "subjects": [],
+    "title": "Fevereiro",
+    "version": "current",
+    "workflow_history": {
+        "one_state_workflow": [
+            {
+                "action": null,
+                "actor": "1887028",
+                "comments": "",
+                "review_state": "published",
+                "time": "2016-10-25T12:07:33+00:00"
+            }
+        ]
+    }
+}

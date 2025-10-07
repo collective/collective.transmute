@@ -32,6 +32,16 @@ class MetadataInfo:
     redirects: dict = field(default_factory=dict, repr=False)
 
 
+class WorkflowHistoryEntry(TypedDict):
+    """A single entry in a workflow history."""
+
+    action: str | None
+    actor: str
+    comments: str
+    review_state: str
+    time: str
+
+
 PloneItem = TypedDict(
     "PloneItem",
     {
@@ -44,6 +54,7 @@ PloneItem = TypedDict(
         "creators": NotRequired[list[str]],
         "image": NotRequired[dict[str, str | int]],
         "image_caption": NotRequired[str],
+        "remoteUrl": NotRequired[str],
         "language": NotRequired[str],
         "text": NotRequired[dict[str, str]],
         "nav_title": NotRequired[str],
@@ -51,6 +62,8 @@ PloneItem = TypedDict(
         "blocks": NotRequired[dict[str, VoltoBlock]],
         "blocks_layout": NotRequired[BlocksLayout],
         "exclude_from_nav": NotRequired[bool],
+        "review_state": NotRequired[str],
+        "workflow_history": NotRequired[dict[str, list[WorkflowHistoryEntry]]],
         "_blocks_": NotRequired[list[VoltoBlock]],
         "_UID": NotRequired[str],
         "_orig_type": NotRequired[str],

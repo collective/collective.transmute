@@ -19,6 +19,7 @@ from .plone import PloneItem
 from .plone import PloneItemGenerator
 from .plone import VoltoBlock
 from .plone import VoltoBlocksInfo
+from .plone import WorkflowHistoryEntry
 from .settings import TransmuteSettings
 
 
@@ -45,4 +46,5 @@ __all__ = [
     "TransmuteSettings",
     "VoltoBlock",
     "VoltoBlocksInfo",
+    "WorkflowHistoryEntry",
 ]
