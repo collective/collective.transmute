@@ -7,8 +7,42 @@ configuration-driven workflow normalization and migration.
 """
 
 from collective.transmute._types import PloneItem
+from collective.transmute._types import WorkflowHistoryEntry
 from collective.transmute.settings import get_settings
+from collective.transmute.utils.workflow import simple_publication_workflow
 from functools import cache
+
+
+_HISTORY_REWRITERS = {
+    "simple_publication_workflow": {
+        "one_state_workflow": simple_publication_workflow.from_one_state_workflow,
+    }
+}
+
+
+def _default_rewrite(
+    settings: dict,
+    actions: list[WorkflowHistoryEntry],
+) -> list[WorkflowHistoryEntry]:
+    """
+    Convert a list of workflow actions.
+
+    Parameters
+    ----------
+    actions : list of actions
+        The original list of workflow actions.
+
+    Returns
+    -------
+    list of actions
+        The converted list of workflow actions.
+    """
+    new_actions = []
+    for action in actions:
+        action_state = action.get("review_state")
+        action["review_state"] = settings["states"].get(action_state, action_state)
+        new_actions.append(action)
+    return new_actions
 
 
 @cache
@@ -79,12 +113,9 @@ def rewrite_workflow_history(item: PloneItem) -> PloneItem:
             if not new_workflow_id:
                 workflow_history[workflow_id] = actions
                 continue
-            workflow_history[new_workflow_id] = []
-            for action in actions:
-                action_state = action.get("review_state")
-                action["review_state"] = settings["states"].get(
-                    action_state, action_state
-                )
-            workflow_history[new_workflow_id].append(action)
+            rewriter = _HISTORY_REWRITERS.get(new_workflow_id, {}).get(
+                workflow_id, _default_rewrite
+            )
+            workflow_history[new_workflow_id] = rewriter(settings, actions)
         item["workflow_history"] = workflow_history
     return item
