@@ -2,6 +2,15 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0a4 (2025-10-07)
+
+
+### Feature
+
+- Add workflow name to the PipelineItemReport. @ericof [#36](https://github.com/collective/collective.transmute/issues/36)
+- Implement a step to filter pipeline items by date. @ericof 
+- Rewrite one_state_workflow history to simple_publication_workflow. @ericof 
+
 ## 1.0.0a3 (2025-10-04)
 
 
