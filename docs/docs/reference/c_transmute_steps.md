@@ -63,6 +63,14 @@ myst:
     :private-members:
 ```
 
+## `collective.transmute.steps.dates`
+
+```{eval-rst}
+.. automodule:: collective.transmute.steps.dates
+    :members:
+    :private-members:
+```
+
 ## `collective.transmute.steps.default_page`
 
 ```{eval-rst}
