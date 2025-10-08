@@ -8,6 +8,7 @@ prepare_steps = []
 steps = [
     'collective.transmute.steps.ids.process_export_prefix',
     'collective.transmute.steps.uids.drop_item_by_uid',
+    'collective.transmute.steps.dates.filter_by_date',
     'collective.transmute.steps.ids.process_ids',
     'collective.transmute.steps.paths.process_paths',
     'collective.transmute.steps.portal_type.process_type',
