@@ -3,7 +3,7 @@ from pathlib import Path
 import logging
 
 
-__version__ = "1.0.0a4"
+__version__ = "1.0.0a5.dev0"
 
 PACKAGE_NAME = "collective.transmute"
 
