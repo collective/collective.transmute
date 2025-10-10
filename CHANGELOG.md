@@ -2,6 +2,19 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0a5 (2025-10-10)
+
+
+### Feature
+
+- Added to settings.config the keys prepare_data_location and reports_location. @ericof 
+- Implement a 'drop by path' report. @ericof 
+
+
+### Internal
+
+- Added attributes to PloneItem typed dict. @ericof 
+
 ## 1.0.0a4 (2025-10-07)
 
 
