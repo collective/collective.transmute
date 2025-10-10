@@ -1,6 +1,6 @@
 from collective.transmute import _types as t
+from collective.transmute.reports import get_reports_location
 from collective.transmute.utils import files as file_utils
-from pathlib import Path
 
 
 async def write_paths_report(
@@ -34,7 +34,8 @@ async def write_paths_report(
         "dst_workflow",
     ]
     if state.write_report:
-        report_path = Path().cwd() / "report_transmute.csv"
+        base_path = get_reports_location(settings)
+        report_path = base_path / "report_transmute.csv"
         paths_data = state.path_transforms
         csv_path = await file_utils.csv_dump(paths_data, headers, report_path)
         consoles.print_log(f" - Wrote paths report to {csv_path}")

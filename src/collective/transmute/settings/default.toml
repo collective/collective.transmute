@@ -1,6 +1,8 @@
 [config]
 debug = false
 log_file = "transmute.log"
+prepare_data_location = "."
+reports_location = "."
 report = 1000
 
 [pipeline]
@@ -28,6 +30,7 @@ do_not_add_drop = ["process_paths", "process_default_page"]
 report_steps = [
     'collective.transmute.reports.paths.write_paths_report',
     'collective.transmute.reports.final_state.report_final_state',
+    'collective.transmute.reports.dropped.report_dropped_by_path_prefix',
 ]
 
 [site_root]

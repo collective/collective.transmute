@@ -6,10 +6,13 @@ item paths in the transformation pipeline. These steps use settings to determine
 paths are allowed or dropped during processing.
 """
 
+from collections import defaultdict
 from collective.transmute import _types as t
 
 
-def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
+def _is_valid_path(
+    path: str, allowed: set[str], drop: set[str], dropped_by_path_prefix: dict
+) -> bool:
     """
     Check if a path is allowed to be processed based on allowed and drop prefixes.
 
@@ -21,6 +24,8 @@ def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
         Set of allowed path prefixes.
     drop : set[str]
         Set of drop path prefixes.
+    dropped_by_path_prefix : dict[str, int]
+        Dictionary mapping dropped path prefixes to their count.
 
     Returns
     -------
@@ -37,6 +42,7 @@ def _is_valid_path(path: str, allowed: set[str], drop: set[str]) -> bool:
     status = True
     for prefix in drop:
         if path.startswith(prefix):
+            dropped_by_path_prefix[prefix] += 1
             return False
     if allowed:
         status = False
@@ -79,7 +85,10 @@ async def process_paths(
     path_filter = settings.paths["filter"]
     allowed = path_filter["allowed"]
     drop = path_filter["drop"]
-    if not _is_valid_path(id_, allowed, drop):
+    annotations = state.annotations
+    if "dropped_by_path_prefix" not in annotations:
+        annotations["dropped_by_path_prefix"] = defaultdict(int)
+    if not _is_valid_path(id_, allowed, drop, annotations["dropped_by_path_prefix"]):
         yield None
     else:
         yield item
