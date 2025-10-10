@@ -15,6 +15,8 @@ class TransmuteSettingsConfig(TypedDict):
     debug: bool
     log_file: str
     report: int
+    prepare_data_location: Path
+    reports_location: Path
 
 
 class TransmuteSettingsPipeline(TypedDict):

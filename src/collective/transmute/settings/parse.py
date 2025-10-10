@@ -308,6 +308,10 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     defaults = parse_default()
     raw_settings = parse_config(cwd_path)
     payload = _merge_defaults(defaults, raw_settings)
+    payload["config"]["prepare_data_location"] = Path(
+        payload["config"]["prepare_data_location"]
+    )
+    payload["config"]["reports_location"] = Path(payload["config"]["reports_location"])
     data = t.TransmuteSettings(**payload)
     return data
 
