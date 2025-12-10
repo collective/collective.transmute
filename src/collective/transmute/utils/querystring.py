@@ -9,14 +9,17 @@ querystring items and values.
 
 from .portal_types import fix_portal_type
 from collective.transmute import _types as t
+from typing import Any
 
 import re
 
 
 _PATH_UID_PATTERN = re.compile(r"UID##(?P<UID>.*)##")
 
+PLACEHOLDER_TODAY = object()
 
-def parse_path_value(value: str) -> str:
+
+def parse_path_value(value: str, src_site_root: str = "/Plone") -> str:
     """
     Parse a path value to ensure it is a valid URL or UID reference.
 
@@ -24,6 +27,8 @@ def parse_path_value(value: str) -> str:
     ----------
     value : str
         The path value to parse.
+    src_site_root : str
+        The site root in the source dataset.
 
     Returns
     -------
@@ -41,7 +46,29 @@ def parse_path_value(value: str) -> str:
     path = parts[0]
     if "/" not in path and len(path) == 32:
         value = value.replace(path, f"UID##{path}##")
+    elif path.startswith(src_site_root):
+        value = value.replace(src_site_root, "")
     return value
+
+
+def _process_subjects(raw_value: list[str]) -> list[str]:
+    """
+    Process a list of subjects and return a deduplicated list.
+
+    Parameters
+    ----------
+    raw_value : list[str]
+        List of subject strings.
+
+    Returns
+    -------
+    list[str]
+        Deduplicated list of subjects.
+    """
+    new_values = set()
+    for subject in raw_value:
+        new_values.add(subject.strip())
+    return list(new_values)
 
 
 def _process_date_between(raw_value: list[str]) -> tuple[str, list[str] | str]:
@@ -93,32 +120,30 @@ def deduplicate_value(value: list | None) -> list | None:
     return list(set(value)) if value is not None else None
 
 
-def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
+def _process_operation(
+    oper: str, value: Any, post_processing: bool, src_site_root: str
+) -> tuple[str, Any, bool]:
     """
-    Clean up a single item in a querystring definition.
+    Process a single operation and its value for querystring items.
 
     Parameters
     ----------
-    item : dict
-        The querystring item to clean up.
-
-    Returns
-    -------
-    tuple[dict, bool]
-        The cleaned item and a post-processing status flag.
+    oper : str
+        The operation to process.
+    value : Any
+        The value associated with the operation.
+    post_processing : bool
+        Flag indicating if post-processing is needed.
+    src_site_root : str
+        The site root in the source dataset.
     """
     prefix = "plone.app.querystring.operation"
-    post_processing = False
-    index = item["i"]
-    oper = item["o"]
-    value = item["v"]
-    match index:
-        case "portal_type":
-            value = [fix_portal_type(v) for v in value]
-            value = [v for v in value if v.strip()]
-        case "section":
-            value = None
     match oper:
+        case (
+            "plone.app.querystring.operation.date.afterToday"
+            | "plone.app.querystring.operation.date.beforeToday"
+        ):
+            value = PLACEHOLDER_TODAY
         case (
             "plone.app.querystring.operation.selection.is"
             | "plone.app.querystring.operation.selection.any"
@@ -128,21 +153,60 @@ def cleanup_querystring_item(item: dict) -> tuple[dict, bool]:
         case "plone.app.querystring.operation.date.between":
             oper, value = _process_date_between(value)
         case "plone.app.querystring.operation.string.path":
-            value = parse_path_value(str(value))
+            if str(value).startswith(src_site_root):
+                oper = "plone.app.querystring.operation.string.absolutePath"
+            value = parse_path_value(str(value), src_site_root)
             post_processing = value.startswith("UID##")
         case "plone.app.querystring.operation.date.lessThanRelativeDate":
             if isinstance(value, int) and value < 0:
                 oper = f"{prefix}.date.largerThanRelativeDate"
                 value = abs(value)
+    return oper, value, post_processing
+
+
+def cleanup_querystring_item(item: dict, src_site_root: str) -> tuple[dict, bool]:
+    """
+    Clean up a single item in a querystring definition.
+
+    Parameters
+    ----------
+    item : dict
+        The querystring item to clean up.
+    src_site_root : str
+        The site root in the source dataset.
+
+    Returns
+    -------
+    tuple[dict, bool]
+        The cleaned item and a post-processing status flag.
+    """
+    post_processing = False
+    index = item["i"]
+    oper = item["o"]
+    value = item.get("v")
+    match index:
+        case "portal_type":
+            value = [fix_portal_type(v) for v in value] if value else []
+            value = [v for v in value if v.strip()]
+        case "section":
+            value = None
+        case "Subject":
+            value = _process_subjects(value) if value else []
+    oper, value, post_processing = _process_operation(
+        oper, value, post_processing, src_site_root
+    )
     if oper and value:
-        item["v"] = value
+        if value is not PLACEHOLDER_TODAY:
+            item["v"] = value
         item["o"] = oper
     else:
         item = {}
     return item, post_processing
 
 
-def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
+def cleanup_querystring(
+    query: list[dict], src_site_root: str = "/Plone"
+) -> tuple[list[dict], bool]:
     """
     Clean up the querystring of a collection-like object or listing block.
 
@@ -150,6 +214,8 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     ----------
     query : list[dict]
         The querystring to clean up.
+    src_site_root : str
+        The site root in the source dataset. (defaults to "/Plone")
 
     Returns
     -------
@@ -160,7 +226,7 @@ def cleanup_querystring(query: list[dict]) -> tuple[list[dict], bool]:
     query = query if query else []
     new_query = []
     for item in query:
-        item, status = cleanup_querystring_item(item)
+        item, status = cleanup_querystring_item(item, src_site_root)
         if not item:
             continue
         post_processing = post_processing or status
