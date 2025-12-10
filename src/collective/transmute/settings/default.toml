@@ -137,3 +137,10 @@ galeria_de_fotos = "imageGallery"
 galeria_de_albuns = "imageGallery"
 
 [steps.paths.prefix_replacement]
+
+[steps.blobs]
+field_names = [
+  "file",
+  "image",
+  "preview_image",
+]
