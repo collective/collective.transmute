@@ -2,6 +2,20 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0a6 (2025-12-10)
+
+
+### Feature
+
+- Support setting additional fields to be processed by the process_blobs step. @ericof [#42](https://github.com/collective/collective.transmute/issues/42)
+- Report command adds now the . @ericof [#45](https://github.com/collective/collective.transmute/issues/45)
+- Added support to install Viztracer as a dependency. @ericof 
+
+
+### Bugfix
+
+- Fix report command to save the generated file under the reports folder defined in the transmute settings. @ericof [#45](https://github.com/collective/collective.transmute/issues/45)
+
 ## 1.0.0a5 (2025-10-10)
 
 
