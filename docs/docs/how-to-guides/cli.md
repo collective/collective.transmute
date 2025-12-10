@@ -137,10 +137,10 @@ uv run transmute report --help
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-The following command will generate a report of all portal types in the `src` directory and save it to {file}`report-raw-data.json`.
+The following command will generate a report of all portal types in the `src` directory and save it to {file}`reports/report-raw-data.json`.
 
 ```shell
-uv run transmute report /exported-data/ report-raw-data.json
+uv run transmute report /exported-data/ reports/
 ```
 
 

@@ -1,0 +1,1 @@
+Fix report command to save the generated file under the reports folder defined in the transmute settings. @ericof

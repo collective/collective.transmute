@@ -8,6 +8,7 @@ from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
 from rich.table import Table
+from typing import cast
 
 
 class Header:
@@ -52,12 +53,14 @@ class TransmuteReport:
 
     Parameters
     ----------
-    data : dict[str, int]
+    data : dict[str, int] or dict[str, dict[str, int]]
         The data to display in the report.
     title : str
         The title of the report panel.
     limit : int, optional
         Maximum length for item names (default: 30).
+    process_dict : bool, optional
+        Whether to process the data as a dictionary of dictionaries.
 
     Example
     -------
@@ -68,11 +71,37 @@ class TransmuteReport:
     """
 
     limit: int
+    process_dict: bool
 
-    def __init__(self, data: dict[str, int], title: str, limit: int = 30):
+    def __init__(
+        self,
+        data: dict[str, int] | dict[str, dict[str, int]],
+        title: str,
+        limit: int = 30,
+        process_dict: bool = False,
+    ):
         self.title = title
         self.data = data
         self.limit = limit
+        self.process_dict = process_dict
+
+    def _process_data(self, grid: Table) -> None:
+        """Process data for display in the grid."""
+        data = cast(dict[str, int], self.data)
+        grid.add_column(justify="left", ratio=2)
+        grid.add_column(justify="right", ratio=1)
+        for name, total in sort_data_by_value(data):
+            if len(name) > self.limit:
+                idx = self.limit - 3
+                name = name[:idx] + "..."
+            grid.add_row(name, f"{total}")
+
+    def _process_dict_data(self, grid: Table) -> None:
+        """Process a dictionary data for display in the grid."""
+        raw_data = cast(dict[str, dict[str, int]], self.data)
+        grid.add_column(justify="left", ratio=1)
+        for name, data in raw_data.items():
+            grid.add_row(TransmuteReport(data, name, limit=self.limit))
 
     def __rich__(self) -> Panel:
         """
@@ -84,13 +113,8 @@ class TransmuteReport:
             A Rich Panel object displaying the report.
         """
         grid = Table.grid(expand=True)
-        grid.add_column(justify="left", ratio=2)
-        grid.add_column(justify="right", ratio=1)
-        for name, total in sort_data_by_value(self.data):
-            if len(name) > self.limit:
-                idx = self.limit - 3
-                name = name[:idx] + "..."
-            grid.add_row(name, f"{total}")
+        method = self._process_dict_data if self.process_dict else self._process_data
+        method(grid)
         return Panel(grid, title=self.title, border_style="green")
 
 
@@ -372,15 +396,19 @@ class ReportLayout(ApplicationLayout):
         layout = self.layout
         layout["footer"].update(progress_panel(state.progress))
         grid = Table.grid(expand=True)
-        columns = ("Types", "States", "Creators", "Subjects")
+        columns = ("Types", "Workflows", "Creators", "Subjects")
         for _ in columns:
             grid.add_column(justify="left", ratio=1)
 
-        row = []
+        rows = []
         for name in columns:
             data = getattr(state, name.lower())
-            row.append(TransmuteReport(data, name, limit=30))
-        grid.add_row(*row)
+            process_dict = name == "Workflows"
+            rows.append(
+                TransmuteReport(data, name, limit=30, process_dict=process_dict)
+            )
+
+        grid.add_row(*rows)
         layout["main"].update(
             Panel(
                 grid,
