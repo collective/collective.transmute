@@ -11,10 +11,26 @@ Example:
 """
 
 from collective.transmute import _types as t
+from collective.transmute.settings import get_settings
 from collective.transmute.utils import querystring as qs_utils
+from functools import cache
 
 
 POST_PROCESSING_STEP = "collective.transmute.steps.post_querystring.process_querystring"
+
+
+@cache
+def _src_site_root() -> str:
+    """
+    Obtain the source site root from transmute settings.
+
+    Returns
+    -------
+    str
+        The source site root.
+    """
+    settings = get_settings()
+    return settings.site_root["src"]
 
 
 async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGenerator:
@@ -38,7 +54,10 @@ async def processor(item: t.PloneItem, state: t.PipelineState) -> t.PloneItemGen
     """
     query = item.get("query", [])
     if query:
-        item["query"], post_processing = qs_utils.cleanup_querystring(query)
+        src_site_root = _src_site_root()
+        item["query"], post_processing = qs_utils.cleanup_querystring(
+            query, src_site_root
+        )
         if post_processing:
             uid = item["UID"]
             if uid not in state.post_processing:
