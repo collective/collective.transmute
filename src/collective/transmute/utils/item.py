@@ -7,6 +7,7 @@ Functions support common item operations.
 """
 
 from collective.transmute import _types as t
+from slugify import slugify
 from typing import Any
 from uuid import uuid4
 
@@ -91,7 +92,10 @@ def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
     image: dict = parent.pop("image")
     image_caption: str = parent.pop("image_caption", "")
     filename: str = image["filename"]
-    image_id = filename
+    parts = filename.rsplit(".", 1)
+    name = parts[0]
+    extension = f".{parts[1]}" if len(parts) > 1 else ""
+    image_id = f"{slugify(name)}{extension}"
     path = f"{parent['@id']}/{image_id}"
     item: t.PloneItem = {
         "@id": path,
