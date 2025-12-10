@@ -179,8 +179,8 @@ class ReportState:
     """Count of items by type."""
     creators: defaultdict[str, int]
     """Count of items by creator."""
-    states: defaultdict[str, int]
-    """Count of items by review state."""
+    workflows: defaultdict[str, defaultdict[str, int]]
+    """Count of items by workflow review state."""
     subjects: defaultdict[str, int]
     """Count of items by subject/tag."""
     layout: dict[str, defaultdict[str, int]]
@@ -195,7 +195,7 @@ class ReportState:
         Return report as dictionary.
         """
         data = {}
-        for key in ("types", "creators", "states", "layout", "subjects"):
+        for key in ("types", "creators", "workflows", "layout", "subjects"):
             value = getattr(self, key)
             data[key] = value
         return data

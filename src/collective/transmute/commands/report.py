@@ -25,9 +25,9 @@ def _create_state(
         files=files,
         types=defaultdict(int),
         creators=defaultdict(int),
-        states=defaultdict(int),
+        workflows=defaultdict(lambda: defaultdict(int)),
         subjects=defaultdict(int),
-        layout=defaultdict(dict),
+        layout=defaultdict(lambda: defaultdict(int)),
         type_report=defaultdict(list),
         progress=app_layout.progress,
     )
@@ -48,8 +48,11 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
                 "@type": type_,
                 "title": title,
             })
+        workflow_history: dict[str, list] = item.get("workflow_history", {}) or {}
+        workflows = tuple(workflow_history.keys())
+        workflow: str = workflows[0] if workflows else "-"
         review_state = item.get("review_state", "-") or "-"
-        state.states[review_state] += 1
+        state.workflows[workflow][review_state] += 1
         subjects = item.get("subjects", []) or []
         for subject in subjects:
             state.subjects[subject] += 1
@@ -62,7 +65,7 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
             state.layout[type_][layout] += 1
         state.progress.advance("processed")
     data = state.to_dict()
-    report_path = Path(dst / "report.json").resolve()
+    report_path = Path(dst / "report-raw-data.json").resolve()
     path = await file_utils.json_dump(data, report_path)
     logger.info(f" - Wrote report to {path}")
     if report_types:
@@ -84,6 +87,7 @@ def parse_report_types(value: str) -> list[str]:
 
 @app.command()
 def report(
+    ctx: typer.Context,
     src: Annotated[Path, typer.Argument(help="Source path of the migration data")],
     dst: Annotated[
         Path | None, typer.Argument(help="Destination path of the report")
@@ -97,11 +101,14 @@ def report(
     ] = "",
 ):
     """Generates a JSON file with a report of export data in src directory."""
+    settings: t.TransmuteSettings = ctx.obj.settings
     if not file_utils.check_path(src):
         raise RuntimeError(f"{src} does not exist")
     if not dst or not file_utils.check_path(dst):
-        # Base path will be the current working directory
-        dst = Path().cwd()
+        # Base path will be the reports location from the config
+        config = settings.config
+        reports_location = config["reports_location"]
+        dst = reports_location
     report_types: list[str] = parse_report_types(report_types_)
     app_layout = layout.ReportLayout(title=f"Report {src}")
     consoles = app_layout.consoles
