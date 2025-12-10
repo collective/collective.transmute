@@ -2,6 +2,19 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0a7 (2025-12-10)
+
+
+### Feature
+
+- Convert `plone.app.querystring.operation.string.path` to `plone.app.querystring.operation.string.absolutePath` if value points to the root of the portal. @ericof 
+- Deduplicate Subject values in a querystring. @ericof 
+
+
+### Bugfix
+
+- Fix KeyError on cleanup_querystring_item when an operation does not require a value. @ericof [#48](https://github.com/collective/collective.transmute/issues/48)
+
 ## 1.0.0a6 (2025-12-10)
 
 
