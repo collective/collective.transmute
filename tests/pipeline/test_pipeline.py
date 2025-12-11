@@ -32,6 +32,7 @@ def pipeline_result(pipeline_runner, test_dir) -> Path:
     [
         ("import/redirects.json", True),
         ("import/relations.json", True),
+        ("import/principals.json", True),
         ("import/content/__metadata__.json", True),
         ("import/content/cbebd70218b348f68d6bb1b7dd7830c4/data.json", True),
         ("import/content/714cbe2b3fe74c608d4ae20a608eab67/data.json", False),

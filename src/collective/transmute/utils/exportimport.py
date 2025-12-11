@@ -54,6 +54,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
     }
     relations: list[dict] = data.get("relations", [])
     redirects: dict[str, str] = initialize_redirects(data.get("redirects", {}))
+    principals: dict[str, list[dict]] = data.get("members", {})
 
     return t.MetadataInfo(
         path=path,
@@ -63,6 +64,7 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         ordering=ordering,
         relations=relations,
         redirects=redirects,
+        principals=principals,
     )
 
 
@@ -89,6 +91,10 @@ async def prepare_metadata_file(
     data: dict = asdict(metadata)
     path: Path = data.pop("path")
     fix_relations: dict[str, str] = data.pop("__fix_relations__", {})
+    # Handle principals data
+    principals: dict[str, list[dict]] = data.pop("principals", {})
+    async for princ_data, princ_path in prepare_principals_data(principals, path):
+        yield princ_data, princ_path
     # Handle relations data
     relations = data.pop("relations", [])
     async for rel_data, rel_path in prepare_relations_data(
@@ -204,3 +210,38 @@ async def prepare_redirects_data(
     data = redirect_utils.filter_redirects(redirects, valid_paths)
     path = (metadata_path.parent.parent / "redirects.json").resolve()
     yield data, path
+
+
+async def prepare_principals_data(
+    principals: dict[str, list[dict]],
+    metadata_path: Path,
+) -> AsyncGenerator[tuple[dict[str, list[dict]], Path], None]:
+    """
+    Prepare and yield principals data for export as a JSON file.
+
+    This function takes a mapping of principals and yields it with the output file
+    path. The output file is named 'principals.json' and is used by plone.exportimport.
+
+    Args:
+        principals (dict[str, list[dict]]):
+            Mapping of principals data.
+        metadata_path (Path):
+            Path to the metadata file. Used to determine output location.
+        state_paths (list[tuple[str, str, str]]):
+            List of valid paths from the pipeline state.
+        site_root (str):
+            The root path for the destination site.
+
+    Yields:
+        tuple[dict[str, list[dict]], Path]:
+            The filtered principals mapping and the output file path.
+
+    Example:
+        >>> async for result in prepare_principals_data(
+        ...     principals, metadata_path, state_paths, site_root
+        ... ):
+        ...     data, path = result
+        ...     print(path)
+    """
+    path = (metadata_path.parent.parent / "principals.json").resolve()
+    yield principals, path

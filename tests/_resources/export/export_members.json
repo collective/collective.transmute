@@ -1,0 +1,57 @@
+{
+    "groups": [
+        {
+            "description": "",
+            "email": "",
+            "groupid": "Administrators",
+            "groups": [],
+            "principals": [],
+            "roles": [
+                "Manager"
+            ],
+            "title": "Administrators"
+        },
+        {
+            "description": "",
+            "email": "",
+            "groupid": "Reviewers",
+            "groups": [],
+            "principals": [],
+            "roles": [
+                "Reviewer"
+            ],
+            "title": "Reviewers"
+        },
+        {
+            "description": "",
+            "email": "",
+            "groupid": "Site Administrators",
+            "groups": [],
+            "principals": [
+                "4af6d75f-800b-4626-83a4-822ef541cf0d"
+            ],
+            "roles": [
+                "Site Administrator"
+            ],
+            "title": "Site Administrators"
+        }
+    ],
+    "members": [
+        {
+            "description": "",
+            "email": "foo@example.com",
+            "fullname": "Site Manager",
+            "groups": [],
+            "home_page": "",
+            "last_login_time": "2000-01-01T00:00:00",
+            "listed": true,
+            "location": "",
+            "login_time": "2000-01-01T00:00:00",
+            "password": "{SSHA}KeM8zIlz+IoE+TBcFEnq/ElorRFsd6ExrbMROL",
+            "roles": [
+                "Member"
+            ],
+            "username": "manager"
+        }
+    ]
+}
