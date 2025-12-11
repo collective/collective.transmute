@@ -2,6 +2,19 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0b1 (2025-12-10)
+
+
+### Feature
+
+- Ask for a prompt before leaving live layout. @ericof [#47](https://github.com/collective/collective.transmute/issues/47)
+- Parse export_members.json if file is present. @ericof [#50](https://github.com/collective/collective.transmute/issues/50)
+
+
+### Bugfix
+
+- Fix id generation in `collective.transmute.utils.item.create_image_from_item`. @ericof [#51](https://github.com/collective/collective.transmute/issues/51)
+
 ## 1.0.0a7 (2025-12-10)
 
 
