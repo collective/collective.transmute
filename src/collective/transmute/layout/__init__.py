@@ -8,6 +8,7 @@ from rich.progress import Progress
 from rich.progress import SpinnerColumn
 from rich.progress import TextColumn
 from rich.table import Table
+from types import TracebackType
 from typing import cast
 
 
@@ -440,7 +441,38 @@ class ReportLayout(ApplicationLayout):
         self.progress = t.ReportProgress(processed, processed_id)
 
 
-def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> Live:
+class TLive(Live):
+    """Live display for the transmute application.
+
+    This class extends Rich's Live to include console area handling.
+    """
+
+    consoles: t.ConsoleArea
+
+    def __init__(self, **kwargs):
+        """Initialize the Live display with consoles."""
+        self.consoles = kwargs.pop("console_area")
+        super().__init__(**kwargs)
+
+    def __exit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc_val: BaseException | None,
+        exc_tb: TracebackType | None,
+    ) -> None:
+        """Handle exit from the Live display."""
+        if exc_type is None:
+            import getchlib
+
+            # Wait for user input before closing
+            self.consoles.print(
+                "\n:thumbs_up: [bold green blink]Press any key to exit...[/]\n"
+            )
+            getchlib.getkey()
+        self.stop()
+
+
+def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> TLive:
     """
     Create a Rich Live instance for the given application layout.
 
@@ -462,9 +494,10 @@ def live(app_layout: ApplicationLayout, redirect_stderr: bool = True) -> Live:
 
         >>> live_display = live(layout)
     """
-    return Live(
-        app_layout.layout,
+    return TLive(
+        renderable=app_layout.layout,
         refresh_per_second=10,
         screen=True,
         redirect_stderr=redirect_stderr,
+        console_area=app_layout.consoles,
     )

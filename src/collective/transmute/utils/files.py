@@ -329,6 +329,9 @@ async def export_metadata(
     """
     consoles.print_log("Writing metadata files")
     async for data, path in ei_utils.prepare_metadata_file(metadata, state, settings):
+        # Ensure parent directory exists
+        parent = path.parent
+        await makedirs(parent, exist_ok=True)
         async with aiofiles.open(path, "wb") as f:
             await f.write(json_dumps(data))
             consoles.debug(f"Wrote {path}")
