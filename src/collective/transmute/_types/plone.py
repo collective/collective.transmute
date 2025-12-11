@@ -30,6 +30,7 @@ class MetadataInfo:
     ordering: dict = field(default_factory=dict, repr=False)
     relations: list = field(default_factory=list, repr=False)
     redirects: dict = field(default_factory=dict, repr=False)
+    principals: dict = field(default_factory=dict, repr=False)
 
 
 class WorkflowHistoryEntry(TypedDict):
