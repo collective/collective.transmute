@@ -1,0 +1,1 @@
+Fix id generation in `collective.transmute.utils.item.create_image_from_item`. @ericof
