@@ -1,0 +1,1 @@
+Handle parsing export_localroles.json when an item has no localroles defined. @ericof

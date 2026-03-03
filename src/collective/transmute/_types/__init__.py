@@ -17,6 +17,7 @@ from .pipeline import ReportStep
 from .plone import MetadataInfo
 from .plone import PloneItem
 from .plone import PloneItemGenerator
+from .plone import PloneItemLocalRoles
 from .plone import VoltoBlock
 from .plone import VoltoBlocksInfo
 from .plone import WorkflowHistoryEntry
@@ -36,6 +37,7 @@ __all__ = [
     "PipelineStep",
     "PloneItem",
     "PloneItemGenerator",
+    "PloneItemLocalRoles",
     "PrepareStep",
     "PrepareStepGenerator",
     "ReportItemGenerator",

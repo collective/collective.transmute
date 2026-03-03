@@ -1,0 +1,14 @@
+[
+  {
+    "block": 1,
+    "uuid": "bee76beb1f234d7c9797ff3acb530299"
+  },
+  {
+    "localroles": {
+      "site": [
+        "Owner"
+      ]
+    },
+    "uuid": "a7f39c2b59c040d0ada279702ce2bd5a"
+  }
+]

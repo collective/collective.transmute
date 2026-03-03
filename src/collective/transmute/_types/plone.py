@@ -13,7 +13,15 @@ __all__ = [
     "MetadataInfo",
     "PloneItem",
     "PloneItemGenerator",
+    "PloneItemLocalRoles",
 ]
+
+
+class PloneItemLocalRoles(TypedDict):
+    """LocalRoles export/import schema"""
+
+    block: NotRequired[int]
+    local_roles: dict[str, list[str]]
 
 
 @dataclass
@@ -26,7 +34,9 @@ class MetadataInfo:
     _data_files_: list = field(default_factory=list, repr=False)
     default_page: dict = field(default_factory=dict, repr=False)
     local_permissions: dict = field(default_factory=dict, repr=False)
-    local_roles: dict = field(default_factory=dict, repr=False)
+    local_roles: dict[str, PloneItemLocalRoles] = field(
+        default_factory=dict, repr=False
+    )
     ordering: dict = field(default_factory=dict, repr=False)
     relations: list = field(default_factory=list, repr=False)
     redirects: dict = field(default_factory=dict, repr=False)

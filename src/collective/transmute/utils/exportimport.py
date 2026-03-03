@@ -10,10 +10,40 @@ format expected by ``plone.exportimport``.
 from .redirects import initialize_redirects
 from collections.abc import AsyncGenerator
 from collective.transmute import _types as t
+from collective.transmute._types import c_exportimport as t_expimp
 from collective.transmute.utils import files
 from collective.transmute.utils import redirects as redirect_utils
 from dataclasses import asdict
 from pathlib import Path
+
+
+def _initialize_localroles(
+    data: list[t_expimp.LocalRoles],
+) -> dict[str, t.PloneItemLocalRoles]:
+    """
+    Initialize local roles from the provided data.
+
+    This function processes the local roles data and returns a dictionary mapping
+    UUIDs to their corresponding local roles.
+
+    Parameters
+    ----------
+    data : list[LocalRoles]
+        The input data containing local roles information.
+
+    Returns
+    -------
+    dict[str, t.PloneItemLocalRoles]
+        A dictionary mapping UUIDs to their local roles.
+    """
+    local_roles = {}
+    for item in data:
+        uuid = item["uuid"]
+        role: t.PloneItemLocalRoles = {"local_roles": item.get("localroles", {})}
+        if (block := item.get("block")) is not None:
+            role["block"] = block
+        local_roles[uuid] = role
+    return local_roles
 
 
 async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.MetadataInfo:
@@ -44,11 +74,12 @@ async def initialize_metadata(src_files: t.SourceFiles, dst: Path) -> t.Metadata
         item["uuid"]: item["default_page_uuid"] for item in data.get("defaultpages", [])
     }
     local_permissions: dict[str, dict] = {}
+
     # Process local_roles
-    local_roles: dict[str, dict] = {
-        item["uuid"]: {"local_roles": item["localroles"]}
-        for item in data.get("localroles", [])
-    }
+    local_roles: dict[str, t.PloneItemLocalRoles] = _initialize_localroles(
+        data.get("localroles", [])
+    )
+
     ordering: dict[str, dict] = {
         item["uuid"]: item["order"] for item in data.get("ordering", [])
     }
