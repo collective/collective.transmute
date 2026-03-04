@@ -2,6 +2,13 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0b2 (2026-03-04)
+
+
+### Bugfix
+
+- Handle parsing export_localroles.json when an item has no localroles defined. @ericof [#56](https://github.com/collective/collective.transmute/issues/56)
+
 ## 1.0.0b1 (2025-12-10)
 
 
