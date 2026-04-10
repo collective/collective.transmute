@@ -137,11 +137,37 @@ uv run transmute report --help
 ╰───────────────────────────────────────────────────────────────────────────────────────╯
 ```
 
-The following command will generate a report of all portal types in the `src` directory and save it to {file}`reports/report-raw-data.json`.
+The following command will generate a report of all content items in the `src` directory and save it to {file}`reports/report-raw-data.json`.
 
 ```shell
 uv run transmute report /exported-data/ reports/
 ```
+
+To generate per-type CSV reports, use the `--report-types` option with a comma-separated list of portal types.
+
+```shell
+uv run transmute report --report-types "Document,Folder" /exported-data/ reports/
+```
+
+This generates one CSV file per type (for example, {file}`report_Document.csv` and {file}`report_Folder.csv`) with the following columns.
+
+`source_file`
+: Path to the source JSON file containing the content item.
+
+`@id`
+: The original URL of the content item.
+
+`UID`
+: The unique identifier of the content item.
+
+`@type`
+: The portal type of the content item.
+
+`title`
+: The title of the content item.
+
+`review_state`
+: The workflow review state of the content item.
 
 
 ### `settings`
