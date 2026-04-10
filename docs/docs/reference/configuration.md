@@ -55,6 +55,27 @@ report = 1000
 : Number of items processed between progress updates in the log.
   Default: `1000`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.settings`
+  - `logger_settings()`
+  - `log_file`
+* - {py:mod}`collective.transmute.reports`
+  - `get_reports_location()`
+  - `reports_location`
+* - {py:mod}`collective.transmute.commands.report`
+  - `report()`
+  - `reports_location`
+* - {py:mod}`collective.transmute.reports.final_state`
+  - `report_final_state()`
+  - `debug`
+```
+
 
 ## `[pipeline]`
 
@@ -109,6 +130,30 @@ do_not_add_drop = ["process_paths", "process_default_page"]
   Use this for steps that yield `None` for reasons other than dropping an item.
   Default: `["process_paths", "process_default_page"]`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.pipeline`
+  - `all_steps()`
+  - `steps`
+* - {py:mod}`collective.transmute.pipeline.prepare`
+  - `prepare_pipeline()`
+  - `prepare_steps`
+* - {py:mod}`collective.transmute.pipeline.report`
+  - `final_reports()`
+  - `report_steps`
+* - {py:mod}`collective.transmute.pipeline.pipeline`
+  - `run_step()`
+  - `do_not_add_drop`
+* - {py:mod}`collective.transmute.commands.sanity`
+  - `sanity()`
+  - `steps`
+```
+
 
 ## `[site_root]`
 
@@ -127,6 +172,21 @@ dest = "/Plone"
 `dest`
 : The site root path in the destination portal.
   Default: `"/Plone"`
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.pipeline`
+  - `pipeline()`
+  - `dest`
+* - {py:mod}`collective.transmute.steps.portal_type.collection`
+  - `_src_site_root()`
+  - `src`
+```
 
 
 ## `[principals]`
@@ -147,6 +207,18 @@ remove = ["admin"]
 : List of creator usernames to remove from content items.
   Default: `["admin"]`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.creators`
+  - `process_creators()`
+  - `remove`, `default`
+```
+
 
 ## `[default_pages]`
 
@@ -166,6 +238,18 @@ keys_from_parent = ["@id", "id"]
 `keys_from_parent`
 : List of keys to copy from the parent item when merging a default page.
   Default: `["@id", "id"]`
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.default_page`
+  - `process_default_page()`
+  - `keep`, `keys_from_parent`
+```
 
 
 ## `[review_state]`
@@ -199,6 +283,21 @@ workflows = {}
 `workflows`
 : Mapping of source workflow IDs to destination workflow IDs.
   Default: `{}`
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.review_state`
+  - `process_review_state()`
+  - `filter.allowed`
+* - {py:mod}`collective.transmute.utils.workflow`
+  - `rewrite_workflow_history()`
+  - `rewrite.states`, `rewrite.workflows`
+```
 
 
 ## `[paths]`
@@ -253,6 +352,28 @@ Items under a given path prefix will have their portal type changed.
 "/news" = "News Item"
 ```
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.ids`
+  - `process_export_prefix()`
+  - `export_prefixes`
+* - {py:mod}`collective.transmute.steps.ids`
+  - `process_ids()`
+  - `cleanup`
+* - {py:mod}`collective.transmute.steps.paths`
+  - `process_paths()`
+  - `filter.allowed`, `filter.drop`
+* - {py:mod}`collective.transmute.steps.portal_type`
+  - `process_type()`
+  - `portal_type`
+```
+
+
 ## `[images]`
 
 Controls image-to-preview-image conversion.
@@ -265,6 +386,18 @@ to_preview_image_link = []
 `to_preview_image_link`
 : List of portal types whose `image` field should be extracted into a separate Image item with a `preview_image_link` relation.
   Default: `[]`
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.image`
+  - `process_image_to_preview_image_link()`
+  - `to_preview_image_link`
+```
 
 
 ## `[sanitize]`
@@ -302,6 +435,18 @@ block_keys = [
 : List of additional keys to remove from items that have Volto blocks.
   These keys are typically remnants of the classic Plone content model and are no longer needed once the content has been converted to blocks.
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.sanitize`
+  - `process_cleanup()`
+  - `drop_keys`, `block_keys`
+```
+
 
 ## `[data_override]`
 
@@ -310,6 +455,18 @@ Path-based field overrides. Each key is an item path, and the value is a diction
 ```toml
 [data_override]
 "/some/specific/path" = { "title" = "New Title", "review_state" = "private" }
+```
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.data_override`
+  - `process_data_override()`
+  - Item `@id` lookup
 ```
 
 
@@ -358,6 +515,27 @@ processor = "collective.transmute.steps.portal_type.collection.processor"
 `override_blocks`
 : Alternative block list that takes precedence over `blocks` when present.
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 50 30 20
+
+* - Module
+  - Function
+  - Keys
+* - {py:mod}`collective.transmute.steps.portal_type`
+  - `process_type()`
+  - `portal_type`, `processor`
+* - {py:mod}`collective.transmute.steps.blocks`
+  - `process_blocks()`
+  - `blocks`, `override_blocks`
+* - {py:mod}`collective.transmute.steps.constraints`
+  - `process_constraints()`
+  - `portal_type`
+* - {py:mod}`collective.transmute.utils.portal_types`
+  - `fix_portal_type()`
+  - `portal_type`
+```
+
 
 ## `[steps]`
 
@@ -376,6 +554,16 @@ full_view = "summary"
 album_view = "imageGallery"
 ```
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.blocks`
+  - `process_blocks()`
+```
+
 ### `[steps.blobs]`
 
 ```toml
@@ -385,6 +573,16 @@ field_names = ["file", "image", "preview_image"]
 
 `field_names`
 : List of field names that contain blob data to be extracted as separate files.
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.blobs`
+  - `process_blobs()`
+```
 
 ### `[steps.date_filter]`
 
@@ -397,6 +595,16 @@ created = "2000-01-01T00:00:00"
 
 Each key is a date field name, and the value is the ISO 8601 date threshold.
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.dates`
+  - `filter_by_date()`
+```
+
 ### `[steps.paths.prefix_replacement]`
 
 Mapping of source path prefixes to destination path prefixes for path rewriting.
@@ -404,4 +612,14 @@ Mapping of source path prefixes to destination path prefixes for path rewriting.
 ```toml
 [steps.paths.prefix_replacement]
 "/old-section" = "/new-section"
+```
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.ids`
+  - `process_ids()`
 ```
