@@ -116,8 +116,9 @@ def _prepare_report_items(
             >>> src, dst = _prepare_report_items(item, last_step, is_new, src_item)
     """
     _no_data_ = ITEM_PLACEHOLDER
+    report_src = dict(src_item)
     if not item:
-        return src_item, {
+        return report_src, {
             "dst_path": _no_data_,
             "dst_type": _no_data_,
             "dst_uid": _no_data_,
@@ -136,12 +137,7 @@ def _prepare_report_items(
         "dst_level": _level_from_path(item.get("@id", "")),
         "status": "processed",
     }
-    if is_new:
-        src_item["src_type"] = _no_data_
-        src_item["src_uid"] = _no_data_
-        src_item["src_state"] = _no_data_
-        src_item["src_level"] = _no_data_
-    return src_item, dst_item
+    return report_src, dst_item
 
 
 def _handle_redirects(src_item, dst_item, redirects: dict[str, str], site_root: str):
@@ -287,25 +283,27 @@ async def pipeline(
                     progress.advance("processed")
                     src_item["src_path"] = raw_item.get("_@id", src_item["src_path"])
                     src_item["src_level"] = _level_from_path(src_item["src_path"])
-                    src_item, dst_item = _prepare_report_items(
+                    report_src, dst_item = _prepare_report_items(
                         item, last_step, is_new, src_item
                     )
                     # Add a redirect if needed
-                    _handle_redirects(src_item, dst_item, redirects, site_root)
+                    _handle_redirects(report_src, dst_item, redirects, site_root)
 
                     if not item:
                         # Dropped file
                         progress.advance("dropped")
                         dropped[last_step] += 1
                         path_transforms.append(
-                            t.PipelineItemReport(**src_item, **dst_item)
+                            t.PipelineItemReport(**report_src, **dst_item)
                         )
                         continue
                     elif is_new:
                         total += 1
                         progress.total("processed", total)
 
-                    path_transforms.append(t.PipelineItemReport(**src_item, **dst_item))
+                    path_transforms.append(
+                        t.PipelineItemReport(**report_src, **dst_item)
+                    )
                     item_files = await file_utils.export_item(item, content_folder)
                     # Update metadata
                     data_file = item_files.data
