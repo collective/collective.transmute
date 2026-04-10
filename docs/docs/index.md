@@ -59,6 +59,7 @@ how-to-guides/create_step
 :maxdepth: 2
 :hidden: true
 
+reference/configuration
 reference/api
 ```
 
