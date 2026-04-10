@@ -268,6 +268,16 @@ allowed = ["published"]
   An empty list allows all states.
   Default: `["published"]`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.review_state`
+  - `process_review_state()`
+```
+
 ### `[review_state.rewrite]`
 
 ```toml
@@ -286,17 +296,12 @@ workflows = {}
 
 ```{list-table} Used by
 :header-rows: 1
-:widths: 50 30 20
+:widths: 60 40
 
 * - Module
   - Function
-  - Keys
-* - {py:mod}`collective.transmute.steps.review_state`
-  - `process_review_state()`
-  - `filter.allowed`
 * - {py:mod}`collective.transmute.utils.workflow`
   - `rewrite_workflow_history()`
-  - `rewrite.states`, `rewrite.workflows`
 ```
 
 
@@ -314,6 +319,16 @@ export_prefixes = ["http://localhost:8080/Plone"]
   These are the base URLs of the source Plone site.
   Default: `["http://localhost:8080/Plone"]`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.ids`
+  - `process_export_prefix()`
+```
+
 ### `[paths.cleanup]`
 
 Mapping of path substrings to their replacements.
@@ -324,6 +339,16 @@ Mapping of path substrings to their replacements.
 ```
 
 Each key is a substring to find in item paths, and the value is its replacement.
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.ids`
+  - `process_ids()`
+```
 
 ### `[paths.filter]`
 
@@ -342,6 +367,16 @@ drop = []
 : List of path prefixes to exclude. Items under these prefixes are dropped.
   Default: `[]`
 
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.paths`
+  - `process_paths()`
+```
+
 ### `[paths.portal_type]`
 
 Mapping of path prefixes to portal type overrides.
@@ -354,23 +389,12 @@ Items under a given path prefix will have their portal type changed.
 
 ```{list-table} Used by
 :header-rows: 1
-:widths: 50 30 20
+:widths: 60 40
 
 * - Module
   - Function
-  - Keys
-* - {py:mod}`collective.transmute.steps.ids`
-  - `process_export_prefix()`
-  - `export_prefixes`
-* - {py:mod}`collective.transmute.steps.ids`
-  - `process_ids()`
-  - `cleanup`
-* - {py:mod}`collective.transmute.steps.paths`
-  - `process_paths()`
-  - `filter.allowed`, `filter.drop`
 * - {py:mod}`collective.transmute.steps.portal_type`
   - `process_type()`
-  - `portal_type`
 ```
 
 
