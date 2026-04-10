@@ -20,3 +20,6 @@ transmute.toml
 transmute.log
 # Virtual environments
 .venv
+
+# Local Claude context (not for sharing)
+.claude/*.local.*

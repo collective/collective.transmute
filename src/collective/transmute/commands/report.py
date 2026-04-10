@@ -33,20 +33,31 @@ def _create_state(
     )
 
 
+async def _write_type_report(dst: Path, type_: str, state: t.ReportState) -> Path:
+    """Write a CSV report for a specific content type."""
+    headers = ["source_file", "@id", "UID", "@type", "title", "review_state"]
+    report_path = Path(dst / f"report_{type_}.csv").resolve()
+    type_data = state.type_report.get(type_, [])
+    return await file_utils.csv_dump(type_data, headers, report_path)
+
+
 async def _create_report(dst: Path, state: t.ReportState, report_types: list) -> Path:
     logger = get_logger()
-    async for _, item in file_utils.json_reader(state.files):
+    async for source_file, item in file_utils.json_reader(state.files):
         type_ = item.get("@type")
         state.types[type_] += 1
         if type_ in report_types:
             id_ = item.get("@id")
             UID = item.get("UID")
             title = item.get("title")
+            review_state = item.get("review_state", "-") or "-"
             state.type_report[type_].append({
+                "source_file": source_file,
                 "@id": id_,
                 "UID": UID,
                 "@type": type_,
                 "title": title,
+                "review_state": review_state,
             })
         workflow_history: dict[str, list] = item.get("workflow_history", {}) or {}
         workflows = tuple(workflow_history.keys())
@@ -69,11 +80,8 @@ async def _create_report(dst: Path, state: t.ReportState, report_types: list) ->
     path = await file_utils.json_dump(data, report_path)
     logger.info(f" - Wrote report to {path}")
     if report_types:
-        headers = ["@id", "UID", "@type", "title"]
         for type_ in report_types:
-            report_path = Path(dst / f"report_{type_}.csv").resolve()
-            type_data = state.type_report.get(type_, [])
-            csv_path = await file_utils.csv_dump(type_data, headers, report_path)
+            csv_path = await _write_type_report(dst, type_, state)
             logger.info(f" - Wrote types report to {csv_path}")
     return path
 
