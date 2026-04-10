@@ -37,11 +37,14 @@ RichText
 Sass
 Schuko
 subfolder
+substring[s]{0,1}
+
 [Tt]owncrier
 transpile[dr]{0,1}
 [Uu]ncomment
 [Uu]nhide
 unregister
+UID(s)
 UUID
 uv
 validator
