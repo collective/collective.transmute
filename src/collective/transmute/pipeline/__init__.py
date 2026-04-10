@@ -15,6 +15,7 @@ Example:
 
 from collections.abc import Callable
 from collective.transmute import _types as t
+from collective.transmute import get_logger
 from collective.transmute.pipeline import prepare
 from collective.transmute.pipeline import report
 from collective.transmute.pipeline.pipeline import run_pipeline
@@ -262,6 +263,7 @@ async def pipeline(
         # Run the prepare steps of the pipeline
         await prepare.prepare_pipeline(state, settings, consoles)
 
+        logger = get_logger()
         async for filename, raw_item in file_utils.json_reader(content_files):
             src_item = {
                 "filename": filename,
@@ -277,51 +279,68 @@ async def pipeline(
                 f"({processed + 1} / {total})"
             )
 
-            async for item, last_step, is_new in run_pipeline(
-                steps, raw_item, state, consoles, settings
-            ):
+            try:
+                async for item, last_step, is_new in run_pipeline(
+                    steps, raw_item, state, consoles, settings
+                ):
+                    processed += 1
+                    progress.advance("processed")
+                    src_item["src_path"] = raw_item.get("_@id", src_item["src_path"])
+                    src_item["src_level"] = _level_from_path(src_item["src_path"])
+                    src_item, dst_item = _prepare_report_items(
+                        item, last_step, is_new, src_item
+                    )
+                    # Add a redirect if needed
+                    _handle_redirects(src_item, dst_item, redirects, site_root)
+
+                    if not item:
+                        # Dropped file
+                        progress.advance("dropped")
+                        dropped[last_step] += 1
+                        path_transforms.append(
+                            t.PipelineItemReport(**src_item, **dst_item)
+                        )
+                        continue
+                    elif is_new:
+                        total += 1
+                        progress.total("processed", total)
+
+                    path_transforms.append(t.PipelineItemReport(**src_item, **dst_item))
+                    item_files = await file_utils.export_item(item, content_folder)
+                    # Update metadata
+                    data_file = item_files.data
+                    metadata._blob_files_.extend(item_files.blob_files)
+                    item_path = item["@id"]
+                    item_uid = item["UID"]
+                    exported[item["@type"]] += 1
+                    seen.add(item_uid)
+                    uids[item_uid] = item_uid
+                    uid_path[item_uid] = item_path
+                    paths.append((item_path, item_uid, data_file))
+                    # Map the old_uid to the new uid
+                    if old_uid := item.pop("_UID", None):
+                        uids[old_uid] = item_uid
+                        uid_path[old_uid] = item_path
+                        if post_steps := state.post_processing.pop(old_uid, None):
+                            state.post_processing[item_uid] = post_steps
+            except Exception:
+                item_id = raw_item.get("@id", "unknown")
+                item_uid = raw_item.get("UID", "unknown")
+                logger.exception(
+                    f"Error processing item {item_id} "
+                    f"(UID: {item_uid}, file: {filename})"
+                )
                 processed += 1
                 progress.advance("processed")
-                src_item["src_path"] = raw_item.get("_@id", src_item["src_path"])
-                src_item["src_level"] = _level_from_path(src_item["src_path"])
-                src_item, dst_item = _prepare_report_items(
-                    item, last_step, is_new, src_item
-                )
-                # Add a redirect if needed
-                _handle_redirects(src_item, dst_item, redirects, site_root)
-
-                if not item:
-                    # Dropped file
-                    progress.advance("dropped")
-                    dropped[last_step] += 1
-                    path_transforms.append(t.PipelineItemReport(**src_item, **dst_item))
-                    continue
-                elif is_new:
-                    total += 1
-                    progress.total("processed", total)
-
-                path_transforms.append(t.PipelineItemReport(**src_item, **dst_item))
-                item_files = await file_utils.export_item(item, content_folder)
-                # Update metadata
-                data_file = item_files.data
-                metadata._blob_files_.extend(item_files.blob_files)
-                item_path = item["@id"]
-                item_uid = item["UID"]
-                exported[item["@type"]] += 1
-                seen.add(item_uid)
-                uids[item_uid] = item_uid
-                uid_path[item_uid] = item_path
-                paths.append((item_path, item_uid, data_file))
-                # Map the old_uid to the new uid
-                if old_uid := item.pop("_UID", None):
-                    uids[old_uid] = item_uid
-                    uid_path[old_uid] = item_path
-                    if post_steps := state.post_processing.pop(old_uid, None):
-                        state.post_processing[item_uid] = post_steps
+                progress.advance("dropped")
+                dropped["_error"] += 1
 
         if state.post_processing:
             await post_process(state, consoles, content_folder, settings, debugger)
 
+    # Update state with final counts
+    state.processed = processed
+    state.total = total
     # Reports after pipeline execution
     await report.final_reports(state, settings, consoles)
     # Write metadata file
