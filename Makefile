@@ -90,8 +90,11 @@ test: $(BIN_FOLDER)/pytest ## run tests
 	@uv run pytest
 
 .PHONY: test-coverage
-test-coverage: $(BIN_FOLDER)/pytest ## run tests
-	@uv run pytest --cov=collective.transmute --cov-report term-missing
+test-coverage: ## Test the code with pytest
+	@echo "🚀 Testing code: Running pytest"
+	@uv run coverage run -m pytest
+	@uv run coverage combine
+	@uv run coverage report
 
 ############################################
 # Documentation
