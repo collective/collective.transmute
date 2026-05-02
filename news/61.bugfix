@@ -1,1 +1,0 @@
-Fixed state.processed and state.total not updating after pipeline run. @ericof

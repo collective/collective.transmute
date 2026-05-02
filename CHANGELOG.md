@@ -2,6 +2,31 @@
 
 <!-- towncrier release notes start -->
 
+## 1.0.0b3 (2026-05-02)
+
+
+### Feature
+
+- Include source file path and review state in per-type CSV reports. @ericof [#58](https://github.com/collective/collective.transmute/issues/58)
+
+
+### Bugfix
+
+- Added per-item error handling in the pipeline loop. @ericof [#60](https://github.com/collective/collective.transmute/issues/60)
+- Fixed state.processed and state.total not updating after pipeline run. @ericof [#61](https://github.com/collective/collective.transmute/issues/61)
+- Fixed report missing source metadata for multi-yield processor items. @ericof [#66](https://github.com/collective/collective.transmute/issues/66)
+
+
+### Documentation
+
+- Completed the create_step.md guide for writing custom pipeline steps. @ericof [#62](https://github.com/collective/collective.transmute/issues/62)
+- Added a configuration reference documenting all transmute.toml options. @ericof [#63](https://github.com/collective/collective.transmute/issues/63)
+
+
+### Tests
+
+- Added tests for dates.py, uids.py, and utils/files.py. @ericof [#64](https://github.com/collective/collective.transmute/issues/64)
+
 ## 1.0.0b2 (2026-03-04)
 
 
