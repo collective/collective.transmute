@@ -1,9 +1,7 @@
 {
     "recommendations": [
-        "ExecutableBookProject.myst-highlight",
-        "github.vscode-github-actions",
-        "charliermarsh.ruff",
-        "ms-python.python",
-        "redhat.vscode-yaml"
+        "myml.vscode-markdown-plantuml-preview",
+        "esbenp.prettier-vscode",
+        "jebbs.plantuml"
     ]
 }
