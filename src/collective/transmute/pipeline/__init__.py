@@ -321,12 +321,13 @@ async def pipeline(
                         uid_path[old_uid] = item_path
                         if post_steps := state.post_processing.pop(old_uid, None):
                             state.post_processing[item_uid] = post_steps
-            except Exception:
+            except Exception as exc:
                 item_id = raw_item.get("@id", "unknown")
                 item_uid = raw_item.get("UID", "unknown")
                 logger.exception(
                     f"Error processing item {item_id} "
-                    f"(UID: {item_uid}, file: {filename})"
+                    f"(UID: {item_uid}, file: {filename})",
+                    exc_info=exc,
                 )
                 processed += 1
                 progress.advance("processed")
