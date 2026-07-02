@@ -65,6 +65,8 @@ PloneItem = TypedDict(
         "creators": NotRequired[list[str]],
         "image": NotRequired[dict[str, str | int]],
         "image_caption": NotRequired[str],
+        "preview_image": NotRequired[dict[str, str | int]],
+        "preview_image_caption": NotRequired[str],
         "remoteUrl": NotRequired[str],
         "subjects": NotRequired[list[str]],
         "language": NotRequired[str],

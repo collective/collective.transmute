@@ -11,6 +11,9 @@ from collective.transmute import _types as t
 from collective.transmute.utils import item as utils
 
 
+IMAGE_FIELDS: tuple[str, ...] = ("image", "preview_image")
+
+
 def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
     """
     Get content types that require ``image`` to ``preview_image_link`` conversion.
@@ -35,14 +38,46 @@ def get_conversion_types(settings: t.TransmuteSettings) -> tuple[str, ...]:
     return settings.images["to_preview_image_link"]
 
 
+def cleanup_image_fields(item: t.PloneItem) -> t.PloneItem:
+    """
+    Remove image fields from an item.
+
+    Parameters
+    ----------
+    item : PloneItem
+        The item to clean up.
+
+    Returns
+    -------
+    PloneItem
+        The cleaned-up item without image fields.
+
+    Example
+    -------
+    .. code-block:: pycon
+
+        >>> cleaned_item = cleanup_image_fields(item)
+        >>> 'image' not in cleaned_item
+        True
+        >>> 'preview_image' not in cleaned_item
+        True
+    """
+    for image_field in IMAGE_FIELDS:
+        item.pop(image_field, None)
+        item.pop(f"{image_field}_caption", None)
+    return item
+
+
 async def process_image_to_preview_image_link(
     item: t.PloneItem,
     state: t.PipelineState,
     settings: t.TransmuteSettings,
 ) -> t.PloneItemGenerator:
     """
-    Convert ``image`` field to ``preview_image_link`` and manage image relations for
-    an item.
+    Convert an ``image`` or ``preview_image`` field to a ``preview_image_link``
+    relation and manage image relations for an item.
+
+    When both fields are present, ``preview_image`` takes precedence over ``image``.
 
     Parameters
     ----------
@@ -70,15 +105,12 @@ async def process_image_to_preview_image_link(
     if type_ not in get_conversion_types(settings):
         yield item
     else:
-        image = item.get("image", None)
+        image_field = "preview_image" if "preview_image" in item else "image"
+        image = item.get(image_field, None)
         if isinstance(image, dict) and metadata:
-            image = utils.create_image_from_item(item)
+            image = utils.create_image_from_item(item, image_field)
             # Register the relation between the items
             utils.add_relation(item, image, "preview_image_link", metadata)
             # Return the new image
             yield image
-            yield item
-        else:
-            item.pop("image", None)
-            item.pop("image_caption", None)
-            yield item
+        yield cleanup_image_fields(item)
