@@ -86,6 +86,30 @@ def test_create_image_from_item(parent: t.PloneItem, expected: t.PloneItem):
     assert image.get("image_caption") == expected["image_caption"]
 
 
+def test_create_image_from_item_preview_image_field():
+    parent: t.PloneItem = {
+        "@id": "/parent",
+        "id": "parent",
+        "@type": "News Item",
+        "title": "Parent Item",
+        "preview_image": {
+            "filename": "sample-image.jpg",
+            "data": b"image-data",
+        },
+        "preview_image_caption": "An example image.",
+    }
+    image = item.create_image_from_item(parent, "preview_image")
+    assert image["@id"] == "/parent/sample-image.jpg"
+    assert image["@type"] == "Image"
+    # The created Image item always exposes ``image`` / ``image_caption`` keys,
+    # regardless of the source field.
+    assert image["image"]["filename"] == "sample-image.jpg"
+    assert image["image_caption"] == "An example image."
+    # Source fields are consumed from the parent.
+    assert "preview_image" not in parent
+    assert "preview_image_caption" not in parent
+
+
 class TestGenerateUid:
     def test_length(self):
         uid = item.generate_uid()

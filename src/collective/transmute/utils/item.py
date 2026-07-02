@@ -66,7 +66,9 @@ def all_parents_for(id_: str) -> set[str]:
     return set(parents)
 
 
-def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
+def create_image_from_item(
+    parent: t.PloneItem, image_field: str = "image"
+) -> t.PloneItem:
     """
     Create a new image object to be placed inside the parent item.
 
@@ -74,6 +76,9 @@ def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
     ----------
     parent : PloneItem
         The parent item containing image data.
+    image_field : str
+        Name of the source field holding the image data, either ``image`` or
+        ``preview_image``. Defaults to ``image``.
 
     Returns
     -------
@@ -89,8 +94,9 @@ def create_image_from_item(parent: t.PloneItem) -> t.PloneItem:
         >>> img_item['@type']
         'Image'
     """
-    image: dict = parent.pop("image")
-    image_caption: str = parent.pop("image_caption", "")
+    image_field_caption = f"{image_field}_caption"
+    image: dict = parent.pop(image_field)
+    image_caption: str = parent.pop(image_field_caption, "")
     filename: str = image["filename"]
     parts = filename.rsplit(".", 1)
     name = parts[0]
