@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ExecutableBookProject.myst-highlight",
+        "github.vscode-github-actions",
+        "charliermarsh.ruff",
+        "ms-python.python",
+        "redhat.vscode-yaml"
+    ]
+}

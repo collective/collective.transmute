@@ -20,9 +20,3 @@ transmute.toml
 transmute.log
 # Virtual environments
 .venv
-
-# Local Claude context (not for sharing)
-.claude/*.local.*
-temp_auto_push.bat
-temp_interactive_push.bat
-.gitignore
