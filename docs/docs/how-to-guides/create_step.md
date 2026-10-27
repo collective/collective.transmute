@@ -232,8 +232,26 @@ import pytest
 @pytest.mark.parametrize(
     "base_item,expected_title",
     [
-        [{"@id": "/foo", "@type": "Document", "UID": "abc", "id": "foo", "title": "hello world"}, "Hello World"],
-        [{"@id": "/bar", "@type": "Document", "UID": "def", "id": "bar", "title": "  spaced  "}, "Spaced"],
+        [
+            {
+                "@id": "/foo",
+                "@type": "Document",
+                "UID": "abc",
+                "id": "foo",
+                "title": "hello world",
+            },
+            "Hello World",
+        ],
+        [
+            {
+                "@id": "/bar",
+                "@type": "Document",
+                "UID": "def",
+                "id": "bar",
+                "title": "  spaced  ",
+            },
+            "Spaced",
+        ],
     ],
 )
 async def test_normalize_title(
@@ -257,6 +275,7 @@ The following is a complete, minimal step that filters items by a custom field r
 
 ```python
 """Pipeline step to filter items by language."""
+
 from collective.transmute import _types as t
 
 
