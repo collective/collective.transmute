@@ -35,9 +35,11 @@ Add `collective.transmute` to the `install_requires` list in your {file}`setup.p
 This is common for legacy projects or projects based on {term}`setuptools`.
 
 ```python
-install_requires=[
-    "collective.transmute"
-],
+setup(
+    install_requires=[
+        "collective.transmute",
+    ],
+)
 ```
 
 
