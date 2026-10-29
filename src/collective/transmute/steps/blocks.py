@@ -205,8 +205,12 @@ async def process_blocks(
             additional_blocks = processor(item, additional_blocks)
         text = item.get("text", {})
         src = text.get("data", "") if text else ""
+        converter = settings.steps.get("blocks", {}).get("converter", {})
         blocks_info = volto_blocks(
-            source=src, default_blocks=blocks, additional_blocks=additional_blocks
+            source=src,
+            default_blocks=blocks,
+            additional_blocks=additional_blocks,
+            blocks=converter,
         )
         item["blocks"], item["blocks_layout"] = (
             blocks_info.get("blocks", {}),
