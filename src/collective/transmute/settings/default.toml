@@ -136,6 +136,8 @@ grid_view = "grid"
 galeria_de_fotos = "imageGallery"
 galeria_de_albuns = "imageGallery"
 
+[steps.blocks.converter]
+
 [steps.paths.prefix_replacement]
 
 [steps.blobs]

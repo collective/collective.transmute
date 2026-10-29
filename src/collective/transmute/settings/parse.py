@@ -1,3 +1,4 @@
+from collective.html2blocks.registry import resolve_blocks
 from collective.transmute import _types as t
 from copy import deepcopy
 from dynaconf import Dynaconf
@@ -7,6 +8,10 @@ from pathlib import Path
 
 
 SETTINGS_FILE = "transmute.toml"
+
+
+class SettingsError(ValueError):
+    """A setting in ``transmute.toml`` is invalid, the run must not start."""
 
 
 def _as_set(value: list) -> set:
@@ -282,6 +287,28 @@ def _merge_defaults(defaults: dict, settings: dict) -> dict:
     return merged
 
 
+def _validate_blocks_converter(payload: dict) -> None:
+    """
+    Check the ``[steps.blocks.converter]`` table once, when the settings load.
+
+    :param payload: The merged settings, with the ``config`` and ``steps`` keys.
+    :raises SettingsError: If the table names an unknown block type or option,
+        or has a value that is not ``true``, ``false`` or a table of options.
+    """
+    converter = payload.get("steps", {}).get("blocks", {}).get("converter", {})
+    filepath = payload.get("config", {}).get("filepath", SETTINGS_FILE)
+    if not isinstance(converter, dict):
+        raise SettingsError(
+            f"[steps.blocks.converter] in {filepath} must be a table of block types"
+        )
+    try:
+        resolve_blocks(converter)
+    except ValueError as exc:
+        raise SettingsError(
+            f"Invalid [steps.blocks.converter] in {filepath}: {exc}"
+        ) from exc
+
+
 def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     """
     Get the transmute settings, merging defaults and user config.
@@ -308,6 +335,7 @@ def get_settings(cwd_path: Path | None = None) -> t.TransmuteSettings:
     defaults = parse_default()
     raw_settings = parse_config(cwd_path)
     payload = _merge_defaults(defaults, raw_settings)
+    _validate_blocks_converter(payload)
     payload["config"]["prepare_data_location"] = Path(
         payload["config"]["prepare_data_location"]
     )

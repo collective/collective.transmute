@@ -588,6 +588,38 @@ album_view = "imageGallery"
   - `process_blocks()`
 ```
 
+### `[steps.blocks.converter]`
+
+Enables, disables and configures the Volto block types that the HTML-to-blocks converter can produce. The keys are Volto block types, and each value is one of:
+
+- `true`: enable the block type with its default options;
+- a table of options: enable the block type with those options;
+- `false`: disable the block type.
+
+Block types that are not listed keep the defaults of `collective.html2blocks`. The table is empty by default.
+
+```toml
+[steps.blocks.converter]
+codeBlock = { style = "light" }
+slateTable = false
+```
+
+The table is checked when the settings load. An unknown block type, an unknown option, a wrong option value, or an attempt to disable a required block type (such as `slate`) stops the run before the first item is processed.
+
+Run `uv run transmute info` to see each block type and whether it is enabled, and whether the state comes from this table or from the default.
+
+```{list-table} Used by
+:header-rows: 1
+:widths: 60 40
+
+* - Module
+  - Function
+* - {py:mod}`collective.transmute.steps.blocks`
+  - `process_blocks()`
+* - {py:mod}`collective.transmute.settings.parse`
+  - `get_settings()`
+```
+
 ### `[steps.blobs]`
 
 ```toml

@@ -17,6 +17,7 @@ from collective.transmute.commands.report import app as app_report
 from collective.transmute.commands.sanity import app as app_sanity
 from collective.transmute.commands.settings import app as app_settings
 from collective.transmute.commands.transmute import app as app_transmute
+from collective.transmute.settings.parse import SettingsError
 from collective.transmute.settings.parse import get_settings
 
 import typer
@@ -36,6 +37,10 @@ def main(ctx: typer.Context) -> None:
     typer.echo("")
     try:
         settings = get_settings()
+    except SettingsError as exc:
+        # Stop before any subcommand runs, so no item is processed.
+        typer.echo(f"{exc}")
+        raise typer.Exit(1) from None
     except (RuntimeError, FileNotFoundError):
         if ctx.invoked_subcommand not in SUBCOMMANDS_IGNORE_SETTINGS:
             typer.echo("Did not find a transmute.toml file.")
